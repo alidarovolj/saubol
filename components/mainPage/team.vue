@@ -117,7 +117,7 @@ const team = ref([
               <div class="relative w-full mb-5">
                 <input
                     type="text"
-                    class="w-full py-3 px-12 border border-bColor rounded-xl"
+                    class="w-full py-3 px-12 border  rounded-xl"
                     placeholder="Поиск">
                 <IconSearch
                     class="absolute left-3 top-1/2 -translate-y-1/2 text-mainColor"

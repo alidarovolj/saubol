@@ -8,7 +8,7 @@
         <h1 class="text-3xl font-semibold mb-5">
           Забота о вашем здоровье с Saubol: <br>Надежно и Качественно!
         </h1>
-        <NuxtLink to="/" class="bg-mainColor text-white py-3 px-20 w-max block rounded">
+        <NuxtLink to="/" class="bg-mainColor text-white py-3 px-20 w-max block rounded !text-white">
           Заказать услугу
         </NuxtLink>
       </div>

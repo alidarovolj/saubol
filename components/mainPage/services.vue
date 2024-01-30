@@ -43,10 +43,11 @@ const services = ref([
 <template>
   <div class="container mx-auto px-4 lg:px-0">
     <div class="flex flex-wrap justify-between relative z-10 mb-5">
-      <div
+      <NuxtLink
+          to="/services"
           v-for="(item, index) of services"
           :key="index"
-          class="w-half lg:w-fifth flex flex-col lg:flex-row justify-between rounded-2xl mb-3"
+          class="w-half lg:w-fifth flex flex-col lg:flex-row justify-between rounded-2xl mb-3 hover:!shadow-2xl transition-all cursor-pointer"
           :class="{ '!w-full lg:!w-fifth' : services.length - 1 === index }"
           style="box-shadow: 0px 4px 10px 0px rgba(57, 121, 245, 0.25);">
         <div class="hidden lg:flex bg-mainColor text-white rounded-tl-2xl rounded-bl-2xl py-4 pl-7 pr-4 w-max">
@@ -68,7 +69,7 @@ const services = ref([
             позвоните, и наши профессионалы обеспечат вас качественным медицинским обслуживанием без лишних хлопот.
             Заботьтесь о себе, не выходя из дома с Saubol</p>
         </div>
-      </div>
+      </NuxtLink>
     </div>
     <div class="set-bg text-white rounded-xl relative">
       <img class="w-full h-full absolute left-0 top-0 object-cover rounded-xl z-20"

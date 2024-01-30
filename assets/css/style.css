@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html {
-    font-family: "Gilroy", sans-serif;
+    font-family: "SF Pro Display", sans-serif;
     color: #1A1A1A;
     background: linear-gradient(180deg, #D9D9D9 0%, rgba(217, 217, 217, 0.00) 90.03%);
 }
@@ -12,21 +12,30 @@ body {
     background: #fff;
 }
 
+.router-link-active,
+.router-link-exact-active {
+    color: #0043E8;
+}
+
 .zoom-on-hover {
     position: relative;
     overflow: hidden;
 }
+
 .zoom-on-hover .normal {
     width: 100%;
 }
+
 .zoom-on-hover .zoom {
     position: absolute;
     opacity: 0;
     transform-origin: top left;
 }
+
 .zoom-on-hover.zoomed .zoom {
     opacity: 1;
 }
+
 .zoom-on-hover.zoomed .normal {
     opacity: 0;
 }
@@ -167,6 +176,7 @@ body {
         margin: 0 0 !important;
     }
 }
+
 .tiptap > * + * {
     margin-top: 0.75em;
 }

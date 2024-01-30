@@ -1,4 +1,6 @@
 <script setup>
+import BottomMenu from "~/components/layout/bottomMenu.vue";
+
 const layout = ref("default");
 
 useHead({
@@ -14,6 +16,7 @@ useHead({
       <NuxtLoadingIndicator color="#3E46FF"/>
       <DelayHydration>
         <NuxtPage/>
+        <BottomMenu />
       </DelayHydration>
     </NuxtLayout>
   </div>

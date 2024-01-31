@@ -54,10 +54,10 @@ const sendForm = async () => {
   if (data.value) {
     await auth.initCookieToken(data.value.access_token)
     auth.token = data.value.access_token
-    notify(true, 'Спасибо за регистрацию!')
     await user.getProfile()
     router.push('/')
     loading.value = false;
+    notify(true, 'Спасибо за регистрацию!')
   } else {
     notify(false, 'An error has occurred')
     loading.value = false;

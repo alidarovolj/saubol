@@ -10,6 +10,7 @@ export const useUserStore = defineStore('user', () => {
 
     const result = ref(null);
     const resultLogout = ref(null);
+    const resultImage = ref(null);
     const notify = (type, text) => {
         const toast = useNuxtApp().$toast;
         type ? toast.success(text) : toast.error(text);
@@ -18,6 +19,7 @@ export const useUserStore = defineStore('user', () => {
     return {
         result,
         resultLogout,
+        resultImage,
         async getProfile() {
             const {data} = await useFetch(`/auth/me`, {
                 method: 'GET',
@@ -51,5 +53,26 @@ export const useUserStore = defineStore('user', () => {
                 notify(false, 'Произошла ошибка')
             }
         },
+        async setImage(file) {
+            const formData = new FormData();
+            formData.append('img', file);
+
+            const {data} = await useFetch(`/users/set-img`, {
+                method: 'POST',
+                headers: {
+                    accept: "application/json",
+                    authorization: `Bearer ${token.value}`,
+                },
+                body: formData,
+                baseURL: runtimeConfig.public.API_LINK,
+                lazy: true,
+            })
+            if (data.value) {
+                resultImage.value = data.value
+            } else {
+                resultImage.value = false
+                notify(false, 'Произошла ошибка')
+            }
+        }
     }
 })

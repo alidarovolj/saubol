@@ -1,5 +1,6 @@
 <script setup>
 import {IconClipboard, IconCalendar} from "@tabler/icons-vue"
+import Spinner from "~/components/general/spinner.vue";
 
 const staff = useStaffStore()
 const {resultDetail} = storeToRefs(staff);
@@ -120,11 +121,7 @@ onMounted(async () => {
           </div>
         </div>
       </div>
-      <div
-          v-else
-          class="bg-white p-6 w-max rounded-xl mx-auto my-20">
-        <div class="spinner p-3"></div>
-      </div>
+      <Spinner v-else />
     </div>
   </div>
 </template>

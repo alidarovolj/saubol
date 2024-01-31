@@ -9,31 +9,31 @@ import img5 from "~/assets/img/mainPage/services/5.png";
 const services = ref([
   {
     title: "Доктор",
-    link: "/",
+    link: "/services/doctors",
     image: img1,
     icon: IconStethoscope
   },
   {
     title: "Медсестра",
-    link: "/",
+    link: "/services/med-services",
     image: img2,
     icon: IconNurse
   },
   {
     title: "Процедуры детокс",
-    link: "/",
+    link: "/services/detox",
     image: img3,
     icon: IconVaccine
   },
   {
     title: "Сдать анализы",
-    link: "/",
+    link: "/services/tests",
     image: img4,
     icon: IconMicroscope
   },
   {
     title: "Посмотреть все Услуги",
-    link: "/",
+    link: "/services",
     image: img5,
     icon: null
   }
@@ -44,7 +44,7 @@ const services = ref([
   <div class="container mx-auto px-4 lg:px-0">
     <div class="flex flex-wrap justify-between relative z-10 mb-5">
       <NuxtLink
-          to="/services"
+          :to="item.link"
           v-for="(item, index) of services"
           :key="index"
           class="w-half lg:w-fifth flex flex-col lg:flex-row justify-between rounded-2xl mb-3 hover:!shadow-2xl transition-all cursor-pointer"

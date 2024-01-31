@@ -9,7 +9,7 @@ export default defineNuxtConfig({
             path: "~/components", pathPrefix: false,
         },
     ],
-    plugins: ["~/plugins/vue3-toastify.ts"],
+    plugins: ["~/plugins/vue3-toastify.ts", { src: '~/plugins/maps.ts', mode: 'client' }],
     imports: {
         dirs: ["store", "composables", "composables/*/index.{ts,js,mjs,mts}", "composables/**",],
     },

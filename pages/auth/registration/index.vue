@@ -69,9 +69,9 @@ const sendForm = async () => {
     if (data.value) {
       await auth.initCookieToken(data.value.access_token)
       auth.token = data.value.access_token
-      notify(true, 'Спасибо за регистрацию!')
       await user.getProfile()
       router.push('/')
+      notify(true, 'Спасибо за регистрацию!')
       loading.value = false;
     } else {
       notify(false, error.value.message)
@@ -87,7 +87,7 @@ const sendForm = async () => {
 <template>
   <div class="relative">
     <div class="flex justify-between">
-      <div class="w-full lg:w-2/5 bg-white py-20 lg:py-64 relative">
+      <div class="w-full lg:w-2/5 bg-white py-20 lg:py-10 relative">
         <img class="w-full h-full absolute left-0 top-0 opacity-10" src="@/assets/img/auth/bg-lines.png" alt="">
         <form
             @submit.prevent="sendForm"

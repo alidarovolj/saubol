@@ -1,5 +1,5 @@
 <script setup>
-import {IconMenu2, IconUserCircle} from "@tabler/icons-vue"
+import {IconMenu2, IconUserCircle, IconShoppingBag} from "@tabler/icons-vue"
 
 const route = useRoute();
 
@@ -115,30 +115,35 @@ const logoutLocal = async () => {
             О нас
           </NuxtLink>
         </div>
-        <NuxtLink
-            v-if="result === false"
-            to="/auth/login"
-            class="text-sm lg:text-base bg-mainColor !text-white py-2 lg:py-3 px-8 lg:px-16 rounded">
-          Войти
-        </NuxtLink>
-        <div v-else-if="result === null">
-          <div class="spinner p-2"></div>
-        </div>
-        <div v-else>
-          <div v-if="result.data">
-            <div class="dropdown">
-              <div tabindex="0" role="button" class="flex items-center gap-3">
-                <p class="text-mainColor">{{ result.data.name }}</p>
-                <div class="relative w-10 h-10 bg-mainColor bg-opacity-20 rounded-full">
-                  <p class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-mainColor">
-                    {{ formattedName }}
-                  </p>
+        <div class="flex items-center gap-5">
+          <NuxtLink to="/cart">
+            <IconShoppingBag class="text-mainColor" size="30" />
+          </NuxtLink>
+          <NuxtLink
+              v-if="result === false"
+              to="/auth/login"
+              class="text-sm lg:text-base bg-mainColor !text-white py-2 lg:py-3 px-8 lg:px-16 rounded">
+            Войти
+          </NuxtLink>
+          <div v-else-if="result === null">
+            <div class="spinner p-2"></div>
+          </div>
+          <div v-else>
+            <div v-if="result.data">
+              <div class="dropdown">
+                <div tabindex="0" role="button" class="flex items-center gap-3">
+                  <p class="text-mainColor">{{ result.data.name }}</p>
+                  <div class="relative w-10 h-10 bg-mainColor bg-opacity-20 rounded-full">
+                    <p class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-mainColor">
+                      {{ formattedName }}
+                    </p>
+                  </div>
                 </div>
+                <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                  <li><NuxtLink to="/profile">Профиль</NuxtLink></li>
+                  <li @click="logoutLocal"><a>Выйти</a></li>
+                </ul>
               </div>
-              <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                <li><a>Профиль</a></li>
-                <li @click="logoutLocal"><a>Выйти</a></li>
-              </ul>
             </div>
           </div>
         </div>

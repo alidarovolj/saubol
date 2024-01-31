@@ -47,7 +47,7 @@ onMounted(async () => {
         </defs>
       </svg>
       <img
-          class="w-full h-max absolute left-0 top-1/2 -translate-y-1/2 object-cover z-10"
+          class="w-full h-fit absolute left-0 top-1/2 -translate-y-1/2 object-cover z-10"
           src="@/assets/img/mainPage/team/bg.png"
           alt="">
       <Header/>

@@ -9,76 +9,137 @@ import {
 </script>
 
 <template>
-  <div class="bg-mainColor py-24 relative">
-    <img class="absolute left-0 top-0 w-full h-full object-cover" src="@/assets/img/footer/footer-with-circle.png"
-         alt="">
+  <div class="bg-mainColor pt-24 pb-16 relative">
+    <img
+        class="absolute left-0 top-0 w-full h-full object-cover"
+        src="@/assets/img/footer/footer-with-circle.png"
+        alt="">
     <div class="container mx-auto px-4 lg:px-0 relative z-20">
       <div class="block lg:flex items-top justify-between text-white border-b border-bColor pb-10">
-        <div class="w-full lg:w-1/3 mb-10 lg:mb-0">
-          <img
-              class="mb-5"
-              src="@/assets/img/footer-logo.png"
-              alt=""
-          >
-          <a
-              class="block text-lg lg:text-xl mb-5"
-              href="tel:+77777777777">
-            +8 (777) 777-77-77
-          </a>
-          <a
-              class="block text-lg lg:text-xl mb-5"
-              href="mailto:saubolmed@gmail.com">
-            saubolmed@gmail.com
-          </a>
-        </div>
-        <div class="w-full lg:w-1/3 mb-10 lg:mb-0">
+        <div class="w-full lg:w-1/4 mb-10 lg:mb-0">
           <p class="text-lg lg:text-xl font-bold mb-6">
-            Навигация
+            Услуги
           </p>
           <div>
             <NuxtLink
-                class="block text-sm lg:text-lg font-medium mb-2 !text-white"
+                class="block text-sm lg:text-base opacity-75 mb-2 !text-white"
+                to="/"
+            >
+              Врач
+            </NuxtLink>
+            <NuxtLink
+                class="block text-sm lg:text-base opacity-75 mb-2 !text-white"
+                to="/"
+            >
+              Мед-услуги
+            </NuxtLink>
+            <NuxtLink
+                class="block text-sm lg:text-base opacity-75 mb-2 !text-white"
+                to="/"
+            >
+              Детокс
+            </NuxtLink>
+            <NuxtLink
+                class="block text-sm lg:text-base opacity-75 mb-2 !text-white"
+                to="/"
+            >
+              Анализы
+            </NuxtLink>
+            <NuxtLink
+                class="block text-sm lg:text-base opacity-75 !text-white"
+                to="/"
+            >
+              Аренда инвентаря
+            </NuxtLink>
+          </div>
+        </div>
+        <div class="w-full lg:w-1/4 mb-10 lg:mb-0">
+          <p class="text-lg lg:text-xl font-bold mb-6">
+            Информация
+          </p>
+          <div>
+            <NuxtLink
+                class="block text-sm lg:text-base opacity-75 mb-2 !text-white"
+                to="/"
+            >
+              FAQ
+            </NuxtLink>
+            <NuxtLink
+                class="block text-sm lg:text-base opacity-75 mb-2 !text-white"
                 to="/"
             >
               Новости
             </NuxtLink>
             <NuxtLink
-                class="block text-sm lg:text-lg font-medium mb-2 !text-white"
-                to="/"
-            >
-              Услуги
-            </NuxtLink>
-            <NuxtLink
-                class="block text-sm lg:text-lg font-medium mb-2 !text-white"
-                to="/"
-            >
-              Контакты
-            </NuxtLink>
-            <NuxtLink
-                class="block text-sm lg:text-lg font-medium mb-2 !text-white"
+                class="block text-sm lg:text-base opacity-75 mb-2 !text-white"
                 to="/"
             >
               О нас
             </NuxtLink>
           </div>
         </div>
-        <div class="w-full lg:w-1/3">
-          <p class="text-base lg:text-lg">
+        <div class="w-full lg:w-1/4 mb-10 lg:mb-0">
+          <p class="text-lg lg:text-xl font-bold mb-6">
+            Контакты
+          </p>
+          <div>
+            <a
+                class="block text-sm lg:text-base opacity-75 mb-2 !text-white"
+                href="tel:+87777777777"
+            >
+              +8 (777) 777-77-77
+            </a>
+            <a
+                class="block text-sm lg:text-base opacity-75 mb-2 !text-white"
+                href="mailto:saubolmed@gmail.com"
+            >
+              Saubolmed@gmail.com
+            </a>
+            <NuxtLink
+                class="block text-sm lg:text-base opacity-75 mb-2 !text-white"
+                href="/"
+            >
+              Контакты
+            </NuxtLink>
+          </div>
+        </div>
+        <div class="w-full lg:w-1/4 bg-white bg-opacity-10 px-10 py-8 rounded-lg">
+          <p class="text-base">
             Подписаться на новости
           </p>
-          <div class="flex justify-between">
+          <div class="flex justify-between my-4">
             <input
                 type="text"
                 placeholder="Введите почту"
-                class="text-sm lg:text-base py-3 px-4 rounded-l-md w-full"
+                class="text-sm py-3 px-4 rounded-l-md w-full"
             >
             <button class="rounded-r-md bg-[#478EFF] text-white px-3">
               <IconArrowRight size="16"/>
             </button>
           </div>
+          <p class="text-xs">
+            SaubolMed предлагает пользователям регулярные обновления и новости от компании, занимающейся медицинскими
+            услугами. Подписчики могут ожидать полезных советов, актуальных новостей о здоровье и эксклюзивных
+            предложений от
+            SaubolMed.
+          </p>
         </div>
       </div>
       <div class="block lg:flex items-center justify-center lg:justify-between mt-11">
+        <div class="flex items-center gap-2 text-white text-lg">
+          <img src="@/assets/img/footer-logo.png" alt="">
+        </div>
+        <div class="text-white text-sm flex items-center gap-5 my-5 lg:my-0">
+          <NuxtLink class="!text-white" to="/">
+            Условия
+          </NuxtLink>
+          <NuxtLink class="!text-white" to="/">
+            Конфиденциальность
+          </NuxtLink>
+          <NuxtLink class="!text-white" to="/">
+            Cookies
+          </NuxtLink>
+        </div>
         <div class="flex gap-4">
           <a href="#">
             <IconBrandLinkedin class="w-9 h-9 p-2 border border-bColor rounded-full text-white"/>
@@ -93,13 +154,6 @@ import {
             <IconBrandInstagram class="w-9 h-9 p-2 border border-bColor rounded-full text-white"/>
           </a>
         </div>
-        <div class="flex items-center gap-2 text-white text-lg my-5 lg:my-0">
-          <p class="text-sm lg:text-base">Продукт от </p>
-          <img src="@/assets/img/footer-logo.png" alt="">
-        </div>
-        <p class="text-white text-sm lg:text-base">
-          © 2024 saubolmed
-        </p>
       </div>
     </div>
   </div>

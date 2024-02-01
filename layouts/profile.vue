@@ -33,8 +33,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="flex justify-between gap-6">
-    <div class="w-1/5">
+  <div class="block lg:flex justify-between gap-6">
+    <div class="w-full lg:w-1/5 mb-5 lg:mb-0">
       <div class="bg-white p-2 rounded-lg flex flex-col gap-1">
         <NuxtLink
             class="flex items-center hover:bg-[#ECEDFF] hover:text-mainColor gap-3 p-3 rounded-lg transition-all"
@@ -66,7 +66,7 @@ onMounted(async () => {
         </div>
       </div>
     </div>
-    <div class="w-4/5">
+    <div class="w-full lg:w-4/5">
       <div v-if="!pending" class="bg-white px-5 py-6 rounded-lg">
         <slot/>
       </div>

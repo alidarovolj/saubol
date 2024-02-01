@@ -15,14 +15,14 @@
             <img src="~/assets/img/member/doctor.png" alt="Doctor" class="w-full h-full lg:h-auto"/>
           </div>
         </div>
-        <div class="w-1/2 lg:w-[60%] py-0 lg:py-14 pr-0 lg:pr-10">
+        <div class="w-1/2 lg:w-[60%] py-0 lg:py-14 pr-0 lg:pr-10 pb-5 lg:pb-0">
           <h2 class="text-sm font-semibold text-white block lg:hidden">Стать специалистом</h2>
           <p class="text-white text-2xs lg:text-3xl mb-2 lg:mb-7 mt-2 lg:mt-4">"Станьте частью нашей медицинской команды! Мы
             приглашаем талантливых врачей, готовых к профессиональному
             росту и совместной работе. Присоединяйтесь к нам для создания инновационных решений в заботе о
             здоровье."</p>
-          <NuxtLink to="/"
-                    class="text-sm lg:text-2xl text-mainColor font-medium bg-white py-2 lg:py-3 px-5 lg:px-10 rounded-lg lg:rounded-2xl">
+          <NuxtLink to="/become-member"
+                    class="block text-sm lg:text-2xl text-mainColor font-medium bg-white py-2 lg:py-3 px-5 lg:px-10 rounded-lg lg:rounded-2xl">
             Присоединится
           </NuxtLink>
         </div>

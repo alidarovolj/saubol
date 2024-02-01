@@ -1,6 +1,6 @@
 <script setup>
 const props = defineProps({
-  doctor: Object,
+  service: Object,
   required: true
 })
 </script>
@@ -13,38 +13,34 @@ const props = defineProps({
     >
       <div class="flex items-center mb-4 gap-5">
         <img
-            v-if="props.doctor.user.img"
+            v-if="props.service.img"
             class="rounded-md h-full w-[130px]"
-            :src="props.doctor.user.img"
+            :src="props.service.img"
             alt=""
         >
-        <div v-else>
-          <img
-              v-if="props.doctor.is_female"
-              class="rounded-md h-full w-[130px]"
-              src="@/assets/img/services/female_doctor.png"
-              alt=""
-          >
-          <img
-              v-else
-              class="rounded-md h-full w-[130px]"
-              src="@/assets/img/services/male_doctor.png"
-              alt=""
-          >
-        </div>
-        <div>
-          <p class="text-sm lg:text-xl font-semibold mb-3">
-            {{ props.doctor.user.name }}
-          </p>
-          <p class="text-mainColor font-semibold mb-2">
-            {{ props.doctor.specialization.name }}
-          </p>
-          <p class="text-mainColor font-semibold mb-3 text-xs">
-            {{ props.doctor.job.name }}
-          </p>
-          <p class="w-max py-1 lg:py-2 px-5 bg-mainColor rounded text-white">
-            Стаж {{ props.doctor.experience }} лет
-          </p>
+        <img
+            v-else
+            class="rounded-md h-full w-[130px]"
+            src="@/assets/img/services/male_doctor.png"
+            alt=""
+        >
+        <div class="block lg:flex items-center justify-between w-full">
+          <div>
+            <p class="text-sm lg:text-xl font-semibold mb-3">
+              {{ props.service.category.name }}
+            </p>
+            <p class="text-mainColor font-semibold mb-2">
+              {{ props.service.name }}
+            </p>
+          </div>
+          <div>
+            <p class="text-sm mb-2">
+              Цена
+            </p>
+            <p class="px-7 py-3 bg-[#E7F0FF] rounded-md text-center w-max font-bold text-mainColor">
+              {{ props.service.price }} ₸
+            </p>
+          </div>
         </div>
       </div>
       <div class="block lg:flex justify-between gap-4 mb-4">
@@ -53,7 +49,7 @@ const props = defineProps({
             Дни приема:
           </p>
           <div class="flex justify-between">
-<!--            :class="{ 'bg-gray-200 cursor-not-allowed' : props.doctor.free_time[0].length === 0 }"-->
+            <!--            :class="{ 'bg-gray-200 cursor-not-allowed' : props.doctor.free_time[0].length === 0 }"-->
             <div class="cursor-pointer py-1 px-3 border w-max rounded text-sm lg:text-base text-center">
               <p class="text-xs">15</p>
               <p>Пн</p>
@@ -96,21 +92,6 @@ const props = defineProps({
       </div>
       <div class="mb-4">
         <p class="text-sm mb-3">
-          Вид услуги
-        </p>
-        <div class="flex justify-between">
-          <label class="text-sm lg:text-xl block w-half" for="">
-            <input type="radio" name="service" value="1">
-            Консультация
-          </label>
-          <label class="text-sm lg:text-xl block w-half" for="">
-            <input type="radio" name="service" value="2">
-            Вызов
-          </label>
-        </div>
-      </div>
-      <div class="mb-4">
-        <p class="text-sm mb-3">
           Адресная книга <span class="text-red-500">*</span>
         </p>
         <div class="block lg:flex justify-between gap-5">
@@ -128,7 +109,7 @@ const props = defineProps({
         В корзину
       </button>
       <NuxtLink
-          :to="'/services/doctors/' + props.doctor.id"
+          :to="'/services/doctors/' + props.service.id"
           class="block w-full py-3 rounded-lg text-mainColor bg-white text-center border-mainColor border">
         Перейти к доктору
       </NuxtLink>

@@ -116,9 +116,24 @@ const logoutLocal = async () => {
           </NuxtLink>
         </div>
         <div class="flex items-center gap-5">
-          <NuxtLink to="/cart">
-            <IconShoppingBag class="text-mainColor" size="30" />
-          </NuxtLink>
+          <div>
+            <NuxtLink
+                v-if="result === false"
+                to="/auth/login"
+            >
+              <IconShoppingBag class="text-mainColor" size="30"/>
+            </NuxtLink>
+            <div v-else-if="!result">
+              <div class="spinner p-2"></div>
+            </div>
+            <div v-else>
+              <NuxtLink
+                  v-if="result.data"
+                  to="/cart">
+                <IconShoppingBag class="text-mainColor" size="30"/>
+              </NuxtLink>
+            </div>
+          </div>
           <NuxtLink
               v-if="result === false"
               to="/auth/login"
@@ -140,7 +155,9 @@ const logoutLocal = async () => {
                   </div>
                 </div>
                 <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                  <li><NuxtLink to="/profile">Профиль</NuxtLink></li>
+                  <li>
+                    <NuxtLink to="/profile">Профиль</NuxtLink>
+                  </li>
                   <li @click="logoutLocal"><a>Выйти</a></li>
                 </ul>
               </div>

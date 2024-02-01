@@ -11,6 +11,17 @@ const {result} = storeToRefs(staff);
 
 const pending = ref(true)
 
+const links = ref([
+  {
+    title: 'Главная',
+    link: '/'
+  },
+  {
+    title: 'Услуги',
+    link: '/services'
+  }
+])
+
 onMounted(async () => {
   await nextTick()
   if (route.query.page) {
@@ -31,7 +42,8 @@ onMounted(async () => {
 <template>
   <div class="pt-8">
     <div class="container mx-auto px-4 lg:px-0">
-      <h1 class="text-6xl font-semibold text-mainColor mb-7">
+      <Breadcrumbs :links="links" />
+      <h1 class="text-4xl lg:text-6xl font-semibold text-mainColor mb-7">
         Услуги
       </h1>
       <div class="overflow-x-auto flex justify-between mb-7">

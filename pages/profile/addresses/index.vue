@@ -12,6 +12,21 @@ const {result} = storeToRefs(user)
 const addresses = useAddressesStore()
 const {resultAddresses} = storeToRefs(addresses)
 
+const links = ref([
+  {
+    title: 'Главная',
+    link: '/'
+  },
+  {
+    title: 'Профиль',
+    link: '/profile'
+  },
+  {
+    title: 'Адреса',
+    link: '/profile/addresses'
+  }
+])
+
 const pending = ref(true)
 
 onMounted(async () => {
@@ -24,6 +39,7 @@ onMounted(async () => {
 <template>
   <div class="mt-8">
     <div class="container mx-auto px-4 lg:px-0">
+      <Breadcrumbs :links="links"/>
       <h1 class="text-6xl font-semibold text-mainColor mb-7">
         Адреса
       </h1>
@@ -31,12 +47,12 @@ onMounted(async () => {
         <NuxtLoadingIndicator color="#3E46FF"/>
         <DelayHydration>
           <div v-if="!pending">
-            <div class="flex justify-between items-center mb-10">
-              <p class="text-2xl font-bold">
+            <div class="block lg:flex justify-between items-center mb-10">
+              <p class="text-2xl font-bold mb-3 lg:mb-0">
                 Адресная книга
               </p>
               <button
-                  class="bg-mainColor text-center text-white py-3 px-16 rounded-md"
+                  class="bg-mainColor text-center text-white py-3 px-16 rounded-md w-full lg:w-auto"
                   onclick="create_address.showModal()">
                 + Добавить адрес
               </button>

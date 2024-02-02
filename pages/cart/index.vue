@@ -1,5 +1,5 @@
 <script setup>
-
+const route = useRoute();
 useHead({
   title: "Корзина | SaubolMed",
   meta: [

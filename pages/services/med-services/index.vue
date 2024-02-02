@@ -42,6 +42,21 @@ onMounted(async () => {
   await nurses.getNurses({perPage: route.query.perPage, page: route.query.page})
   pending.value = false
 })
+
+useHead({
+  title: "Мед-услуги | Услуги | SaubolMed",
+  meta: [
+    {
+      property: "og:title",
+      content: "Мед-услуги | Услуги | SaubolMed",
+    },
+    {
+      property: "og:url",
+      content: route.fullPath,
+    },
+  ],
+  link: [{rel: "canonical", href: "https://saubolmed.kz/"}],
+});
 </script>
 
 <template>

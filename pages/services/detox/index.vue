@@ -41,6 +41,21 @@ onMounted(async () => {
   await staff.getStaff({perPage: route.query.perPage, page: route.query.page})
   pending.value = false
 })
+
+useHead({
+  title: "Процедуры детокс | Услуги | SaubolMed",
+  meta: [
+    {
+      property: "og:title",
+      content: "Процедуры детокс | Услуги | SaubolMed",
+    },
+    {
+      property: "og:url",
+      content: route.fullPath,
+    },
+  ],
+  link: [{rel: "canonical", href: "https://saubolmed.kz/"}],
+});
 </script>
 
 <template>

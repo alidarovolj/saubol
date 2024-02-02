@@ -34,6 +34,21 @@ onMounted(async () => {
   await addresses.listAddresses()
   pending.value = false
 })
+
+useHead({
+  title: "Адреса | SaubolMed",
+  meta: [
+    {
+      property: "og:title",
+      content: "Адреса | SaubolMed",
+    },
+    {
+      property: "og:url",
+      content: route.fullPath,
+    },
+  ],
+  link: [{rel: "canonical", href: "https://saubolmed.kz/"}],
+});
 </script>
 
 <template>

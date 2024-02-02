@@ -6,7 +6,7 @@ import ServicesNavigation from "~/components/services/servicesNavigation.vue";
 const route = useRoute()
 const router = useRouter()
 const staff = useStaffStore()
-const {result, resultSpecs} = storeToRefs(staff);
+const {resultSearch, resultSpecs} = storeToRefs(staff);
 
 const pending = ref(true)
 
@@ -48,7 +48,7 @@ const searchDoctors = async () => {
   };
 
   await router.push({query: {...route.query, ...queryParams}})
-  await staff.getStaff(queryParams)
+  await staff.searchStaff(queryParams)
 }
 
 onMounted(async () => {
@@ -70,6 +70,21 @@ onMounted(async () => {
   await staff.specializationList()
   pending.value = false
 })
+
+useHead({
+  title: "Доктора | Услуги | SaubolMed",
+  meta: [
+    {
+      property: "og:title",
+      content: "Доктора | Услуги | SaubolMed",
+    },
+    {
+      property: "og:url",
+      content: route.fullPath,
+    },
+  ],
+  link: [{rel: "canonical", href: "https://saubolmed.kz/"}],
+});
 </script>
 
 <template>
@@ -143,17 +158,27 @@ onMounted(async () => {
         </form>
       </div>
       <div v-if="!pending">
-        <div class="flex justify-between flex-wrap">
+        <div
+            v-if="resultSearch.data.length > 0"
+            class="flex justify-between flex-wrap">
           <div
               class="w-full lg:w-half mb-5"
-              v-for="(doctor, index) in result.data"
+              v-for="(doctor, index) in resultSearch.data"
               :key="index">
             <Doctor :doctor="doctor"/>
           </div>
         </div>
+        <div
+            v-else
+            class="text-center mb-8"
+        >
+          <p class="text-red-500 font-semibold">
+            Ничего не найдено
+          </p>
+        </div>
         <div>
           <Pagination
-              :meta="result.meta"
+              :meta="resultSearch.meta"
               @navigate="staff.getStaff({perPage: route.query.perPage, page: route.query.page})"
           />
         </div>

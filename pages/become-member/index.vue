@@ -56,6 +56,23 @@ onMounted(async () => {
   await staff.specializationList()
   pending.value = false
 })
+
+const route = useRoute()
+
+useHead({
+  title: "Регистрация доктора | SaubolMed",
+  meta: [
+    {
+      property: "og:title",
+      content: "Регистрация доктора | SaubolMed",
+    },
+    {
+      property: "og:url",
+      content: route.fullPath,
+    },
+  ],
+  link: [{rel: "canonical", href: "https://saubolmed.kz/"}],
+});
 </script>
 
 <template>

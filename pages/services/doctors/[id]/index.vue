@@ -1,5 +1,5 @@
 <script setup>
-import {IconClipboard, IconCalendar} from "@tabler/icons-vue"
+import {IconClipboard, IconCalendar, IconFile} from "@tabler/icons-vue"
 import Spinner from "~/components/general/spinner.vue";
 
 const staff = useStaffStore()
@@ -110,29 +110,23 @@ onMounted(async () => {
                 Специализация
               </h2>
               <ul class="list-disc pl-5 mb-5 text-sm">
-                <li>Профилактические приёмы детей от 0 до 18 лет</li>
-                <li>Перинатальная патология у детей</li>
-                <li>Головные боли разной этиологии</li>
-                <li>Неврозы, тики</li>
-                <li>Задержка речевого развития</li>
-                <li>Вегетососудистая дистония</li>
-                <li>Остеохондрозы с болевым синдромом</li>
-                <li>Сосудистые заболевания головного мозга</li>
-                <li>Последствия инсультов и черепно-мозговых травм</li>
-                <li>Внутрижелудочковое кровоизлияние (ВЖК)</li>
-                <li>Доброкачественная внутричерепная гипертензия</li>
-                <li>ДЦП</li>
-                <li>Синдром Дауна</li>
+                <li
+                    v-for="(item, index) of resultDetail.specialization_details"
+                    :key="index"
+                >
+                  {{ item }}
+                </li>
               </ul>
               <h2 class="text-mainColor text-2xl font-semibold border-b border-mainColor w-full pb-2 mb-5">
                 Опыт работы
               </h2>
               <ul class="list-disc pl-5 text-sm mb-5">
-                <li>2022 г. — МЦ РАХАТ, онколог, маммолог</li>
-                <li>2021–2022 гг. — Артемовская ГБ№ 1, врач-онколог, заведующий ЦАОП, основал ЦАОП в Аремовской ГБ № 1
+                <li
+                    v-for="(item, index) of resultDetail.job_places"
+                    :key="index"
+                >
+                  <p>{{ item.start_date }} / {{ item.end_date }} - {{ item.job_place }}</p>
                 </li>
-                <li>2020–2021 гг. — ККЦ СВМП, ковидный госпиталь, врач-специалист</li>
-                <li>2017–2020 гг. — КГБУЗ ВП № 6, врач-онколог, основал ПОК в ВП № 6</li>
               </ul>
               <div class="mb-5">
                 <p class="bg-[#E7F0FF] p-3 rounded-md text-sm">
@@ -144,15 +138,20 @@ onMounted(async () => {
                 <h2 class="text-mainColor text-2xl font-semibold border-b border-mainColor w-full pb-2 mb-5">
                   Сертификаты
                 </h2>
-                <div class="flex items-center justify-between overflow-x-auto">
-                  <img class="w-max mr-10 rounded-2xl" src="~/assets/img/mainPage/certificates/1.png" alt="">
-                  <img class="w-max mr-10 rounded-2xl" src="~/assets/img/mainPage/certificates/1.png" alt="">
-                  <img class="w-max mr-10 rounded-2xl" src="~/assets/img/mainPage/certificates/1.png" alt="">
-                  <img class="w-max mr-10 rounded-2xl" src="~/assets/img/mainPage/certificates/1.png" alt="">
-                  <img class="w-max mr-10 rounded-2xl" src="~/assets/img/mainPage/certificates/1.png" alt="">
-                  <img class="w-max mr-10 rounded-2xl" src="~/assets/img/mainPage/certificates/1.png" alt="">
-                  <img class="w-max mr-10 rounded-2xl" src="~/assets/img/mainPage/certificates/1.png" alt="">
-                  <img class="w-max rounded-2xl" src="~/assets/img/mainPage/certificates/1.png" alt="">
+                <div class="">
+                  <a
+                      :href="item.path"
+                      v-for="(item, index) of resultDetail.documents"
+                      :key="index"
+                      :class="{ 'mb-3' : resultDetail.documents.length - 1 !== index }"
+                      class="flex items-center cursor-pointer gap-3">
+                    <div class="bg-mainColor text-white p-3 rounded-lg">
+                      <IconFile size="24" />
+                    </div>
+                    <p>
+                      {{ item.filename }}
+                    </p>
+                  </a>
                 </div>
               </div>
             </div>

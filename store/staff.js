@@ -7,6 +7,7 @@ export const useStaffStore = defineStore('staff', () => {
     const resultSpecs = ref(null);
     const resultSearch = ref(null);
     const resultRegister = ref(null);
+    const resultDoc = ref(null);
     const notify = (type, text) => {
         const toast = useNuxtApp().$toast;
         type ? toast.success(text) : toast.error(text);
@@ -18,6 +19,7 @@ export const useStaffStore = defineStore('staff', () => {
         resultSpecs,
         resultSearch,
         resultRegister,
+        resultDoc,
         async getStaff(queryParams = {}) {
             const queryString = new URLSearchParams(queryParams).toString();
             const {data} = await useFetch(`/staff/?${queryString}`, {
@@ -93,9 +95,37 @@ export const useStaffStore = defineStore('staff', () => {
                 lazy: true,
             })
             if (data.value) {
+                let daysInRussian = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб']
+                for (let i = 0; i < data.value.data.length; i++) {
+                    for (let j = 0; j < data.value.data[i].schedule.length; j++) {
+                        let date = new Date(data.value.data[i].schedule[j].date);
+                        let dayOfWeek = daysInRussian[date.getDay()];
+                        data.value.data[i].schedule[j].dayOfWeek = dayOfWeek;
+                    }
+                }
                 resultSearch.value = data.value
             } else {
                 resultSearch.value = false
+                notify(false, 'Произошла ошибка')
+            }
+        },
+        async importDoc(file) {
+            const formData = new FormData();
+            formData.append('img', file);
+
+            const {data} = await useFetch(`/staff/import-docs`, {
+                method: 'POST',
+                headers: {
+                    accept: "application/json"
+                },
+                body: formData,
+                baseURL: runtimeConfig.public.API_LINK,
+                lazy: true,
+            })
+            if (data.value) {
+                resultDoc.value = data.value
+            } else {
+                resultDoc.value = false
                 notify(false, 'Произошла ошибка')
             }
         },

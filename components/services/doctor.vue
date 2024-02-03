@@ -39,9 +39,9 @@ const props = defineProps({
           <p class="text-mainColor font-semibold mb-2">
             {{ props.doctor.specialization.name }}
           </p>
-          <p class="text-mainColor font-semibold mb-3 text-xs">
-            {{ props.doctor.job.name }}
-          </p>
+          <!--          <p class="text-mainColor font-semibold mb-3 text-xs">-->
+          <!--            {{ props.doctor.job.name }}-->
+          <!--          </p>-->
           <p class="w-max py-1 lg:py-2 px-5 bg-mainColor rounded text-white">
             Стаж {{ props.doctor.experience }} лет
           </p>
@@ -53,34 +53,17 @@ const props = defineProps({
             Дни приема:
           </p>
           <div class="flex justify-between">
-<!--            :class="{ 'bg-gray-200 cursor-not-allowed' : props.doctor.free_time[0].length === 0 }"-->
-            <div class="cursor-pointer py-1 px-3 border w-max rounded text-sm lg:text-base text-center">
-              <p class="text-xs">15</p>
-              <p>Пн</p>
-            </div>
-            <div class="cursor-pointer py-1 px-3 border w-max rounded text-sm lg:text-base text-center">
-              <p class="text-xs">16</p>
-              <p>Вт</p>
-            </div>
-            <div class="cursor-pointer py-1 px-3 border w-max rounded text-sm lg:text-base text-center">
-              <p class="text-xs">17</p>
-              <p>Ср</p>
-            </div>
-            <div class="cursor-pointer py-1 px-3 border w-max rounded text-sm lg:text-base text-center">
-              <p class="text-xs">18</p>
-              <p>Чт</p>
-            </div>
-            <div class="cursor-pointer py-1 px-3 border w-max rounded text-sm lg:text-base text-center">
-              <p class="text-xs">19</p>
-              <p>Пт</p>
-            </div>
-            <div class="cursor-pointer py-1 px-3 border w-max rounded text-sm lg:text-base text-center">
-              <p class="text-xs">20</p>
-              <p>Сб</p>
-            </div>
-            <div class="cursor-pointer py-1 px-3 border w-max rounded text-sm lg:text-base text-center">
-              <p class="text-xs">21</p>
-              <p>Вс</p>
+            <div
+                @click=""
+                v-for="(it, ind) of props.doctor.schedule"
+                :key="ind"
+                class="cursor-pointer py-1 px-3 border w-max rounded text-sm lg:text-base text-center">
+              <p class="text-xs">
+                {{ it.date }}
+              </p>
+              <p class="uppercase">
+                {{ it.dayOfWeek }}
+              </p>
             </div>
           </div>
         </div>
@@ -88,10 +71,9 @@ const props = defineProps({
           <p class="mb-1">
             Время
           </p>
-          <input
-              class="px-3 py-3 border rounded-lg w-full"
-              type="time"
-          >
+          <select class="px-3 py-3 border rounded-lg w-full">
+            <option value=""></option>
+          </select>
         </div>
       </div>
       <div class="mb-4">

@@ -3,6 +3,7 @@ import {IconEye, IconEyeClosed} from "@tabler/icons-vue"
 import {useVuelidate} from "@vuelidate/core";
 import {required} from "@vuelidate/validators";
 import {useAuthStore} from "~/store/auth.js";
+import {useCartStore} from "~/store/cart.js";
 
 const passwordFieldType = ref("password");
 
@@ -10,6 +11,7 @@ const runtimeConfig = useRuntimeConfig();
 const auth = useAuthStore()
 const user = useUserStore()
 const {result} = storeToRefs(user)
+const cart = useCartStore()
 
 const loading = ref(false);
 
@@ -55,9 +57,10 @@ const sendForm = async () => {
     await auth.initCookieToken(data.value.access_token)
     auth.token = data.value.access_token
     await user.getProfile()
+    await cart.cartList()
     router.push('/')
     loading.value = false;
-    notify(true, 'Спасибо за регистрацию!')
+    notify(true, 'Спасибо за авторизацию!')
   } else {
     notify(false, 'An error has occurred')
     loading.value = false;

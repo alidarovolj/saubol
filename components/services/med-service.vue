@@ -3,6 +3,13 @@ const props = defineProps({
   service: Object,
   required: true
 })
+
+const form = ref({
+  type: 1
+})
+
+const user = useUserStore()
+const {result} = storeToRefs(user)
 </script>
 
 <template>
@@ -32,13 +39,43 @@ const props = defineProps({
             <p class="text-mainColor font-semibold mb-2">
               {{ props.service.name }}
             </p>
+            <div class="block">
+              <p class="text-sm mb-4">
+                Вид услуги:
+              </p>
+              <div class="flex items-center gap-5">
+                <div class="flex items-center text-sm gap-3">
+                  <input
+                      v-model="form.type"
+                      :value="1"
+                      type="radio">
+                  <p>
+                    Стандарт
+                  </p>
+                </div>
+                <div class="flex items-center text-sm gap-3">
+                  <input
+                      v-model="form.type"
+                      :value="2"
+                      type="radio">
+                  <p>
+                    Премиум
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
           <div>
             <p class="text-sm mb-2">
               Цена
             </p>
             <p class="px-7 py-3 bg-[#E7F0FF] rounded-md text-center w-max font-bold text-mainColor">
-              {{ props.service.price }} ₸
+              <span v-if="form.type === 1">
+                {{ props.service.price }}
+              </span>
+              <span v-else>
+              {{ props.service.premium_service.price }}
+            </span> ₸
             </p>
           </div>
         </div>
@@ -90,7 +127,9 @@ const props = defineProps({
           >
         </div>
       </div>
-      <div class="mb-4">
+      <div
+          v-if="result"
+          class="mb-4">
         <p class="text-sm mb-3">
           Адресная книга <span class="text-red-500">*</span>
         </p>
@@ -105,14 +144,16 @@ const props = defineProps({
           </button>
         </div>
       </div>
-      <button class="w-full py-3 rounded-lg text-white bg-mainColor text-center mb-3">
-        В корзину
-      </button>
-      <NuxtLink
-          :to="'/services/doctors/' + props.service.id"
-          class="block w-full py-3 rounded-lg text-mainColor bg-white text-center border-mainColor border">
-        Перейти к доктору
-      </NuxtLink>
+      <div class="flex gap-6 border-t border-[#E7F0FF] pt-4">
+        <NuxtLink
+            :to="'/services/doctors/' + props.service.id"
+            class="block w-full py-3 rounded-lg text-mainColor bg-[#E7F0FF] text-center">
+          Подробнее
+        </NuxtLink>
+        <button class="w-full py-3 rounded-lg text-white bg-mainColor text-center">
+          Заказать услугу
+        </button>
+      </div>
     </div>
   </div>
 </template>

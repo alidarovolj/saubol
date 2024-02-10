@@ -8,6 +8,7 @@ export const useStaffStore = defineStore('staff', () => {
     const resultSearch = ref(null);
     const resultRegister = ref(null);
     const resultDoc = ref(null);
+    const resultOrderDoc = ref(null);
     const notify = (type, text) => {
         const toast = useNuxtApp().$toast;
         type ? toast.success(text) : toast.error(text);
@@ -20,6 +21,7 @@ export const useStaffStore = defineStore('staff', () => {
         resultSearch,
         resultRegister,
         resultDoc,
+        resultOrderDoc,
         async getStaff(queryParams = {}) {
             const queryString = new URLSearchParams(queryParams).toString();
             const {data} = await useFetch(`/staff/?${queryString}`, {
@@ -98,9 +100,41 @@ export const useStaffStore = defineStore('staff', () => {
                 let daysInRussian = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб']
                 for (let i = 0; i < data.value.data.length; i++) {
                     for (let j = 0; j < data.value.data[i].schedule.length; j++) {
-                        let date = new Date(data.value.data[i].schedule[j].date);
+                        let date = new Date(data.value.data[i].schedule[j].day);
                         let dayOfWeek = daysInRussian[date.getDay()];
+                        let dayNumber = date.getDate().toString().padStart(2, '0'); // get the day of the month and pad it with 0 if needed
                         data.value.data[i].schedule[j].dayOfWeek = dayOfWeek;
+                        data.value.data[i].schedule[j].dayNumber = dayNumber; // add the day number to the schedule object
+
+                        for (let k = 0; k < data.value.data[i].schedule[j].times.length; k++) {
+                            let timePeriods = [];
+
+                            let start = new Date(`1970-01-01T${data.value.data[i].schedule[j].times[k].start}Z`);
+                            let end = new Date(`1970-01-01T${data.value.data[i].schedule[j].times[k].end}Z`);
+                            let duration = data.value.data[i].schedule[j].duration;
+
+                            while (start < end) {
+                                let periodEnd = new Date(start.getTime() + duration * 60000);
+                                if (periodEnd > end) {
+                                    break;
+                                }
+                                let startHours = start.getUTCHours().toString().padStart(2, '0');
+                                let startMinutes = start.getUTCMinutes().toString().padStart(2, '0');
+                                let startSeconds = start.getUTCSeconds().toString().padStart(2, '0');
+
+                                let endHours = periodEnd.getUTCHours().toString().padStart(2, '0');
+                                let endMinutes = periodEnd.getUTCMinutes().toString().padStart(2, '0');
+                                let endSeconds = periodEnd.getUTCSeconds().toString().padStart(2, '0');
+
+                                timePeriods.push({
+                                    start: `${startHours}:${startMinutes}:${startSeconds}`,
+                                    end: `${endHours}:${endMinutes}:${endSeconds}`
+                                });
+                                start = periodEnd;
+                            }
+
+                            data.value.data[i].schedule[j].times[k].timePeriods = timePeriods;
+                        }
                     }
                 }
                 resultSearch.value = data.value
@@ -111,7 +145,7 @@ export const useStaffStore = defineStore('staff', () => {
         },
         async importDoc(file) {
             const formData = new FormData();
-            formData.append('img', file);
+            formData.append('file', file);
 
             const {data} = await useFetch(`/staff/import-docs`, {
                 method: 'POST',
@@ -126,6 +160,23 @@ export const useStaffStore = defineStore('staff', () => {
                 resultDoc.value = data.value
             } else {
                 resultDoc.value = false
+                notify(false, 'Произошла ошибка')
+            }
+        },
+        async setOrderDoctor(form) {
+            const {data} = await useFetch(`/doctor`, {
+                method: 'POST',
+                headers: {
+                    accept: "application/json"
+                },
+                body: form,
+                baseURL: runtimeConfig.public.API_LINK,
+                lazy: true,
+            })
+            if (data.value) {
+                resultOrderDoc.value = data.value
+            } else {
+                resultOrderDoc.value = false
                 notify(false, 'Произошла ошибка')
             }
         },

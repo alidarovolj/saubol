@@ -2,11 +2,13 @@
 import Doctor from "~/components/services/doctor.vue";
 import {useStaffStore} from "~/store/staff.js";
 import ServicesNavigation from "~/components/services/servicesNavigation.vue";
+import {useAddressesStore} from "~/store/addresses.js";
 
 const route = useRoute()
 const router = useRouter()
 const staff = useStaffStore()
 const {resultSearch, resultSpecs} = storeToRefs(staff);
+const addresses = useAddressesStore()
 
 const pending = ref(true)
 
@@ -15,7 +17,7 @@ const filters = ref({
   'fields[user.name]': null,
   'filters[is_female]': null,
   'start_time': null,
-  'date': null,
+  'filters[schedule.day]': null,
 })
 
 const links = ref([
@@ -66,6 +68,7 @@ onMounted(async () => {
     ...nonNullQueries
   };
 
+  await addresses.listAddresses()
   await searchDoctors()
   await staff.specializationList()
   pending.value = false
@@ -130,7 +133,7 @@ useHead({
             </p>
             <div class="relative">
               <input
-                  v-model="filters.date"
+                  v-model="filters['filters[schedule.day]']"
                   class="px-3 py-3 border  rounded-lg w-full"
                   type="date"
               >

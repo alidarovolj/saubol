@@ -36,8 +36,22 @@ const form = ref({
       end: "2024-01-01",
     }
   ],
-  diplomas: [""],
-  certificates: [""]
+  schedule: {
+    duration: 45,
+    days: [
+      {
+        weekday_number: 1,
+        times: [
+          {
+            start: "",
+            end: ""
+          }
+        ]
+      }
+    ]
+  },
+  diplomas: [],
+  certificates: []
 })
 
 const v$ = useVuelidate({
@@ -74,6 +88,32 @@ const v$ = useVuelidate({
   }
 }, form);
 
+const addDay = (val) => {
+  if (isWeekdayNumberIncluded(val)) {
+    form.value.schedule.days = form.value.schedule.days.filter(day => day.weekday_number !== val);
+  } else {
+    form.value.schedule.days.push({
+      weekday_number: val,
+      times: [
+        {
+          start: "",
+          end: ""
+        }
+      ]
+    });
+  }
+};
+
+const addTime = (weekday_number) => {
+  const day = form.value.schedule.days.find(day => day.weekday_number === weekday_number);
+  if (day) {
+    day.times.push({
+      start: "",
+      end: ""
+    });
+  }
+};
+
 const links = ref([
   {
     title: "Главная",
@@ -107,6 +147,14 @@ const importLocal = async (e) => {
 const notify = (type, text) => {
   const toast = useNuxtApp().$toast;
   type ? toast.success(text) : toast.error(text);
+};
+
+const isWeekdayNumberIncluded = (val) => {
+  return form.value.schedule.days.some(day => day.weekday_number === val);
+};
+
+const getDay = (weekday_number) => {
+  return form.value.schedule.days.find(day => day.weekday_number === weekday_number);
 };
 
 const sendForm = async () => {
@@ -307,7 +355,7 @@ useHead({
                   Пожалуйста заполните данное поле
                 </p>
               </div>
-              <div class="w-full lg:w-half">
+              <div class="w-full lg:w-half mb-6">
                 <div class="flex justify-between items-center w-full mb-3">
                   <p class="text-sm mb-2">
                     Детали специализации <span class="text-red-500">*</span>
@@ -331,6 +379,272 @@ useHead({
                         class="p-3 border w-full rounded-lg"
                         placeholder="Введите деталь"
                     >
+                  </div>
+                </div>
+              </div>
+              <div class="w-full">
+                <p class="text-sm lg:text-base mb-1">
+                  Дни приема:
+                </p>
+                <div class="flex flex-col gap-3">
+                  <div class="flex items-start gap-5">
+                    <div
+                        @click="addDay(1)"
+                        :class="{ 'bg-mainColor text-white' : isWeekdayNumberIncluded(1) }"
+                        class="cursor-pointer transition-all py-1 px-3 border w-max rounded text-sm lg:text-base text-center flex flex-col justify-center">
+                      <p class="text-xs">15</p>
+                      <p>Пн</p>
+                    </div>
+                    <div class="w-1/2" v-if="getDay(1)">
+                      <p class="text-[10px] mb-1">
+                        Выберите время для окошка
+                      </p>
+                      <div class="flex flex-col gap-2">
+                        <div
+                            v-for="(time, index) in getDay(1).times"
+                            :key="index"
+                            class="block"
+                        >
+                          <div class="flex gap-3">
+                            <input
+                                class="p-2 border w-full rounded-lg"
+                                type="time"
+                                v-model="time.start">
+                            <input
+                                class="p-2 border w-full rounded-lg"
+                                type="time"
+                                v-model="time.end">
+                            <div
+                                @click="addTime(addTime(getDay(1).weekday_number))"
+                                class="bg-mainColor p-2 rounded-lg text-white cursor-pointer">
+                              <IconPlus/>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex items-start gap-5">
+                    <div
+                        @click="addDay(2)"
+                        :class="{ 'bg-mainColor text-white' : isWeekdayNumberIncluded(2) }"
+                        class="cursor-pointer transition-all py-1 px-3 border w-max rounded text-sm lg:text-base text-center flex flex-col justify-center">
+                      <p class="text-xs">16</p>
+                      <p>Вт</p>
+                    </div>
+                    <div class="w-1/2" v-if="getDay(2)">
+                      <p class="text-[10px] mb-1">
+                        Выберите время для окошка
+                      </p>
+                      <div class="flex flex-col gap-2">
+                        <div
+                            v-for="(time, index) in getDay(2).times"
+                            :key="index"
+                            class="block"
+                        >
+                          <div class="flex gap-3">
+                            <input
+                                class="p-2 border w-full rounded-lg"
+                                type="time"
+                                v-model="time.start">
+                            <input
+                                class="p-2 border w-full rounded-lg"
+                                type="time"
+                                v-model="time.end">
+                            <div
+                                @click="addTime(getDay(2).weekday_number)"
+                                class="bg-mainColor p-2 rounded-lg text-white cursor-pointer">
+                              <IconPlus/>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex items-start gap-5">
+                    <div
+                        @click="addDay(3)"
+                        :class="{ 'bg-mainColor text-white' : isWeekdayNumberIncluded(3) }"
+                        class="cursor-pointer transition-all py-1 px-3 border w-max rounded text-sm lg:text-base text-center flex flex-col justify-center">
+                      <p class="text-xs">17</p>
+                      <p>Ср</p>
+                    </div>
+                    <div class="w-1/2" v-if="getDay(3)">
+                      <p class="text-[10px] mb-1">
+                        Выберите время для окошка
+                      </p>
+                      <div class="flex flex-col gap-2">
+                        <div
+                            v-for="(time, index) in getDay(3).times"
+                            :key="index"
+                            class="block"
+                        >
+                          <div class="flex gap-3">
+                            <input
+                                class="p-2 border w-full rounded-lg"
+                                type="time"
+                                v-model="time.start">
+                            <input
+                                class="p-2 border w-full rounded-lg"
+                                type="time"
+                                v-model="time.end">
+                            <div
+                                @click="addTime(getDay(3).weekday_number)"
+                                class="bg-mainColor p-2 rounded-lg text-white cursor-pointer">
+                              <IconPlus/>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex items-start gap-5">
+                    <div
+                        @click="addDay(4)"
+                        :class="{ 'bg-mainColor text-white' : isWeekdayNumberIncluded(4) }"
+                        class="cursor-pointer transition-all py-1 px-3 border w-max rounded text-sm lg:text-base text-center flex flex-col justify-center">
+                      <p class="text-xs">18</p>
+                      <p>Чт</p>
+                    </div>
+                    <div class="w-1/2" v-if="getDay(4)">
+                      <p class="text-[10px] mb-1">
+                        Выберите время для окошка
+                      </p>
+                      <div class="flex flex-col gap-2">
+                        <div
+                            v-for="(time, index) in getDay(4).times"
+                            :key="index"
+                            class="block"
+                        >
+                          <div class="flex gap-3">
+                            <input
+                                class="p-2 border w-full rounded-lg"
+                                type="time"
+                                v-model="time.start">
+                            <input
+                                class="p-2 border w-full rounded-lg"
+                                type="time"
+                                v-model="time.end">
+                            <div
+                                @click="addTime(addTime(getDay(4).weekday_number))"
+                                class="bg-mainColor p-2 rounded-lg text-white cursor-pointer">
+                              <IconPlus/>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex items-start gap-5">
+                    <div
+                        @click="addDay(5)"
+                        :class="{ 'bg-mainColor text-white' : isWeekdayNumberIncluded(5) }"
+                        class="cursor-pointer transition-all py-1 px-3 border w-max rounded text-sm lg:text-base text-center flex flex-col justify-center">
+                      <p class="text-xs">19</p>
+                      <p>Пт</p>
+                    </div>
+                    <div class="w-1/2" v-if="getDay(5)">
+                      <p class="text-[10px] mb-1">
+                        Выберите время для окошка
+                      </p>
+                      <div class="flex flex-col gap-2">
+                        <div
+                            v-for="(time, index) in getDay(5).times"
+                            :key="index"
+                            class="block"
+                        >
+                          <div class="flex gap-3">
+                            <input
+                                class="p-2 border w-full rounded-lg"
+                                type="time"
+                                v-model="time.start">
+                            <input
+                                class="p-2 border w-full rounded-lg"
+                                type="time"
+                                v-model="time.end">
+                            <div
+                                @click="addTime(addTime(getDay(5).weekday_number))"
+                                class="bg-mainColor p-2 rounded-lg text-white cursor-pointer">
+                              <IconPlus/>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex items-start gap-5">
+                    <div
+                        @click="addDay(6)"
+                        :class="{ 'bg-mainColor text-white' : isWeekdayNumberIncluded(6) }"
+                        class="cursor-pointer transition-all py-1 px-3 border w-max rounded text-sm lg:text-base text-center flex flex-col justify-center">
+                      <p class="text-xs">20</p>
+                      <p>Сб</p>
+                    </div>
+                    <div class="w-1/2" v-if="getDay(6)">
+                      <p class="text-[10px] mb-1">
+                        Выберите время для окошка
+                      </p>
+                      <div class="flex flex-col gap-2">
+                        <div
+                            v-for="(time, index) in getDay(6).times"
+                            :key="index"
+                            class="block"
+                        >
+                          <div class="flex gap-3">
+                            <input
+                                class="p-2 border w-full rounded-lg"
+                                type="time"
+                                v-model="time.start">
+                            <input
+                                class="p-2 border w-full rounded-lg"
+                                type="time"
+                                v-model="time.end">
+                            <div
+                                @click="addTime(getDay(6).weekday_number)"
+                                class="bg-mainColor p-2 rounded-lg text-white cursor-pointer">
+                              <IconPlus/>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex items-start gap-5">
+                    <div
+                        @click="addDay(7)"
+                        :class="{ 'bg-mainColor text-white' : isWeekdayNumberIncluded(7) }"
+                        class="cursor-pointer transition-all py-1 px-3 border w-max rounded text-sm lg:text-base text-center flex flex-col justify-center">
+                      <p class="text-xs">21</p>
+                      <p>Вс</p>
+                    </div>
+                    <div class="w-1/2" v-if="getDay(7)">
+                      <p class="text-[10px] mb-1">
+                        Выберите время для окошка
+                      </p>
+                      <div class="flex flex-col gap-2">
+                        <div
+                            v-for="(time, index) in getDay(7).times"
+                            :key="index"
+                            class="block"
+                        >
+                          <div class="flex gap-3">
+                            <input
+                                class="p-2 border w-full rounded-lg"
+                                type="time"
+                                v-model="time.start">
+                            <input
+                                class="p-2 border w-full rounded-lg"
+                                type="time"
+                                v-model="time.end">
+                            <div
+                                @click="addTime(addTime(getDay(7).weekday_number))"
+                                class="bg-mainColor p-2 rounded-lg text-white cursor-pointer">
+                              <IconPlus/>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

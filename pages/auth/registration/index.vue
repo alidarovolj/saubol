@@ -11,6 +11,7 @@ const runtimeConfig = useRuntimeConfig();
 const auth = useAuthStore()
 const user = useUserStore()
 const {result} = storeToRefs(user)
+const cart = useCartStore()
 
 const loading = ref(false);
 
@@ -70,6 +71,7 @@ const sendForm = async () => {
       await auth.initCookieToken(data.value.access_token)
       auth.token = data.value.access_token
       await user.getProfile()
+      await cart.cartList()
       router.push('/')
       notify(true, 'Спасибо за регистрацию!')
       loading.value = false;

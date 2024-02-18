@@ -42,12 +42,20 @@ const daysInCurrentMonth = computed(() => {
   const endDate = getLastDayOfWeek(new Date(year.value, month.value + 1, 0));
   const days = [];
   for (let dt = new Date(startDate); dt <= endDate; dt.setDate(dt.getDate() + 1)) {
-    days.push({
+    const day = {
       day: dt.getDate().toString().padStart(2, '0'),
       month: dt.getMonth(),
       year: dt.getFullYear(),
-      dayOfWeek: dt.getDay()
-    });
+      dayOfWeek: dt.getDay(),
+      schedule: []
+    };
+
+    const scheduleItem = resultDetail.value.schedule.find(item => item.day === `${day.year}-${day.month + 1}-${day.day}`);
+    if (scheduleItem) {
+      day.schedule.push(scheduleItem);
+    }
+
+    days.push(day);
   }
   return days;
 });
@@ -95,20 +103,24 @@ const dayLabels = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
               :key="index"
               class="w-[14%] flex items-center justify-center border-b border-mainColor my-1 hover:bg-mainColor hover:text-white cursor-pointer hover:rounded-t transition-all">
             {{ day.day }}
+            <div v-if="day.schedule.length > 0">
+              <div v-for="(item, itemIndex) in day.schedule" :key="itemIndex">
+                <p class="w-full bg-[#E7F0FF] text-mainColor px-4 py-1">
+                  Day: {{ item.day }}
+                </p>
+                <div class="flex flex-wrap gap-3 px-4 py-5 pt-0">
+                  <p
+                      v-for="(time, timeIndex) in item.times"
+                      :key="timeIndex"
+                      class="bg-[#E7F0FF] text-mainColor px-4 py-1 rounded-lg cursor-pointer hover:bg-mainColor hover:text-white transition-all"
+                  >
+                    {{ time.start }} - {{ time.end }}
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <p class="w-full bg-[#E7F0FF] text-mainColor px-4 py-1">
-        Время приема
-      </p>
-      <div class="flex flex-wrap gap-3 px-4 py-5 pt-0">
-        <p
-            v-for="(item,index) of resultDetail.schedule[0].times"
-            :key="index"
-          class="bg-[#E7F0FF] text-mainColor px-4 py-1 rounded-lg cursor-pointer hover:bg-mainColor hover:text-white transition-all"
-        >
-          {{ item.start }} - {{ item.end }}
-        </p>
       </div>
     </div>
   </div>

@@ -9,7 +9,7 @@ import {
 </script>
 
 <template>
-  <div class="bg-mainColor pt-24 pb-16 relative">
+  <div class="bg-mainColor pt-24 pb-16">
     <img
         class="absolute left-0 top-0 w-full h-full object-cover"
         src="@/assets/img/footer/footer-with-circle.png"

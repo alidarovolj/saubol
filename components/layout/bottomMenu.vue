@@ -1,12 +1,16 @@
 <script setup>
 import {
-  IconClipboard,
+  IconHome,
   IconMenu2,
   IconShoppingCart,
   IconUser
 } from "@tabler/icons-vue"
 
 const route = useRoute()
+
+const auth = useAuthStore()
+auth.initCookieToken()
+const {token} = storeToRefs(auth)
 </script>
 
 <template>
@@ -18,12 +22,12 @@ const route = useRoute()
           to="/"
           class="w-1/4 text-center text-xs py-2"
       >
-        <IconClipboard
+        <IconHome
             size="24"
             class="w-6 h-6 mx-auto mb-1"
         />
         <p>
-          Заказы
+          Главная
         </p>
       </NuxtLink>
       <NuxtLink
@@ -36,11 +40,12 @@ const route = useRoute()
             class="w-6 h-6 mx-auto mb-1"
         />
         <p>
-          Усулги
+          Услуги
         </p>
       </NuxtLink>
       <NuxtLink
-          to="/"
+          v-if="token"
+          to="/cart"
           class="w-1/4 text-center text-xs py-2"
       >
         <IconShoppingCart
@@ -52,7 +57,34 @@ const route = useRoute()
         </p>
       </NuxtLink>
       <NuxtLink
-          to="/"
+          v-else
+          to="/auth/login"
+          class="w-1/4 text-center text-xs py-2"
+      >
+        <IconShoppingCart
+            size="24"
+            class="w-6 h-6 mx-auto mb-1"
+        />
+        <p>
+          Корзина
+        </p>
+      </NuxtLink>
+      <NuxtLink
+          v-if="token"
+          to="/profile"
+          class="w-1/4 text-center text-xs py-2"
+      >
+        <IconUser
+            size="24"
+            class="w-6 h-6 mx-auto mb-1"
+        />
+        <p>
+          Профиль
+        </p>
+      </NuxtLink>
+      <NuxtLink
+          v-else
+          to="/auth/login"
           class="w-1/4 text-center text-xs py-2"
       >
         <IconUser

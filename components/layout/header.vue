@@ -6,6 +6,8 @@ const route = useRoute();
 const user = useUserStore()
 const {result} = storeToRefs(user)
 
+const cart = useCartStore()
+
 const formattedName = computed(() => {
   if (result.value && result.value.data && result.value.data.name) {
     return result.value.data.name.split(' ').map(word => word.charAt(0).toUpperCase()).join('')
@@ -26,42 +28,6 @@ const logoutLocal = async () => {
     <div class="container mx-auto px-4 lg:px-0">
       <div class="flex justify-between items-center">
         <div class="flex items-center">
-          <!--          <div class="block lg:hidden">-->
-          <!--            <div class="drawer">-->
-          <!--              <input-->
-          <!--                  id="my-drawer"-->
-          <!--                  type="checkbox"-->
-          <!--                  class="drawer-toggle"-->
-          <!--              />-->
-          <!--              <div class="drawer-content">-->
-          <!--                <label for="my-drawer">-->
-          <!--                  <IconMenu2-->
-          <!--                      size="20"-->
-          <!--                      class="mr-3"-->
-          <!--                  />-->
-          <!--                </label>-->
-          <!--              </div>-->
-          <!--              <div class="drawer-side">-->
-          <!--                <label-->
-          <!--                    for="my-drawer"-->
-          <!--                    aria-label="close sidebar"-->
-          <!--                    class="drawer-overlay">-->
-
-          <!--                </label>-->
-          <!--                <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">-->
-          <!--                  <li-->
-          <!--                      v-for="(item, index) of links"-->
-          <!--                      :key="index">-->
-          <!--                    <NuxtLink-->
-          <!--                        :to="item.url"-->
-          <!--                        class="text-lg">-->
-          <!--                      {{ item.name }}-->
-          <!--                    </NuxtLink>-->
-          <!--                  </li>-->
-          <!--                </ul>-->
-          <!--              </div>-->
-          <!--            </div>-->
-          <!--          </div>-->
           <NuxtLink to="/">
             <img
                 class="w-7 h-7 lg:w-12 lg:h-12"
@@ -71,7 +37,7 @@ const logoutLocal = async () => {
           </NuxtLink>
         </div>
         <div class="hidden lg:flex gap-10">
-          <NuxtLink to="/">
+          <NuxtLink to="/news">
             Новости
           </NuxtLink>
           <div class="dropdown">
@@ -96,22 +62,22 @@ const logoutLocal = async () => {
                   Мед-услуги
                 </NuxtLink>
               </li>
-              <li>
-                <NuxtLink to="/services/detox">
-                  Процедуры детокс
-                </NuxtLink>
-              </li>
-              <li>
-                <NuxtLink to="/services/tests">
-                  Сдать анализы
-                </NuxtLink>
-              </li>
+<!--              <li>-->
+<!--                <NuxtLink to="/services/detox">-->
+<!--                  Процедуры детокс-->
+<!--                </NuxtLink>-->
+<!--              </li>-->
+<!--              <li>-->
+<!--                <NuxtLink to="/services/tests">-->
+<!--                  Сдать анализы-->
+<!--                </NuxtLink>-->
+<!--              </li>-->
             </ul>
           </div>
-          <NuxtLink to="/">
+          <NuxtLink to="/contacts">
             Контакты
           </NuxtLink>
-          <NuxtLink to="/">
+          <NuxtLink to="/about">
             О нас
           </NuxtLink>
         </div>
@@ -126,12 +92,24 @@ const logoutLocal = async () => {
             <div v-else-if="!result">
               <div class="spinner p-2"></div>
             </div>
-            <div v-else>
+            <div
+                v-else
+                class="relative"
+            >
               <NuxtLink
                   v-if="result.data"
                   to="/cart">
                 <IconShoppingBag class="text-mainColor" size="30"/>
               </NuxtLink>
+              <div v-if="cart.result">
+                <div
+                    v-if="cart.result.count > 0"
+                    class="absolute right-0 top-0 -translate-y-1/2 translate-x-1/2 w-5 h-5 text-xs rounded-full bg-red-500 text-white flex items-center justify-center">
+                  <p class="">
+                    {{ cart.result.count }}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
           <NuxtLink

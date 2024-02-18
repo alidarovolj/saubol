@@ -9,6 +9,9 @@ export const useStaffStore = defineStore('staff', () => {
     const resultRegister = ref(null);
     const resultDoc = ref(null);
     const resultOrderDoc = ref(null);
+    const auth = useAuthStore();
+    auth.initCookieToken()
+    const { token } = storeToRefs(auth)
     const notify = (type, text) => {
         const toast = useNuxtApp().$toast;
         type ? toast.success(text) : toast.error(text);
@@ -35,7 +38,7 @@ export const useStaffStore = defineStore('staff', () => {
             if (data.value) {
                 result.value = data.value
             } else {
-                notify(false, 'Произошла ошибка')
+                result.value = false
             }
         },
         async registerStaff(form) {
@@ -52,7 +55,6 @@ export const useStaffStore = defineStore('staff', () => {
                 resultRegister.value = data.value
             } else {
                 resultRegister.value = false
-                notify(false, 'Произошла ошибка')
             }
         },
         async getStaffDetail(id) {
@@ -65,9 +67,47 @@ export const useStaffStore = defineStore('staff', () => {
                 lazy: true,
             })
             if (data.value) {
+                let daysInRussian = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб']
+                for (let j = 0; j < data.value.schedule.length; j++) {
+                    let date = new Date(data.value.schedule[j].day);
+                    let dayOfWeek = daysInRussian[date.getDay()];
+                    let dayNumber = date.getDate().toString().padStart(2, '0'); // get the day of the month and pad it with 0 if needed
+                    data.value.schedule[j].dayOfWeek = dayOfWeek;
+                    data.value.schedule[j].dayNumber = dayNumber; // add the day number to the schedule object
+
+                    for (let k = 0; k < data.value.schedule[j].times.length; k++) {
+                        let timePeriods = [];
+
+                        let start = new Date(`1970-01-01T${data.value.schedule[j].times[k].start}Z`);
+                        let end = new Date(`1970-01-01T${data.value.schedule[j].times[k].end}Z`);
+                        let duration = data.value.schedule[j].duration;
+
+                        while (start < end) {
+                            let periodEnd = new Date(start.getTime() + duration * 60000);
+                            if (periodEnd > end) {
+                                break;
+                            }
+                            let startHours = start.getUTCHours().toString().padStart(2, '0');
+                            let startMinutes = start.getUTCMinutes().toString().padStart(2, '0');
+                            let startSeconds = start.getUTCSeconds().toString().padStart(2, '0');
+
+                            let endHours = periodEnd.getUTCHours().toString().padStart(2, '0');
+                            let endMinutes = periodEnd.getUTCMinutes().toString().padStart(2, '0');
+                            let endSeconds = periodEnd.getUTCSeconds().toString().padStart(2, '0');
+
+                            timePeriods.push({
+                                start: `${startHours}:${startMinutes}:${startSeconds}`,
+                                end: `${endHours}:${endMinutes}:${endSeconds}`
+                            });
+                            start = periodEnd;
+                        }
+
+                        data.value.schedule[j].times[k].timePeriods = timePeriods;
+                    }
+                }
                 resultDetail.value = data.value
             } else {
-                notify(false, 'Произошла ошибка')
+                resultDetail.value = false
             }
         },
         async specializationList() {
@@ -83,7 +123,6 @@ export const useStaffStore = defineStore('staff', () => {
                 resultSpecs.value = data.value
             } else {
                 resultSpecs.value = false
-                notify(false, 'Произошла ошибка')
             }
         },
         async searchStaff(queryParams = {}) {
@@ -140,7 +179,6 @@ export const useStaffStore = defineStore('staff', () => {
                 resultSearch.value = data.value
             } else {
                 resultSearch.value = false
-                notify(false, 'Произошла ошибка')
             }
         },
         async importDoc(file) {
@@ -160,14 +198,14 @@ export const useStaffStore = defineStore('staff', () => {
                 resultDoc.value = data.value
             } else {
                 resultDoc.value = false
-                notify(false, 'Произошла ошибка')
             }
         },
         async setOrderDoctor(form) {
             const {data} = await useFetch(`/doctor`, {
                 method: 'POST',
                 headers: {
-                    accept: "application/json"
+                    accept: "application/json",
+                    authorization: `Bearer ${token.value}`
                 },
                 body: form,
                 baseURL: runtimeConfig.public.API_LINK,
@@ -177,7 +215,6 @@ export const useStaffStore = defineStore('staff', () => {
                 resultOrderDoc.value = data.value
             } else {
                 resultOrderDoc.value = false
-                notify(false, 'Произошла ошибка')
             }
         },
     }

@@ -1,15 +1,22 @@
 <script setup>
-import {IconClipboard, IconCalendar, IconFile} from "@tabler/icons-vue"
-import Spinner from "~/components/general/spinner.vue";
+import {useVuelidate} from "@vuelidate/core";
+import {required} from "@vuelidate/validators";
 
-const staff = useStaffStore()
-const {resultDetail} = storeToRefs(staff);
+const nurses = useNursesStore()
+const {resultDetail} = storeToRefs(nurses);
 
-const activeTab = ref(0)
+const addresses = useAddressesStore()
+const user = useUserStore()
+
+const cart = useCartStore()
 
 const route = useRoute()
 
+const loading = ref(false)
+
 const pending = ref(true)
+
+const pickedDay = ref(null)
 
 const links = ref([
   {
@@ -21,19 +28,91 @@ const links = ref([
     link: '/services'
   },
   {
-    title: 'Доктора',
-    link: '/services/doctors'
+    title: 'Мед-услуги',
+    link: '/services/med-services'
   }
 ])
 
+const notify = (type, text) => {
+  const toast = useNuxtApp().$toast;
+  type ? toast.success(text) : toast.error(text);
+};
+
+const form = ref({
+  date: {
+    day: "",
+    start: "",
+    end: ""
+  },
+  staff_id: null,
+  service_id: null,
+  price: null,
+  address_id: null
+})
+
+const v$ = useVuelidate({
+  date: {
+    day: {required},
+    start: {required},
+    end: {required}
+  },
+  staff_id: {required},
+  service_id: {required},
+  price: {required},
+  address_id: {required}
+}, form);
+
+const setTime = (index) => {
+  form.value.date.start = resultDetail.value.times[index]
+  form.value.date.end = resultDetail.value.times[index + 1]
+}
+
+const setDay = (index) => {
+  form.value.date.day = resultDetail.value.dates[index].date
+  pickedDay.value = index
+}
+
+const sendForm = async () => {
+  loading.value = true;
+  v$.value.$validate();
+
+  if (v$.value.$error) {
+    loading.value = false;
+    notify(false, 'Заполните все поля')
+    return;
+  }
+
+  await nurses.cartNurses(form.value)
+  if (nurses.resultNurseCart) {
+    await cart.cartList()
+    notify(true, 'Услуга успешно добавлена в корзину')
+    loading.value = false;
+  } else {
+    notify(false, 'Ошибка при добавлении услуги в корзину')
+    loading.value = false;
+  }
+}
+
 onMounted(async () => {
   await nextTick()
-  await staff.getStaffDetail(route.params.id)
+  await nurses.getNurse(route.params.id)
+  await addresses.listAddresses()
+  form.value.price = resultDetail.value.data.price
+  form.value.service_id = resultDetail.value.data.id
+  form.value.staff_id = resultDetail.value.data.id
   links.value.push({
-    title: resultDetail.value.user.name,
-    link: '/services/doctors/' + resultDetail.value.id
+    title: resultDetail.value.data.name,
+    link: '/services/med-services/' + resultDetail.value.data.id
   })
   pending.value = false
+})
+
+watch(form.value, (val) => {
+  if (val.service_id == resultDetail.value.data.id) {
+    form.value.price = resultDetail.value.data.price
+  } else {
+    form.value.price = resultDetail.value.data.premium_service.price
+  }
 })
 </script>
 
@@ -48,111 +127,41 @@ onMounted(async () => {
         <div class="w-full lg:w-2/3 flex flex-col gap-5 mb-5 lg:mb-0">
           <div class="bg-white p-5 rounded-lg flex gap-5 h-full items-center">
             <img
-                v-if="resultDetail.user.img"
+                v-if="resultDetail.img"
                 class="rounded-md h-full w-[130px]"
-                :src="resultDetail.user.img"
+                :src="resultDetail.img"
                 alt=""
             >
             <div v-else>
               <img
-                  v-if="resultDetail.is_female"
                   class="rounded-md h-full w-[130px]"
-                  src="@/assets/img/services/female_doctor.png"
-                  alt=""
-              >
-              <img
-                  v-else
-                  class="rounded-md h-full w-[130px]"
-                  src="@/assets/img/services/male_doctor.png"
+                  src="@/assets/img/services/service.png"
                   alt=""
               >
             </div>
             <div class="flex flex-col gap-3">
               <p class="text-sm lg:text-xl font-semibold">
-                {{ resultDetail.user.name }}
-              </p>
-              <p class="text-[#9A9BA4] text-sm lg:text-lg">
-                75 выполненных вызовов
+                {{ resultDetail.data.name }}
               </p>
               <p class="text-sm lg:text-2xl text-mainColor font-semibold">
-                {{ resultDetail.specialization.name }}
+                {{ resultDetail.data.category.name }}
               </p>
-              <p class="w-max py-1 lg:py-2 px-5 bg-mainColor rounded text-white">
-                Стаж {{ resultDetail.experience }} лет
-              </p>
-            </div>
-          </div>
-          <div class="block lg:flex gap-6">
-            <div
-                @click="activeTab = 0"
-                :class="{ '!bg-mainColor !text-white' : activeTab === 0 }"
-                class="cursor-pointer bg-white text-mainColor flex items-center gap-2 py-2 px-6 rounded-md transition-all mb-3 lg:mb-0">
-              <IconClipboard size="24"/>
-              <p class="">
-                О враче
-              </p>
-            </div>
-            <div
-                @click="activeTab = 1"
-                :class="{ '!bg-mainColor !text-white' : activeTab === 1 }"
-                class="cursor-pointer bg-white text-mainColor flex items-center gap-2 py-2 px-6 rounded-md transition-all">
-              <IconCalendar size="24"/>
-              <p class="">
-                График работы
+              <p class="px-7 py-3 bg-[#E7F0FF] rounded-md text-center w-max font-bold text-mainColor">
+                {{ form.price }} ₸
               </p>
             </div>
           </div>
-          <div
-              v-if="!pending"
-              class="bg-white p-5 rounded-lg h-full">
-            <div v-if="activeTab === 0">
+          <div class="bg-white p-5 rounded-lg h-full">
+            <div>
               <h2 class="text-mainColor text-2xl font-semibold border-b border-mainColor w-full pb-2 mb-5">
-                Специализация
+                Общая информация
               </h2>
-              <ul class="list-disc pl-5 mb-5 text-sm">
-                <li
-                    v-for="(item, index) of resultDetail.specialization_details"
-                    :key="index"
-                >
-                  {{ item }}
-                </li>
-              </ul>
-              <h2 class="text-mainColor text-2xl font-semibold border-b border-mainColor w-full pb-2 mb-5">
-                Опыт работы
-              </h2>
-              <ul class="list-disc pl-5 text-sm mb-5">
-                <li
-                    v-for="(item, index) of resultDetail.job_places"
-                    :key="index"
-                >
-                  <p>{{ item.start_date }} / {{ item.end_date }} - {{ item.job_place }}</p>
-                </li>
-              </ul>
-              <div class="mb-5">
-                <p class="bg-[#E7F0FF] p-3 rounded-md text-sm">
+              <p class="mb-5">{{ resultDetail.data.description }}</p>
+              <div>
+                <p class="bg-[#E7F0FF] p-3 rounded-md text-sm text-red-500">
                   Опытный невролог с выдающимися регалиями приглашает на консультации: высококвалифицированная помощь в
                   диагностике и лечении неврологических состояний.
                 </p>
-              </div>
-              <div class="">
-                <h2 class="text-mainColor text-2xl font-semibold border-b border-mainColor w-full pb-2 mb-5">
-                  Сертификаты
-                </h2>
-                <div class="">
-                  <a
-                      :href="item.path"
-                      v-for="(item, index) of resultDetail.documents"
-                      :key="index"
-                      :class="{ 'mb-3' : resultDetail.documents.length - 1 !== index }"
-                      class="flex items-center cursor-pointer gap-3">
-                    <div class="bg-mainColor text-white p-3 rounded-lg">
-                      <IconFile size="24" />
-                    </div>
-                    <p>
-                      {{ item.filename }}
-                    </p>
-                  </a>
-                </div>
               </div>
             </div>
           </div>
@@ -162,91 +171,169 @@ onMounted(async () => {
             <p class="text-mainColor font-semibold pb-2 border-b border-mainColor text-2xl mb-4">
               Запись
             </p>
-            <div class="block mb-4">
-              <div class="w-full mb-3">
-                <p class="text-sm lg:text-base mb-1">
-                  Дни приема:
-                </p>
-                <div class="flex justify-between">
-                  <!--            :class="{ 'bg-gray-200 cursor-not-allowed' : props.doctor.free_time[0].length === 0 }"-->
-                  <div class="cursor-pointer py-1 px-3 border w-max rounded text-sm lg:text-base text-center">
-                    <p class="text-xs">15</p>
-                    <p>Пн</p>
-                  </div>
-                  <div class="cursor-pointer py-1 px-3 border w-max rounded text-sm lg:text-base text-center">
-                    <p class="text-xs">16</p>
-                    <p>Вт</p>
-                  </div>
-                  <div class="cursor-pointer py-1 px-3 border w-max rounded text-sm lg:text-base text-center">
-                    <p class="text-xs">17</p>
-                    <p>Ср</p>
-                  </div>
-                  <div class="cursor-pointer py-1 px-3 border w-max rounded text-sm lg:text-base text-center">
-                    <p class="text-xs">18</p>
-                    <p>Чт</p>
-                  </div>
-                  <div class="cursor-pointer py-1 px-3 border w-max rounded text-sm lg:text-base text-center">
-                    <p class="text-xs">19</p>
-                    <p>Пт</p>
-                  </div>
-                  <div class="cursor-pointer py-1 px-3 border w-max rounded text-sm lg:text-base text-center">
-                    <p class="text-xs">20</p>
-                    <p>Сб</p>
-                  </div>
-                  <div class="cursor-pointer py-1 px-3 border w-max rounded text-sm lg:text-base text-center">
-                    <p class="text-xs">21</p>
-                    <p>Вс</p>
+            <div class="w-full bg-white rounded-lg">
+              <div class="flex items-center mb-4 gap-5">
+                <img
+                    v-if="resultDetail.data.img"
+                    class="rounded-md h-full w-[130px]"
+                    :src="resultDetail.data.img"
+                    alt=""
+                >
+                <img
+                    v-else
+                    class="rounded-md h-full w-[130px]"
+                    src="@/assets/img/services/male_doctor.png"
+                    alt=""
+                >
+                <div class="block lg:flex items-center justify-between w-full">
+                  <div>
+                    <p class="text-sm lg:text-xl font-semibold mb-3">
+                      {{ resultDetail.data.category.name }}
+                    </p>
+                    <p class="text-mainColor font-semibold mb-2">
+                      {{ resultDetail.data.name }}
+                    </p>
+                    <div class="block">
+                      <p class="text-sm mb-4">
+                        Вид услуги:
+                      </p>
+                      <div class="flex items-center gap-5">
+                        <div class="flex items-center text-sm gap-3">
+                          <input
+                              name="service"
+                              v-model="form.service_id"
+                              :value="resultDetail.data.id"
+                              type="radio">
+                          <p :class="[{'text-red-500': v$.service_id.$error}]">
+                            Стандарт
+                          </p>
+                        </div>
+                        <div class="flex items-center text-sm gap-3">
+                          <input
+                              name="service"
+                              v-model="form.service_id"
+                              :value="resultDetail.data.premium_service.id"
+                              type="radio">
+                          <p :class="[{'text-red-500': v$.service_id.$error}]">
+                            Премиум
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="w-full">
-                <p class="mb-1">
-                  Время
+              <div class="mb-3">
+                <p class="text-sm mb-2">
+                  Цена
                 </p>
-                <input
-                    class="px-3 py-3 border rounded-lg w-full"
-                    type="time"
-                >
+                <p class="px-7 py-3 bg-[#E7F0FF] rounded-md text-center w-max font-bold text-mainColor">
+              <span>
+                {{ form.price }}
+              </span> ₸
+                </p>
               </div>
-            </div>
-            <div class="mb-4">
-              <p class="text-sm mb-3">
-                Вид услуги
-              </p>
-              <div class="flex justify-between">
-                <label class="text-sm lg:text-xl block w-half" for="">
-                  <input type="radio" name="service" value="1">
-                  Консультация
-                </label>
-                <label class="text-sm lg:text-xl block w-half" for="">
-                  <input type="radio" name="service" value="2">
-                  Вызов
-                </label>
-              </div>
-            </div>
-            <div class="mb-4">
-              <p class="text-sm mb-3">
-                Адресная книга <span class="text-red-500">*</span>
-              </p>
-              <div class="block lg:flex justify-between gap-5">
-                <div class="relative w-full lg:w-3/5 mb-2 lg:mb-0">
-                  <select class="px-3 py-3 border rounded-lg w-full">
-                    <option value="">Казахстан, Алматы, проспект Назарбаева, 187Б, 4 этаж</option>
+              <div class="block mb-4">
+                <div class="w-full mb-3">
+                  <p class="text-sm lg:text-base mb-1">
+                    Дни приема:
+                  </p>
+                  <div class="flex justify-between">
+                    <!--            :class="{ 'bg-gray-200 cursor-not-allowed' : props.doctor.free_time[0].length === 0 }"-->
+                    <div
+                        v-for="(it, ind) of resultDetail.dates"
+                        :key="ind"
+                        @click="setDay(ind)"
+                        :class="[{'bg-mainColor text-white': pickedDay === ind}, {'border-red-500': v$.date.day.$error}]"
+                        class="cursor-pointer transition-all py-1 px-3 border w-max rounded text-sm lg:text-base text-center">
+                      <p class="text-xs">{{ it.day_number }}</p>
+                      <p>{{ it.day_of_week }}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="w-full">
+                  <p class="mb-1">
+                    Время
+                  </p>
+                  <select
+                      class="px-3 py-3 border rounded-lg w-full"
+                      :class="{'border-red-500': v$.date.start.$error}"
+                      name=""
+                      id="">
+                    <option :value="null">
+                      Выберите время
+                    </option>
+                    <option
+                        v-for="(it, ind) of resultDetail.times"
+                        :key="ind"
+                        @click="setTime(ind)"
+                        value="">
+                      {{ it }}
+                    </option>
                   </select>
                 </div>
+              </div>
+              <div
+                  v-if="addresses.resultAddresses"
+                  class="mb-4"
+              >
+                <p class="text-sm mb-3">
+                  Адресная книга <span class="text-red-500">*</span>
+                </p>
+                <div class="block lg:flex justify-between gap-5">
+                  <div class="relative w-full lg:w-3/5 mb-2 lg:mb-0">
+                    <select
+                        v-model="form.address_id"
+                        :class="{'border-red-500': v$.address_id.$error}"
+                        class="px-3 py-3 border rounded-lg w-full">
+                      <option :value="null">
+                        Выберите адрес
+                      </option>
+                      <option
+                          v-for="(it, ind) of addresses.resultAddresses.data"
+                          :key="ind"
+                          :value="it.address.id">
+                        {{ it.address.title }}
+                      </option>
+                    </select>
+                  </div>
+                  <button
+                      onclick="create_address.showModal()"
+                      class="border border-mainColor text-sm w-full lg:w-2/5 block rounded-lg text-mainColor py-2 lg:py-0">
+                    Добавить новый адрес
+                  </button>
+                </div>
+              </div>
+              <div class="flex gap-6 border-t border-[#E7F0FF] pt-4">
+                <NuxtLink
+                    :to="'/services/med-services/' + resultDetail.data.id"
+                    class="block w-full py-3 rounded-lg text-mainColor bg-[#E7F0FF] text-center">
+                  Подробнее
+                </NuxtLink>
+                <p
+                    v-if="user.result && !loading"
+                    @click="sendForm"
+                    class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer">
+                  Заказать услугу
+                </p>
+                <p
+                    v-else-if="user.result && loading"
+                    class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer">
+                  <span class="spinner"></span>
+                </p>
                 <button
-                    class="border border-mainColor text-sm w-full lg:w-2/5 block rounded-lg text-mainColor py-2 lg:py-0">
-                  Добавить новый адрес
+                    v-else
+                    onclick="loginModal.showModal()"
+                    class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer">
+                  Заказать услугу
                 </button>
               </div>
             </div>
-            <button class="w-full py-3 rounded-lg text-white bg-mainColor text-center mb-3">
-              В корзину
-            </button>
           </div>
         </div>
       </div>
       <Spinner v-else/>
     </div>
   </div>
+  <LoginModal v-if="!user.result"/>
 </template>

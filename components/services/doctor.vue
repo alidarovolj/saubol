@@ -13,6 +13,7 @@ const props = defineProps({
 const user = useUserStore()
 const {result} = storeToRefs(user)
 const addresses = useAddressesStore()
+const cart = useCartStore()
 
 const staff = useStaffStore()
 
@@ -34,7 +35,7 @@ const form = ref({
     start: "",
     end: ""
   },
-  staff_id: 37,
+  staff_id: null,
   service_id: null,
   price: null,
   address_id: null
@@ -85,10 +86,11 @@ const sendForm = async () => {
 
   await staff.setOrderDoctor(form.value)
   if(staff.resultOrderDoc) {
-    notify(true, 'Заявка успешно отправлена')
+    await cart.cartList()
+    notify(true, 'Услуга успешно добавлена в корзину')
     loading.value = false;
   } else {
-    notify(false, 'Ошибка отправки заявки')
+    notify(false, 'Ошибка при добавлении услуги в корзину')
     loading.value = false;
   }
 }
@@ -96,6 +98,7 @@ const sendForm = async () => {
 onMounted(async () => {
   form.value.price = props.doctor.services[0].price
   form.value.service_id = props.doctor.services[0].service_id
+  form.value.staff_id = props.doctor.id
   if (user.result) {
     form.value.user_id = user.result.data.id
   }
@@ -110,8 +113,7 @@ watch(() => user.result, () => {
 
 <template>
   <div>
-    <form
-        @submit.prevent="sendForm"
+    <div
         class="w-full bg-white rounded-lg p-5"
         style="box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.05);"
     >
@@ -271,20 +273,25 @@ watch(() => user.result, () => {
             class="block w-full py-3 rounded-lg text-mainColor bg-[#E7F0FF] text-center">
           Подробнее
         </NuxtLink>
-        <button
-            v-if="user.result"
-            type="submit"
-            class="w-full py-3 rounded-lg text-white bg-mainColor text-center">
+        <p
+            v-if="user.result && !loading"
+            @click="sendForm"
+            class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer">
           Заказать услугу
-        </button>
+        </p>
+        <p
+            v-else-if="user.result && loading"
+            class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer">
+          <span class="spinner"></span>
+        </p>
         <button
             v-else
             onclick="loginModal.showModal()"
-            class="w-full py-3 rounded-lg text-white bg-mainColor text-center">
+            class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer">
           Заказать услугу
         </button>
       </div>
-    </form>
+    </div>
   </div>
   <LoginModal v-if="!user.result"/>
   <CreateAddress />

@@ -23,7 +23,6 @@ export const useJobsStore = defineStore('jobs', () => {
                 result.value = data.value
             } else {
                 result.value = false
-                notify(false, 'Произошла ошибка')
             }
         }
     }

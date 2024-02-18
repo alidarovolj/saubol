@@ -6,6 +6,10 @@ const route = useRoute()
 const user = useUserStore()
 const {result} = storeToRefs(user)
 
+const auth = useAuthStore()
+auth.initCookieToken()
+const {token} = storeToRefs(auth)
+
 onMounted(async () => {
   await nextTick()
   await user.getProfile()

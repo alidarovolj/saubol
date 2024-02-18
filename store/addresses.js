@@ -32,7 +32,6 @@ export const useAddressesStore = defineStore('addresses', () => {
                 resultAddresses.value = data.value
             } else {
                 resultAddresses.value = false
-                notify(false, 'Произошла ошибка')
             }
         },
         async createAddress(form) {
@@ -50,7 +49,6 @@ export const useAddressesStore = defineStore('addresses', () => {
                 resultCreate.value = data.value
             } else {
                 resultCreate.value = false
-                notify(false, 'Произошла ошибка')
             }
         },
     }

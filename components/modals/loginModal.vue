@@ -12,6 +12,7 @@ const auth = useAuthStore()
 const user = useUserStore()
 const {result} = storeToRefs(user)
 const loading = ref(false);
+const addresses = useAddressesStore()
 
 const switchVisibility = () => {
   passwordFieldType.value =
@@ -53,6 +54,7 @@ const sendForm = async () => {
     await auth.initCookieToken(data.value.access_token)
     auth.token = data.value.access_token
     await user.getProfile()
+    await addresses.listAddresses()
     loading.value = false;
     loginModal.close()
     notify(true, 'Спасибо за авторизацию!')

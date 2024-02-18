@@ -36,6 +36,7 @@ export const useUserStore = defineStore('user', () => {
                 result.value = data.value
             } else {
                 result.value = false
+                token.value = null
             }
         },
         async logoutProfile() {
@@ -52,7 +53,6 @@ export const useUserStore = defineStore('user', () => {
                 resultLogout.value = data.value
             } else {
                 resultLogout.value = false
-                notify(false, 'Произошла ошибка')
             }
         },
         async setImage(file) {
@@ -73,7 +73,6 @@ export const useUserStore = defineStore('user', () => {
                 resultImage.value = data.value
             } else {
                 resultImage.value = false
-                notify(false, 'Произошла ошибка')
             }
         },
         async updateProfile(form) {
@@ -91,7 +90,6 @@ export const useUserStore = defineStore('user', () => {
                 resultUpdate.value = data.value
             } else {
                 resultUpdate.value = false
-                notify(false, 'Произошла ошибка')
             }
         }
     }

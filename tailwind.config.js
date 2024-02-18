@@ -22,6 +22,7 @@ export default {
             },
             width: {
                 fifth: "19%",
+                third: "32%",
                 half: "49.5%",
                 fourth: "24%",
                 seventh: "14%"

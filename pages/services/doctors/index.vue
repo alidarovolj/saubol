@@ -16,7 +16,7 @@ const filters = ref({
   'filters[specialization_id]': null,
   'fields[user.name]': null,
   'filters[is_female]': null,
-  'start_time': null,
+  // 'start_time': null,
   'filters[schedule.day]': null,
 })
 
@@ -139,16 +139,47 @@ useHead({
               >
             </div>
           </div>
+          <!--          <div class="w-full lg:w-fourth mb-4 lg:mb-0">-->
+          <!--            <p class="text-sm mb-2">-->
+          <!--              Время-->
+          <!--            </p>-->
+          <!--            <div class="relative">-->
+          <!--              <input-->
+          <!--                  v-model="filters.start_time"-->
+          <!--                  class="px-3 py-3 border  rounded-lg w-full"-->
+          <!--                  type="time"-->
+          <!--              >-->
+          <!--            </div>-->
+          <!--          </div>-->
           <div class="w-full lg:w-fourth mb-4 lg:mb-0">
             <p class="text-sm mb-2">
-              Время
+              Пол
             </p>
-            <div class="relative">
-              <input
-                  v-model="filters.start_time"
-                  class="px-3 py-3 border  rounded-lg w-full"
-                  type="time"
-              >
+            <div class="relative flex h-[50px] gap-3">
+              <div class="flex items-center gap-2">
+                <input
+                    v-model="filters['filters[is_female]']"
+                    :value="true"
+                    name="sex"
+                    class="px-3 py-3 border  rounded-lg w-full"
+                    type="radio"
+                >
+                <p>
+                  Женский
+                </p>
+              </div>
+              <div class="flex items-center gap-2">
+                <input
+                    v-model="filters['filters[is_female]']"
+                    :value="false"
+                    name="sex"
+                    class="px-3 py-3 border  rounded-lg w-full"
+                    type="radio"
+                >
+                <p>
+                  Мужской
+                </p>
+              </div>
             </div>
           </div>
           <div class="w-full lg:w-fourth">

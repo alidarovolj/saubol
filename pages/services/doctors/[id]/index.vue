@@ -2,15 +2,66 @@
 import {IconFile} from "@tabler/icons-vue"
 import Spinner from "~/components/general/spinner.vue";
 import {useUserStore} from "~/store/user.js";
+import {useVuelidate} from "@vuelidate/core";
+import {required} from "@vuelidate/validators";
+import {useCartStore} from "~/store/cart.js";
 
 const staff = useStaffStore()
 const {resultDetail} = storeToRefs(staff);
 const user = useUserStore()
 const {result} = storeToRefs(user)
+const addresses = useAddressesStore()
+const cart = useCartStore()
 
 const route = useRoute()
 
+const loading = ref(false)
+
 const pending = ref(true)
+const pickedDay = ref("")
+
+const pickedTime = ref([])
+
+const notify = (type, text) => {
+  const toast = useNuxtApp().$toast;
+  type ? toast.success(text) : toast.error(text);
+};
+
+const form = ref({
+  user_id: null,
+  date: {
+    day: "",
+    start: "",
+    end: ""
+  },
+  staff_id: 37,
+  service_id: null,
+  price: null,
+  address_id: null
+})
+
+const v$ = useVuelidate({
+  user_id: {required},
+  date: {
+    day: {required},
+    start: {required},
+    end: {required}
+  },
+  staff_id: {required},
+  service_id: {required},
+  price: {required},
+  address_id: {required}
+}, form);
+
+const changeService = (val) => {
+  form.value.service_id = val.service_id
+  form.value.price = val.price
+}
+
+const setTime = (e) => {
+  form.value.date.start = e.start
+  form.value.date.end = e.end
+}
 
 const links = ref([
   {
@@ -29,6 +80,37 @@ const links = ref([
 
 const sliceNumber = ref(5)
 
+const sendForm = async () => {
+  loading.value = true;
+  v$.value.$validate();
+
+  if (v$.value.$error) {
+    loading.value = false;
+    notify(false, 'Заполните все поля')
+    return;
+  }
+
+  await staff.setOrderDoctor(form.value)
+  if (staff.resultOrderDoc) {
+    await cart.cartList()
+    notify(true, 'Услуга успешно добавлена в корзину')
+    loading.value = false;
+  } else {
+    notify(false, 'Ошибка при добавлении услуги в корзину')
+    loading.value = false;
+  }
+}
+
+const setPickDay = (day) => {
+  pickedDay.value = day
+  form.value.date.day = day.day
+  for (let i = 0; i < pickedDay.value.times.length; i++) {
+    for (let j = 0; j < pickedDay.value.times[i].timePeriods.length; j++) {
+      pickedTime.value.push(pickedDay.value.times[i].timePeriods[j])
+    }
+  }
+}
+
 onMounted(async () => {
   await nextTick()
   await staff.getStaffDetail(route.params.id)
@@ -36,7 +118,19 @@ onMounted(async () => {
     title: resultDetail.value.user.name,
     link: '/services/doctors/' + resultDetail.value.id
   })
+  form.value.price = resultDetail.value.services[0].price
+  form.value.service_id = resultDetail.value.services[0].service_id
+  if (user.result) {
+    await addresses.listAddresses()
+    form.value.user_id = user.result.data.id
+  }
   pending.value = false
+})
+
+watch(() => user.result, () => {
+  if (user.result) {
+    form.value.user_id = user.result.data.id
+  }
 })
 </script>
 
@@ -122,10 +216,11 @@ onMounted(async () => {
                   <p>{{ item.start_date }} / {{ item.end_date }} - {{ item.job_place }}</p>
                 </li>
               </ul>
-              <div class="mb-5">
+              <div
+                  v-if="resultDetail.additional_info"
+                  class="mb-5">
                 <p class="bg-[#E7F0FF] p-3 rounded-md text-sm">
-                  Опытный невролог с выдающимися регалиями приглашает на консультации: высококвалифицированная помощь в
-                  диагностике и лечении неврологических состояний.
+                  {{ resultDetail.additional_info }}
                 </p>
               </div>
               <div class="">
@@ -162,43 +257,130 @@ onMounted(async () => {
               <p class="text-sm mb-3">
                 Вид услуги
               </p>
-              <div class="flex justify-between">
-                <label class="text-sm lg:text-base block w-half" for="">
-                  <input type="radio" name="service" value="1">
-                  Консультация
-                </label>
-                <label class="text-sm lg:text-base block w-half" for="">
-                  <input type="radio" name="service" value="2">
-                  Вызов
+              <div class="flex gap-5">
+                <label
+                    @click="changeService(it)"
+                    v-for="(it, ind) of resultDetail.services"
+                    :key="ind"
+                    :class="{'border-red-500': v$.service_id.$error}"
+                    class="text-sm lg:text-base w-max flex items-center gap-2 cursor-pointer"
+                    for="">
+                  <input
+                      v-model="form.service_id"
+                      type="radio"
+                      class="w-5 h-5"
+                      name="service"
+                      :value="it.service_id">
+                  <p class="w-max">
+                    {{ it.name }}
+                  </p>
                 </label>
               </div>
             </div>
             <div
-                v-if="result"
-                class="my-4">
+                v-if="addresses.resultAddresses"
+                class="mb-4"
+            >
               <p class="text-sm mb-3">
                 Адресная книга <span class="text-red-500">*</span>
               </p>
               <div class="block lg:flex justify-between gap-5">
                 <div class="relative w-full lg:w-3/5 mb-2 lg:mb-0">
-                  <select class="px-3 py-3 border rounded-lg w-full">
-                    <option value="">Казахстан, Алматы, проспект Назарбаева, 187Б, 4 этаж</option>
+                  <select
+                      v-model="form.address_id"
+                      :class="{'border-red-500': v$.address_id.$error}"
+                      class="px-3 py-3 border rounded-lg w-full">
+                    <option :value="null">
+                      Выберите адрес
+                    </option>
+                    <option
+                        v-for="(it, ind) of addresses.resultAddresses.data"
+                        :key="ind"
+                        :value="it.address.id">
+                      {{ it.address.title }}
+                    </option>
                   </select>
                 </div>
                 <button
+                    onclick="create_address.showModal()"
                     class="border border-mainColor text-sm w-full lg:w-2/5 block rounded-lg text-mainColor py-2 lg:py-0">
                   Добавить новый адрес
                 </button>
               </div>
             </div>
+            <div class="block lg:flex justify-between gap-4 mb-4">
+              <div class="w-full lg:w-3/5 mb-3 lg:mb-0">
+                <p class="text-sm lg:text-base mb-1">
+                  Дни приема:
+                </p>
+                <div class="flex gap-2">
+                  <div
+                      @click="setPickDay(it)"
+                      v-for="(it, ind) of resultDetail.schedule"
+                      :key="ind"
+                      :class="[{ 'bg-mainColor text-white' : pickedDay.id === it.id }, {'border-red-500': v$.date.day.$error}]"
+                      class="cursor-pointer py-1 px-3 border w-max rounded text-sm lg:text-base text-center leading-none">
+                    <p class="text-xs">
+                      {{ it.weekday }}
+                    </p>
+                    <div>
+                      <p class="text-xs">
+                        {{ it.dayNumber }}
+                      </p>
+                      <p class="uppercase">
+                        {{ it.dayOfWeek }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="w-full lg:w-2/5">
+                <p class="mb-1">
+                  Время
+                </p>
+                <select
+                    :disabled="pickedTime.length <= 0"
+                    class="px-3 py-3 border rounded-lg w-full">
+                  <option :value="null">
+                    Выберите время
+                  </option>
+                  <option
+                      @click="setTime(it)"
+                      v-for="(it, ind) of pickedTime"
+                      :key="ind"
+                      :class="{'border-red-500': v$.date.start.$error || v$.date.end.$error}"
+                      :value="it.id">
+                    {{ it.start }} - {{ it.end }}
+                  </option>
+                </select>
+              </div>
+            </div>
           </div>
-          <Schedule />
-          <button class="w-full py-3 rounded-lg text-white bg-mainColor text-center mb-3">
-            В корзину
-          </button>
+          <!--          <Schedule />-->
+          <div class="flex gap-6 border-t border-[#E7F0FF] pt-4">
+            <p
+                v-if="user.result && !loading"
+                @click="sendForm"
+                class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer">
+              Заказать услугу
+            </p>
+            <p
+                v-else-if="user.result && loading"
+                class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer">
+              <span class="spinner"></span>
+            </p>
+            <button
+                v-else
+                onclick="loginModal.showModal()"
+                class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer">
+              Заказать услугу
+            </button>
+          </div>
         </div>
       </div>
       <Spinner v-else/>
     </div>
   </div>
+  <LoginModal v-if="!user.result"/>
+  <CreateAddress/>
 </template>

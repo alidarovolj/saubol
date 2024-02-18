@@ -31,7 +31,6 @@ export const useVerificationStore = defineStore('verification', () => {
                 result.value = data.value
             } else {
                 result.value = false
-                notify(false, 'Произошла ошибка')
             }
         },
         async validatePhone(form) {
@@ -49,7 +48,6 @@ export const useVerificationStore = defineStore('verification', () => {
                 resultValidation.value = data.value
             } else {
                 resultValidation.value = false
-                notify(false, 'Произошла ошибка')
             }
         }
     }

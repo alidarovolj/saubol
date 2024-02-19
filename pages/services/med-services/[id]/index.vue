@@ -157,11 +157,17 @@ watch(form.value, (val) => {
                 Общая информация
               </h2>
               <p class="mb-5">{{ resultDetail.data.description }}</p>
-              <div>
-                <p class="bg-[#E7F0FF] p-3 rounded-md text-sm text-red-500">
-                  Опытный невролог с выдающимися регалиями приглашает на консультации: высококвалифицированная помощь в
-                  диагностике и лечении неврологических состояний.
-                </p>
+              <div
+                  v-if="resultDetail.data.specialization_details.length > 0"
+                  class="bg-[#E7F0FF] p-3 pl-8 rounded-md text-sm">
+                <ul class="list-disc">
+                  <li
+                      v-for="(item, index) of resultDetail.data.specialization_details"
+                      :key="index"
+                      class="">
+                    {{ item }}
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
@@ -305,11 +311,6 @@ watch(form.value, (val) => {
                 </div>
               </div>
               <div class="flex gap-6 border-t border-[#E7F0FF] pt-4">
-                <NuxtLink
-                    :to="'/services/med-services/' + resultDetail.data.id"
-                    class="block w-full py-3 rounded-lg text-mainColor bg-[#E7F0FF] text-center">
-                  Подробнее
-                </NuxtLink>
                 <p
                     v-if="user.result && !loading"
                     @click="sendForm"

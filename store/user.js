@@ -5,8 +5,8 @@ export const useUserStore = defineStore('user', () => {
     const runtimeConfig = useRuntimeConfig();
 
     const auth = useAuthStore()
-    auth.initCookieToken()
-    const {token} = storeToRefs(auth)
+    auth.initCookieAdminToken()
+    const {adminToken} = storeToRefs(auth)
 
     const result = ref(null);
     const resultLogout = ref(null);
@@ -27,7 +27,7 @@ export const useUserStore = defineStore('user', () => {
                 method: 'GET',
                 headers: {
                     accept: "application/json",
-                    authorization: `Bearer ${token.value}`,
+                    authorization: `Bearer ${adminToken.value}`,
                 },
                 baseURL: runtimeConfig.public.API_LINK,
                 lazy: true,
@@ -44,7 +44,7 @@ export const useUserStore = defineStore('user', () => {
                 method: 'POST',
                 headers: {
                     accept: "application/json",
-                    authorization: `Bearer ${token.value}`,
+                    authorization: `Bearer ${adminToken.value}`,
                 },
                 baseURL: runtimeConfig.public.API_LINK,
                 lazy: true,
@@ -63,7 +63,7 @@ export const useUserStore = defineStore('user', () => {
                 method: 'POST',
                 headers: {
                     accept: "application/json",
-                    authorization: `Bearer ${token.value}`,
+                    authorization: `Bearer ${adminToken.value}`,
                 },
                 body: formData,
                 baseURL: runtimeConfig.public.API_LINK,
@@ -80,7 +80,7 @@ export const useUserStore = defineStore('user', () => {
                 method: 'PUT',
                 headers: {
                     accept: "application/json",
-                    authorization: `Bearer ${token.value}`,
+                    authorization: `Bearer ${adminToken.value}`,
                 },
                 body: JSON.stringify(form),
                 baseURL: runtimeConfig.public.API_LINK,

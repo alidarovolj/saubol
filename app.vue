@@ -27,7 +27,7 @@ useHead({
 </script>
 
 <template>
-  <div>
+  <div v-if="route.fullPath !== '/'">
     <NuxtLayout :name="layout">
       <NuxtLoadingIndicator color="#3E46FF"/>
       <DelayHydration>
@@ -35,5 +35,11 @@ useHead({
         <BottomMenu v-if="!route.fullPath.includes('/auth')" />
       </DelayHydration>
     </NuxtLayout>
+  </div>
+  <div v-else>
+    <DelayHydration>
+      <NuxtPage/>
+      <BottomMenu v-if="!route.fullPath.includes('/auth')" />
+    </DelayHydration>
   </div>
 </template>

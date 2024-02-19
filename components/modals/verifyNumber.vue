@@ -8,6 +8,8 @@ const user = useUserStore()
 
 const loading = ref(false)
 
+const time_left = ref(30)
+
 const props = defineProps({
   numPhone: {
     type: String,
@@ -33,6 +35,8 @@ const localVerification = async () => {
   await verification.sendMessage(form.value)
   if (result !== false) {
     notify(true, 'Письмо отправлено')
+    time_left.value = 30
+    startTimer()
   }
   loading.value = false
 }
@@ -46,6 +50,18 @@ const setVerificationCode = async () => {
   await user.getProfile()
   loading.value = false
   verificationModal.close()
+}
+
+let intervalId;
+
+const startTimer = () => {
+  time_left.value = 30
+  intervalId = setInterval(() => {
+    time_left.value--
+    if (time_left.value === 0) {
+      clearInterval(intervalId)
+    }
+  }, 1000)
 }
 
 onMounted(() => {
@@ -109,6 +125,18 @@ watch(() => props.numPhone, (val) => {
             />
           </div>
         </div>
+        <p
+            class="text-sm text-gray-400 mt-2"
+            v-if="time_left > 0">
+          Отправить код повторно можно будет через {{ time_left }} секунд
+        </p>
+        <p
+            class="text-sm text-mainColor mt-2 cursor-pointer"
+            v-else
+            @click="localVerification"
+        >
+          Отправить код повторно
+        </p>
         <button
             v-if="loading === false"
             type="submit"

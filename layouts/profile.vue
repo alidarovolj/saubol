@@ -45,19 +45,19 @@ onMounted(async () => {
           <IconUserCircle size="30"/>
           <p>Мои профиль</p>
         </NuxtLink>
-        <!--        <NuxtLink-->
-        <!--            class="flex items-center hover:bg-[#ECEDFF] hover:text-mainColor gap-3 p-3 rounded-lg transition-all"-->
-        <!--            :class="{ 'bg-[#ECEDFF] text-mainColor' : route.fullPath === '/tests' }"-->
-        <!--            to="/">-->
-        <!--          <IconVaccine size="30"/>-->
-        <!--          <p>Анализы</p>-->
-        <!--        </NuxtLink>-->
         <NuxtLink
             class="flex items-center hover:bg-[#ECEDFF] hover:text-mainColor gap-3 p-3 rounded-lg transition-all"
-            :class="{ 'bg-[#ECEDFF] text-mainColor' : route.fullPath === '/addresses' }"
+            :class="{ 'bg-[#ECEDFF] text-mainColor' : route.fullPath === '/profile/orders' }"
+            to="/profile/orders">
+          <IconUserCircle size="30"/>
+          <p>Мои заказы</p>
+        </NuxtLink>
+        <NuxtLink
+            class="flex items-center hover:bg-[#ECEDFF] hover:text-mainColor gap-3 p-3 rounded-lg transition-all"
+            :class="{ 'bg-[#ECEDFF] text-mainColor' : route.fullPath === '/profile/addresses' }"
             to="/profile/addresses">
           <IconAddressBook size="30"/>
-          <p>Адреса</p>
+          <p>Мои адреса</p>
         </NuxtLink>
         <div
             @click="logoutLocal"

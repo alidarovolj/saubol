@@ -82,8 +82,10 @@ onMounted(async () => {
   await user.getProfile()
   form.value.name = result.value.data.name
   form.value.iin = result.value.data.iin
-  form.value.height = result.value.data.user_data.height
-  form.value.weight = result.value.data.user_data.weight
+  if (result.value.data.user_data) {
+    form.value.height = result.value.data.user_data.height
+    form.value.weight = result.value.data.user_data.weight
+  }
 })
 
 useHead({
@@ -155,7 +157,7 @@ useHead({
                   <div class="flex items-center justify-between text-mainColor w-full">
                     <div
                         v-if="editMode"
-                      class="w-1/2"
+                        class="w-1/2"
                     >
                       <input
                           v-model="form.name"
@@ -287,11 +289,19 @@ useHead({
                             class="text-red-500 text-xs">
                           Пожалуйста заполните данное поле
                         </p>
-                        <p
-                            v-if="!editMode"
-                            class="font-medium">
-                          {{ result.data.user_data.height }} см
-                        </p>
+                        <div v-if="result.data.user_data">
+                          <p
+                              v-if="!editMode"
+                              class="font-medium">
+                            {{ result.data.user_data.height }} см
+                          </p>
+                        </div>
+                        <div
+                            v-else
+                            class="text-red-500"
+                        >
+                          Необходимо заполнить
+                        </div>
                       </div>
                     </div>
                     <div class="mb-3 lg:mb-0 w-full lg:w-1/3 bg-[#ECEDFF] p-3 rounded-lg flex items-center gap-3">
@@ -316,11 +326,19 @@ useHead({
                             class="text-red-500 text-xs">
                           Пожалуйста заполните данное поле
                         </p>
-                        <p
-                            v-if="!editMode"
-                            class="font-medium">
-                          {{ result.data.user_data.weight }} кг
-                        </p>
+                        <div v-if="result.data.user_data">
+                          <p
+                              v-if="!editMode"
+                              class="font-medium">
+                            {{ result.data.user_data.weight }} кг
+                          </p>
+                        </div>
+                        <div
+                            v-else
+                            class="text-red-500"
+                        >
+                          Необходимо заполнить
+                        </div>
                       </div>
                     </div>
                     <div class="w-full lg:w-1/3 bg-[#ECEDFF] p-3 rounded-lg flex items-center gap-3">
@@ -332,8 +350,16 @@ useHead({
                         <p class="text-[#9A9BA4] text-sm">
                           ИМТ
                         </p>
-                        <p class="font-medium">
+                        <p
+                            v-if="doneIMT"
+                            class="font-medium">
                           {{ doneIMT }}
+                        </p>
+                        <p
+                            v-else
+                            class="text-red-500"
+                        >
+                          Заполните вес и рост
                         </p>
                       </div>
                     </div>

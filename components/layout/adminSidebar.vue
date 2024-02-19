@@ -50,7 +50,7 @@ const links = [
   <div class="h-full">
     <div class="w-full h-full flex flex-col justify-between border-r p-10 pr-6">
       <div>
-        <NuxtLink class="text-2xl font-bold mb-10 block" to="/admins">
+        <NuxtLink class="text-2xl font-bold mb-10 block" to="/admin">
           <img alt="" class="mb-12 w-full" src="@/assets/img/main-color-logo.svg">
         </NuxtLink>
         <div class="flex flex-col adminLinks">
@@ -67,7 +67,7 @@ const links = [
       <div>
         <div class="dropdown dropdown-top mb-6">
           <div
-              class=" border px-4 py-2 rounded-lg hover:bg-mainColor hover:text-white transition-all"
+              class="text-sm border px-4 py-2 rounded-lg hover:bg-mainColor hover:text-white transition-all"
               role="button"
               tabindex="0">
             <div v-if="result">

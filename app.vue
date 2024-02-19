@@ -1,5 +1,4 @@
 <script setup>
-import BottomMenu from "~/components/layout/bottomMenu.vue";
 import {useAuthStore} from "~/store/auth.js";
 
 const layout = ref("default");
@@ -38,7 +37,6 @@ useHead({
   <div v-else>
     <DelayHydration>
       <NuxtPage/>
-      <BottomMenu v-if="!route.fullPath.includes('/auth')" />
     </DelayHydration>
   </div>
 </template>

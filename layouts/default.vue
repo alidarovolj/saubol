@@ -4,21 +4,28 @@ import AdminSidebar from "~/components/layout/adminSidebar.vue";
 const user = useUserStore()
 const {result} = storeToRefs(user)
 
+const router = useRouter()
+
 const auth = useAuthStore()
 auth.initCookieAdminToken()
 const {adminToken} = storeToRefs(auth)
 
 onMounted(async () => {
   await nextTick()
-  await user.getProfile()
+  if(adminToken.value) {
+    await user.getProfile()
+  } else {
+    router.push('/')
+  }
 })
 </script>
 
 <template>
   <div class="h-screen">
-    <div class="flex h-full gap-5">
+    <div class="flex h-full">
       <AdminSidebar class="hidden lg:block w-[260px] min-w-[260px] h-screen"/>
-      <div class="relative pt-10 overflow-y-auto w-full">
+      <AdminMobSiderbar class="block lg:hidden" />
+      <div class="relative pt-10 overflow-y-auto w-full px-5 mt-10 lg:mt-0">
         <div class="relative z-30">
           <slot/>
         </div>

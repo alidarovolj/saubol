@@ -20,6 +20,18 @@ const links = [
     link: "/admin"
   },
   {
+    title: "Пользователи",
+    link: "/users"
+  },
+  {
+    title: "Доктора",
+    link: "/doctors"
+  },
+  {
+    title: "Мед-сестры",
+    link: "/nurses"
+  },
+  {
     title: "Заказы",
     link: "/orders"
   },
@@ -46,7 +58,7 @@ const links = [
               v-for="(link, index) in links"
               :key="index"
               :to="link.link"
-              class="text-sm font-bold mb-3 block uppercase p-3 hover:bg-[#F0F0F0] transition-all rounded-lg"
+              class="text-sm mb-3 font-medium block uppercase p-3 hover:bg-[#F0F0F0] transition-all rounded-lg"
           >
             {{ link.title }}
           </NuxtLink>
@@ -54,7 +66,10 @@ const links = [
       </div>
       <div>
         <div class="dropdown dropdown-top mb-6">
-          <div role="button" tabindex="0">
+          <div
+              class=" border px-4 py-2 rounded-lg hover:bg-mainColor hover:text-white transition-all"
+              role="button"
+              tabindex="0">
             <div v-if="result">
               <p class="text-sm font-bold">
                 {{ result.data.name }}
@@ -64,7 +79,8 @@ const links = [
               </p>
             </div>
           </div>
-          <ul class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 mb-4"
+          <ul
+              class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 mb-4 text-black"
               tabindex="0">
             <li @click="logoutLocal"><a>Выйти</a></li>
           </ul>

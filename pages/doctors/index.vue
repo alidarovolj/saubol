@@ -2,29 +2,30 @@
 import {IconDots, IconCheck, IconX} from "@tabler/icons-vue"
 
 const admin = useAdminStore()
-const {resultAdmins} = storeToRefs(admin)
+const {resultDoctors} = storeToRefs(admin)
 
 const pickedAdmin = ref(null)
 
 onMounted(async () => {
   await nextTick()
-  await admin.adminAdmins()
+  await admin.adminDoctors()
 })
 </script>
 
 <template>
   <div class="w-full">
     <h1 class="text-4xl font-semibold mb-5">
-      Админы
+      Доктора
     </h1>
     <div
-        v-if="resultAdmins"
+        v-if="resultDoctors"
         class="overflow-x-auto lg:overflow-hidden">
       <table class="table table-xs lg:table-sm z-2">
         <thead class="font-bold text-xs uppercase">
         <tr class="border-t">
           <th class="border-r">ID</th>
           <th class="border-r">Имя</th>
+          <th class="border-r">ИИН</th>
           <th class="border-r">Email</th>
           <th class="border-r">Телефон</th>
           <th>Действия</th>
@@ -33,7 +34,7 @@ onMounted(async () => {
         <tbody class="text-xs">
         <tr
             :class="{ 'bg-cardBg': index % 2 === 1 }"
-            v-for="(item, index) of resultAdmins.data"
+            v-for="(item, index) of resultDoctors.data"
             :key="index"
         >
           <td class="border-r">
@@ -44,6 +45,11 @@ onMounted(async () => {
           <td class="border-r">
             <p class="mb-1 font-semibold">
               {{ item.name }}
+            </p>
+          </td>
+          <td class="border-r">
+            <p class="mb-1">
+              {{ item.iin }}
             </p>
           </td>
           <td class="border-r">

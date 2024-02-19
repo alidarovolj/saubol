@@ -15,7 +15,7 @@ onMounted(async () => {
 <template>
   <div class="w-full">
     <h1 class="text-4xl font-semibold mb-5">
-      Orders
+      Заказы
     </h1>
     <div
         v-if="resultOrders"
@@ -25,7 +25,7 @@ onMounted(async () => {
         <tr class="border-t">
           <th class="border-r">Номер заказа</th>
           <th class="border-r">Пользователь</th>
-          <th class="border-r">Создан</th>
+          <th class="border-r">Дата создания</th>
           <th class="border-r">Статус</th>
           <th>Действия</th>
         </tr>
@@ -37,7 +37,7 @@ onMounted(async () => {
             :key="index"
         >
           <td class="border-r">
-            <p class="mb-1">
+            <p class="mb-1 font-semibold">
               #{{ item.order_number }}
             </p>
           </td>

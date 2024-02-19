@@ -36,7 +36,7 @@ export const useUserStore = defineStore('user', () => {
                 result.value = data.value
             } else {
                 result.value = false
-                token.value = null
+                adminToken.value = null
             }
         },
         async logoutProfile() {

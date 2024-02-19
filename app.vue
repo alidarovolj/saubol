@@ -32,7 +32,6 @@ useHead({
       <NuxtLoadingIndicator color="#3E46FF"/>
       <DelayHydration>
         <NuxtPage/>
-        <BottomMenu v-if="!route.fullPath.includes('/auth')" />
       </DelayHydration>
     </NuxtLayout>
   </div>

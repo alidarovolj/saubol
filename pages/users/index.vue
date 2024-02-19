@@ -2,23 +2,23 @@
 import {IconDots, IconCheck, IconX} from "@tabler/icons-vue"
 
 const admin = useAdminStore()
-const {resultAdmins} = storeToRefs(admin)
+const {resultUsers} = storeToRefs(admin)
 
 const pickedAdmin = ref(null)
 
 onMounted(async () => {
   await nextTick()
-  await admin.adminAdmins()
+  await admin.adminUsers()
 })
 </script>
 
 <template>
   <div class="w-full">
     <h1 class="text-4xl font-semibold mb-5">
-      Админы
+      Пользователи
     </h1>
     <div
-        v-if="resultAdmins"
+        v-if="resultUsers"
         class="overflow-x-auto lg:overflow-hidden">
       <table class="table table-xs lg:table-sm z-2">
         <thead class="font-bold text-xs uppercase">
@@ -33,7 +33,7 @@ onMounted(async () => {
         <tbody class="text-xs">
         <tr
             :class="{ 'bg-cardBg': index % 2 === 1 }"
-            v-for="(item, index) of resultAdmins.data"
+            v-for="(item, index) of resultUsers.data"
             :key="index"
         >
           <td class="border-r">

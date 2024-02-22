@@ -56,17 +56,20 @@ onMounted(async () => {
           alt="">
       <Header/>
     </div>
-    <div class="relative z-30">
+    <div class="relative z-30 pb-10">
       <slot/>
     </div>
-    <div v-if="!route.fullPath.includes('/auth')">
+    <div v-if="!route.fullPath.includes('/auth') && !route.fullPath.includes('/become-member')">
       <BecomeMember/>
+      <div>
+        <BannersCarousel />
+      </div>
       <img
           class="absolute left-0 bottom-0 h-auto w-full"
           src="@/assets/img/member/lines.png"
           alt=""
       >
-      <News/>
+      <News v-if="!route.fullPath.includes('/news')"/>
     </div>
     <Footer/>
   </div>

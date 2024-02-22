@@ -227,19 +227,18 @@ watch(() => user.result, () => {
                 <h2 class="text-mainColor text-2xl font-semibold border-b border-mainColor w-full pb-2 mb-5">
                   Сертификаты
                 </h2>
-                <div class="">
+                <div class="flex gap-3 flex-wrap">
                   <a
                       :href="item.path"
                       v-for="(item, index) of resultDetail.documents"
                       :key="index"
+                      target="_blank"
                       :class="{ 'mb-3' : resultDetail.documents.length - 1 !== index }"
                       class="flex items-center cursor-pointer gap-3">
-                    <div class="bg-mainColor text-white p-3 rounded-lg">
-                      <IconFile size="24"/>
-                    </div>
-                    <p>
-                      {{ item.filename }}
-                    </p>
+                    <img
+                        class="h-32 w-auto"
+                        :src="item.path"
+                        alt="">
                   </a>
                 </div>
               </div>
@@ -275,37 +274,6 @@ watch(() => user.result, () => {
                     {{ it.name }}
                   </p>
                 </label>
-              </div>
-            </div>
-            <div
-                v-if="addresses.resultAddresses"
-                class="mb-4"
-            >
-              <p class="text-sm mb-3">
-                Адресная книга <span class="text-red-500">*</span>
-              </p>
-              <div class="block lg:flex justify-between gap-5">
-                <div class="relative w-full lg:w-3/5 mb-2 lg:mb-0">
-                  <select
-                      v-model="form.address_id"
-                      :class="{'border-red-500': v$.address_id.$error}"
-                      class="px-3 py-3 border rounded-lg w-full">
-                    <option :value="null">
-                      Выберите адрес
-                    </option>
-                    <option
-                        v-for="(it, ind) of addresses.resultAddresses.data"
-                        :key="ind"
-                        :value="it.address.id">
-                      {{ it.address.title }}
-                    </option>
-                  </select>
-                </div>
-                <button
-                    onclick="create_address.showModal()"
-                    class="border border-mainColor text-sm w-full lg:w-2/5 block rounded-lg text-mainColor py-2 lg:py-0">
-                  Добавить новый адрес
-                </button>
               </div>
             </div>
             <div class="block lg:flex justify-between gap-4 mb-4">
@@ -353,6 +321,37 @@ watch(() => user.result, () => {
                     {{ it.start }} - {{ it.end }}
                   </option>
                 </select>
+              </div>
+            </div>
+            <div
+                v-if="addresses.resultAddresses"
+                class="mb-4"
+            >
+              <p class="text-sm mb-3">
+                Адресная книга <span class="text-red-500">*</span>
+              </p>
+              <div class="block lg:flex justify-between gap-5">
+                <div class="relative w-full lg:w-3/5 mb-2 lg:mb-0">
+                  <select
+                      v-model="form.address_id"
+                      :class="{'border-red-500': v$.address_id.$error}"
+                      class="px-3 py-3 border rounded-lg w-full">
+                    <option :value="null">
+                      Выберите адрес
+                    </option>
+                    <option
+                        v-for="(it, ind) of addresses.resultAddresses.data"
+                        :key="ind"
+                        :value="it.address.id">
+                      {{ it.address.title }}
+                    </option>
+                  </select>
+                </div>
+                <button
+                    onclick="create_address.showModal()"
+                    class="border border-mainColor text-sm w-full lg:w-2/5 block rounded-lg text-mainColor py-2 lg:py-0">
+                  Добавить новый адрес
+                </button>
               </div>
             </div>
           </div>

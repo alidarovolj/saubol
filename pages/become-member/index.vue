@@ -55,12 +55,14 @@ const days = ref([
   }
 ])
 
+
 const form = ref({
   name: "",
   phone_number: "",
   email: "",
   role_id: null,
   iin: "",
+  service_ids: [],
   specialization_id: null,
   specialization_details: [
     ""
@@ -219,6 +221,14 @@ const isWeekdayNumberIncluded = (val) => {
 
 const getDay = (weekday_number) => {
   return form.value.schedule.days.find(day => day.weekday_number === weekday_number);
+};
+
+const setServices = (val) => {
+  if (form.value.service_ids.includes(val)) {
+    form.value.service_ids = form.value.service_ids.filter(item => item !== val);
+  } else {
+    form.value.service_ids.push(val);
+  }
 };
 
 const sendForm = async () => {
@@ -408,6 +418,42 @@ useHead({
                   </p>
                 </div>
               </div>
+              <div class="w-full mb-5">
+                <p class="text-sm mb-2">
+                  Доступные услуги <span class="text-red-500">*</span>
+                </p>
+                <div class="flex">
+                  <div class="w-full lg:w-1/4 flex gap-3">
+                    <input
+                        @change="setServices(1)"
+                        :class="{'border border-red-500': v$.role_id.$error}"
+                        type="checkbox"
+                        name="services"
+                        class="w-6 h-6"
+                    >
+                    <p>
+                      Консультация
+                    </p>
+                  </div>
+                  <div class="w-full lg:w-1/4 flex gap-3">
+                    <input
+                        @change="setServices(2)"
+                        :class="{'border border-red-500': v$.role_id.$error}"
+                        type="checkbox"
+                        name="services"
+                        class="w-6 h-6"
+                    >
+                    <p>
+                      Выезд на дом
+                    </p>
+                  </div>
+                  <p
+                      v-if="v$.role_id.$error"
+                      class="text-red-500 text-xs">
+                    Пожалуйста заполните данное поле
+                  </p>
+                </div>
+              </div>
               <div class="mb-5 w-full">
                 <div class="mb-5 flex items-center justify-between">
                   <p class="text-xl font-bold">
@@ -432,7 +478,7 @@ useHead({
                 <p class="font-medium bg-[#E7F0FF] py-1 px-4 mb-5 rounded">
                   Дни приема
                 </p>
-                <div class="flex gap-3 mb-5">
+                <div class="flex flex-col lg:flex-row gap-3 mb-5">
                   <div
                       v-for="(day, index) of days"
                       :key="index"
@@ -445,13 +491,13 @@ useHead({
                 <p class="font-medium bg-[#E7F0FF] py-1 px-4 mb-5 rounded">
                   Время приема
                 </p>
-                <div class="flex flex-wrap gap-2">
+                <div class="flex flex-wrap gap-1 lg:gap-2">
                   <p
                       v-for="(item, index) of periods"
                       :key="index"
                       @click="times.push(item)"
                       :class="{ 'bg-mainColor text-white' : times.some(time => time.start === item.start && time.end === item.end) }"
-                      class="cursor-pointer w-fifth transition-all border border-[#ECECEC] rounded text-center py-2 bg-[#F6F6F7] text-[#9A9BA4]">
+                      class="cursor-pointer w-third lg:w-fifth transition-all border border-[#ECECEC] rounded text-center py-2 bg-[#F6F6F7] text-[#9A9BA4]">
                     {{ item.start }} - {{ item.end }}
                   </p>
                 </div>
@@ -520,22 +566,29 @@ useHead({
                       Диплом <span class="text-red-500">*</span>
                     </p>
                   </div>
-                  <div
-                      v-for="(item, index) of diplomaFiles"
-                      :key="index"
-                      class="flex justify-between">
-                    <div class="w-full bg-[#E7F0FF] rounded-md px-3 py-2 flex justify-between items-center gap-3">
-                      <img class="w-max" src="@/assets/img/attachment.png" alt="">
-                      <div class="w-full flex justify-between text-xs">
-                        <p>{{ item.name }}</p>
-                        <p class="text-[#9A9BA4]">{{ item.size }} KB</p>
+                  <div v-if="diplomaFiles.length > 0">
+                    <div
+                        v-for="(item, index) of diplomaFiles"
+                        :key="index"
+                        class="flex justify-between">
+                      <div class="w-full bg-[#E7F0FF] rounded-md px-3 py-2 flex justify-between items-center gap-3">
+                        <img class="w-max" src="@/assets/img/attachment.png" alt="">
+                        <div class="w-full flex justify-between text-xs">
+                          <p>{{ item.name }}</p>
+                          <p class="text-[#9A9BA4]">{{ item.size }} KB</p>
+                        </div>
+                        <IconX
+                            class="text-[#9A9BA4] cursor-pointer"
+                            size="24"
+                        />
                       </div>
-                      <IconX
-                          class="text-[#9A9BA4] cursor-pointer"
-                          size="24"
-                      />
                     </div>
                   </div>
+                  <p
+                      v-else
+                      class="text-red-500 text-sm">
+                    В данный момент файлов нет
+                  </p>
                   <input
                       ref="fileInput"
                       class="mt-5"
@@ -549,22 +602,29 @@ useHead({
                       Сертификаты <span class="text-red-500">*</span>
                     </p>
                   </div>
-                  <div
-                      v-for="(item, index) of sertificateFiles"
-                      :key="index"
-                      class="flex justify-between">
-                    <div class="w-full bg-[#E7F0FF] rounded-md px-3 py-2 flex justify-between items-center gap-3">
-                      <img class="w-max" src="@/assets/img/attachment.png" alt="">
-                      <div class="w-full flex justify-between text-xs">
-                        <p>{{ item.name }}</p>
-                        <p class="text-[#9A9BA4]">{{ item.size }} KB</p>
+                  <div v-if="sertificateFiles.length > 0">
+                    <div
+                        v-for="(item, index) of sertificateFiles"
+                        :key="index"
+                        class="flex justify-between">
+                      <div class="w-full bg-[#E7F0FF] rounded-md px-3 py-2 flex justify-between items-center gap-3">
+                        <img class="w-max" src="@/assets/img/attachment.png" alt="">
+                        <div class="w-full flex justify-between text-xs">
+                          <p>{{ item.name }}</p>
+                          <p class="text-[#9A9BA4]">{{ item.size }} KB</p>
+                        </div>
+                        <IconX
+                            class="text-[#9A9BA4] cursor-pointer"
+                            size="24"
+                        />
                       </div>
-                      <IconX
-                          class="text-[#9A9BA4] cursor-pointer"
-                          size="24"
-                      />
                     </div>
                   </div>
+                  <p
+                      v-else
+                      class="text-red-500 text-sm">
+                    В данный момент файлов нет
+                  </p>
                   <input
                       ref="fileInputSert"
                       class="mt-5"

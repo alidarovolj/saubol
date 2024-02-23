@@ -118,7 +118,7 @@ useHead({
             <div class="flex items-center gap-5">
               <form
                   @submit.prevent="updateProfileLocal"
-                  class="block lg:flex items-center w-full gap-5">
+                  class="block lg:flex items-start w-full gap-5">
                 <div
                     v-if="result.data.img"
                     @mouseover="imgFocus = true"

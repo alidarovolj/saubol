@@ -77,17 +77,7 @@ const form = ref({
   ],
   schedule: {
     duration: 45,
-    days: [
-      {
-        weekday_number: 1,
-        times: [
-          {
-            start: "",
-            end: ""
-          }
-        ]
-      }
-    ]
+    days: []
   },
   diplomas: [],
   certificates: []
@@ -275,10 +265,17 @@ onMounted(async () => {
 const route = useRoute()
 
 watch(() => form.value.schedule.duration, () => {
-  console.log('dasdjaskldjaskldask')
   times.value = [];
   periods.value = [];
   periods.value = [...generateTimes(form.value.schedule.duration)];
+  form.value.schedule.days = []
+});
+
+watch(() => form.value.role_id, () => {
+  times.value = [];
+  periods.value = [];
+  periods.value = [...generateTimes(form.value.schedule.duration)];
+  form.value.schedule.days = []
 });
 
 useHead({
@@ -352,6 +349,8 @@ useHead({
                 </p>
                 <input
                     v-model="form.phone_number"
+                    data-maska="+7 (###) ###-##-##"
+                    v-maska
                     :class="{'border-red-500': v$.phone_number.$error}"
                     type="text"
                     class="p-3 border w-full rounded-lg"
@@ -454,7 +453,7 @@ useHead({
                   </p>
                 </div>
               </div>
-              <div class="mb-5 w-full">
+              <div v-if="form.role_id === '2'" class="mb-5 w-full">
                 <div class="mb-5 flex items-center justify-between">
                   <p class="text-xl font-bold">
                     График работы <span class="text-red-500">*</span>

@@ -6,7 +6,7 @@ import {useAddressesStore} from "~/store/addresses.js";
 
 const coordinates = ref([43.2567, 76.9286]);
 const controls = ['fullscreenControl'];
-const zoomData = ref(15);
+const zoomData = ref(13);
 
 const addresses = useAddressesStore()
 const {resultCreate} = storeToRefs(addresses)
@@ -45,7 +45,7 @@ const setAddress = async (pos, address) => {
   coordinates.value = [parseFloat(coords[1]), parseFloat(coords[0])];
   form.value.location = coordinates.value;
   form.value.title = address;
-  zoomData.value = 19
+  zoomData.value = 15
   done_address.value = true;
 }
 
@@ -58,6 +58,7 @@ const onClick = async (e) => {
   const response = await axios.get(`https://geocode-maps.yandex.ru/1.x/?format=json&apikey=${API_KEY}&geocode=${coordinates.value[1]},${coordinates.value[0]}`);
   const details = response.data.response.GeoObjectCollection.featureMember[0].GeoObject;
   form.value.title = details.name;
+  searchQuery = details.name;
   done_address.value = true;
 }
 

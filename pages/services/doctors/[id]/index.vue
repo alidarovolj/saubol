@@ -1,5 +1,5 @@
 <script setup>
-import {IconFile} from "@tabler/icons-vue"
+import {IconFileFilled} from "@tabler/icons-vue"
 import Spinner from "~/components/general/spinner.vue";
 import {useUserStore} from "~/store/user.js";
 import {useVuelidate} from "@vuelidate/core";
@@ -21,6 +21,9 @@ const pending = ref(true)
 const pickedDay = ref("")
 
 const pickedTime = ref([])
+
+const sertificates = ref([])
+const diplomas = ref([])
 
 const notify = (type, text) => {
   const toast = useNuxtApp().$toast;
@@ -124,6 +127,13 @@ onMounted(async () => {
     await addresses.listAddresses()
     form.value.user_id = user.result.data.id
   }
+  resultDetail.value.documents.forEach((item) => {
+    if (item.type === 'diploma') {
+      diplomas.value.push(item)
+    } else {
+      sertificates.value.push(item)
+    }
+  })
   pending.value = false
 })
 
@@ -223,23 +233,58 @@ watch(() => user.result, () => {
                   {{ resultDetail.additional_info }}
                 </p>
               </div>
-              <div class="">
+              <div
+                  v-if="sertificates.length > 0"
+                   class="mb-5">
                 <h2 class="text-mainColor text-2xl font-semibold border-b border-mainColor w-full pb-2 mb-5">
                   Сертификаты
                 </h2>
-                <div class="flex gap-3 flex-wrap">
-                  <a
-                      :href="item.path"
-                      v-for="(item, index) of resultDetail.documents"
-                      :key="index"
-                      target="_blank"
-                      :class="{ 'mb-3' : resultDetail.documents.length - 1 !== index }"
-                      class="flex items-center cursor-pointer gap-3">
-                    <img
-                        class="h-32 w-auto"
-                        :src="item.path"
-                        alt="">
-                  </a>
+                <div class="flex flex-col gap-3">
+                  <div
+                      v-for="(item, index) of sertificates"
+                      :key="index">
+                    <a
+                        :href="item.path"
+                        target="_blank"
+                        :class="{ 'mb-3' : sertificates.length - 1 !== index }"
+                        class="flex items-center cursor-pointer justify-between bg-[#E7F0FF] p-2 rounded text-xs">
+                      <div class="flex items-center gap-3">
+                        <IconFileFilled class="w-7 h-7 text-mainColor"/>
+                        <p>
+                          {{ item.filename }}
+                        </p>
+                      </div>
+                      <p class="text-mainColor">
+                        Нажмите чтобы ознакомится с файлом
+                      </p>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div v-if="diplomas.length > 0" class="">
+                <h2 class="text-mainColor text-2xl font-semibold border-b border-mainColor w-full pb-2 mb-5">
+                  Дипломы
+                </h2>
+                <div class="flex flex-col gap-3">
+                  <div
+                      v-for="(item, index) of diplomas"
+                      :key="index">
+                    <a
+                        :href="item.path"
+                        target="_blank"
+                        :class="{ 'mb-3' : diplomas.length - 1 !== index }"
+                        class="flex items-center cursor-pointer justify-between bg-[#E7F0FF] p-2 rounded text-xs">
+                      <div class="flex items-center gap-3">
+                        <IconFileFilled class="w-7 h-7 text-mainColor"/>
+                        <p>
+                          {{ item.filename }}
+                        </p>
+                      </div>
+                      <p class="text-mainColor">
+                        Нажмите чтобы ознакомится с файлом
+                      </p>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -252,6 +297,14 @@ watch(() => user.result, () => {
             <p class="text-mainColor font-semibold pb-2 border-b border-mainColor text-2xl mb-4">
               Запись
             </p>
+            <div class="mb-4">
+              <p class="text-xs lg:text-sm mb-1">
+                Цена
+              </p>
+              <p class="px-7 py-3 bg-[#E7F0FF] rounded-md text-center w-max font-bold text-mainColor">
+                {{ form.price }} тг
+              </p>
+            </div>
             <div class="mb-4">
               <p class="text-sm mb-3">
                 Вид услуги

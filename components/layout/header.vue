@@ -126,11 +126,17 @@ const logoutLocal = async () => {
               <div class="dropdown">
                 <div tabindex="0" role="button" class="flex items-center gap-3">
                   <p class="text-mainColor">{{ result.data.name }}</p>
-                  <div class="relative w-10 h-10 bg-mainColor bg-opacity-20 rounded-full">
+                  <div
+                      v-if="!result.data.img"
+                      class="relative w-10 h-10 bg-mainColor bg-opacity-20 rounded-full">
                     <p class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-mainColor">
                       {{ formattedName }}
                     </p>
                   </div>
+                  <img
+                      class="w-10 h-10 rounded-full object-cover"
+                      :src="result.data.img"
+                      alt="">
                 </div>
                 <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
                   <li>

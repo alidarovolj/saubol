@@ -3,12 +3,17 @@ import Doctor from "~/components/services/doctor.vue";
 import {useStaffStore} from "~/store/staff.js";
 import ServicesNavigation from "~/components/services/servicesNavigation.vue";
 import {useAddressesStore} from "~/store/addresses.js";
+import {useUserStore} from "~/store/user.js";
 
 const route = useRoute()
 const router = useRouter()
 const staff = useStaffStore()
 const {resultSearch, resultSpecs} = storeToRefs(staff);
 const addresses = useAddressesStore()
+const user = useUserStore()
+const auth = useAuthStore()
+auth.initCookieToken()
+const {token} = storeToRefs(auth)
 
 const pending = ref(true)
 
@@ -68,7 +73,9 @@ onMounted(async () => {
     ...nonNullQueries
   };
 
-  await addresses.listAddresses()
+  if(token.value) {
+    await addresses.listAddresses()
+  }
   await searchDoctors()
   await staff.specializationList()
   pending.value = false
@@ -229,4 +236,6 @@ useHead({
       </div>
     </div>
   </div>
+  <LoginModal v-if="!user.result"/>
+  <CreateAddress />
 </template>

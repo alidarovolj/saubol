@@ -293,6 +293,4 @@ watch(() => user.result, () => {
       </div>
     </div>
   </div>
-  <LoginModal v-if="!user.result"/>
-  <CreateAddress />
 </template>

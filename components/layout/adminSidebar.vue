@@ -14,6 +14,14 @@ const logoutLocal = async () => {
   router.push('/')
 }
 
+const request = ref({
+  title: "",
+  description: "",
+  prepare: "", // Подготовка
+  indications : "", // показания
+  interpretation: "", // интерпретация
+})
+
 const links = [
   {
     title: "Админы",
@@ -22,6 +30,10 @@ const links = [
   {
     title: "Пользователи",
     link: "/users"
+  },
+  {
+    title: "Анализы",
+    link: "/domo-lab"
   },
   {
     title: "Доктора",

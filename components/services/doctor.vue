@@ -30,11 +30,7 @@ const pickedTime = ref([])
 
 const form = ref({
   user_id: null,
-  date: {
-    day: "",
-    start: "",
-    end: ""
-  },
+  time_id: null,
   staff_id: null,
   service_id: null,
   price: null,
@@ -43,11 +39,7 @@ const form = ref({
 
 const v$ = useVuelidate({
   user_id: {required},
-  date: {
-    day: {required},
-    start: {required},
-    end: {required}
-  },
+  time_id: {required},
   staff_id: {required},
   service_id: {required},
   price: {required},
@@ -65,11 +57,6 @@ const setPickDay = (day) => {
 const changeService = (val) => {
   form.value.service_id = val.service_id
   form.value.price = val.price
-}
-
-const setTime = (e) => {
-  form.value.date.start = e.start
-  form.value.date.end = e.end
 }
 
 const sendForm = async () => {
@@ -173,7 +160,7 @@ watch(() => user.result, () => {
                 @click="setPickDay(it)"
                 v-for="(it, ind) of props.doctor.schedule"
                 :key="ind"
-                :class="[{ 'bg-mainColor text-white' : pickedDay.id === it.id }, {'border-red-500': v$.date.day.$error}]"
+                :class="[{ 'bg-mainColor text-white' : pickedDay.id === it.id }]"
                 class="cursor-pointer py-1 px-3 border w-max rounded text-sm lg:text-base text-center leading-none">
               <p class="text-xs">
                 {{ it.weekday }}
@@ -194,16 +181,16 @@ watch(() => user.result, () => {
             Время
           </p>
           <select
-              :disabled="pickedTime.length <= 0"
+              :disabled="!pickedDay"
+              v-model="form.time_id"
+              :class="{'border-red-500': v$.time_id.$error || v$.time_id.$error}"
               class="px-3 py-3 border rounded-lg w-full">
             <option :value="null">
               Выберите время
             </option>
             <option
-                @click="setTime(it)"
-                v-for="(it, ind) of pickedTime"
+                v-for="(it, ind) of pickedDay.times"
                 :key="ind"
-                :class="{'border-red-500': v$.date.start.$error || v$.date.end.$error}"
                 :value="it.id">
               {{ it.start }} - {{ it.end }}
             </option>

@@ -58,9 +58,7 @@ const setPickDay = (day) => {
   pickedDay.value = day
   form.value.date.day = day.day
   for (let i = 0; i < pickedDay.value.times.length; i++) {
-    for (let j = 0; j < pickedDay.value.times[i].timePeriods.length; j++) {
-      pickedTime.value.push(pickedDay.value.times[i].timePeriods[j])
-    }
+    pickedTime.value.push(pickedDay.value.times[i])
   }
 }
 

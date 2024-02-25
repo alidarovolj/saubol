@@ -48,7 +48,6 @@ const v$ = useVuelidate({
 
 const setPickDay = (day) => {
   pickedDay.value = day
-  form.value.date.day = day.day
   for (let i = 0; i < pickedDay.value.times.length; i++) {
     pickedTime.value.push(pickedDay.value.times[i])
   }

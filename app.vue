@@ -14,7 +14,7 @@ const cart = useCartStore();
 
 onMounted(async () => {
   await nextTick()
-  if(token.value) {
+  if (token.value) {
     await cart.cartList()
   }
 })
@@ -27,13 +27,23 @@ useHead({
 </script>
 
 <template>
-  <div>
-    <NuxtLayout :name="layout">
+  <div class="w-full h-screen">
+    <NuxtLayout v-if="route.fullPath !== '/'" :name="layout">
       <NuxtLoadingIndicator color="#3E46FF"/>
       <DelayHydration>
         <NuxtPage/>
-        <BottomMenu v-if="!route.fullPath.includes('/auth')" />
+        <BottomMenu/>
       </DelayHydration>
     </NuxtLayout>
+    <div
+        v-else
+        class="w-full h-full flex flex-col justify-center items-center"
+    >
+      <NuxtLoadingIndicator color="#3E46FF"/>
+      <EmptyHeader />
+      <DelayHydration>
+        <NuxtPage/>
+      </DelayHydration>
+    </div>
   </div>
 </template>

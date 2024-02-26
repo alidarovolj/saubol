@@ -107,7 +107,7 @@ export const useNursesStore = defineStore('nurses', () => {
             }
         },
         async cartNurses(form) {
-            const {data} = await useFetch(`/nurse`, {
+            const {data} = await useFetch(`/orders/nurse`, {
                 method: 'POST',
                 headers: {
                     accept: "application/json",

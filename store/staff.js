@@ -201,7 +201,7 @@ export const useStaffStore = defineStore('staff', () => {
             }
         },
         async setOrderDoctor(form) {
-            const {data} = await useFetch(`/doctor`, {
+            const {data} = await useFetch(`/orders/doctor`, {
                 method: 'POST',
                 headers: {
                     accept: "application/json",

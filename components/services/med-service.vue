@@ -34,7 +34,6 @@ const form = ref({
     start: "",
     end: ""
   },
-  staff_id: null,
   service_id: null,
   price: null,
   address_id: null
@@ -46,15 +45,18 @@ const v$ = useVuelidate({
     start: {required},
     end: {required}
   },
-  staff_id: {required},
   service_id: {required},
   price: {required},
   address_id: {required}
 }, form);
 
 const setTime = (index) => {
-  form.value.date.start = props.service.times[index]
-  form.value.date.end = props.service.times[index + 1]
+  props.service.times.forEach((it, ind) => {
+    if (it === index.target.value) {
+      form.value.date.start = props.service.times[ind]
+      form.value.date.end = props.service.times[ind + 1]
+    }
+  })
 }
 
 const setDay = (index) => {
@@ -64,8 +66,7 @@ const setDay = (index) => {
 
 onMounted(async () => {
   form.value.price = props.service.price
-  form.value.service_id = props.service.id // initialize to the value of the premium service
-  form.value.staff_id = props.service.id
+  form.value.service_id = props.service.id
 })
 
 const sendForm = async () => {
@@ -79,7 +80,7 @@ const sendForm = async () => {
   }
 
   await nurse.cartNurses(form.value)
-  if(nurse.resultNurseCart) {
+  if (nurse.resultNurseCart) {
     await cart.cartList()
     notify(true, 'Услуга успешно добавлена в корзину')
     loading.value = false;
@@ -93,7 +94,12 @@ watch(form.value, (val) => {
   if (val.service_id == props.service.id) {
     form.value.price = props.service.price
   } else {
-    form.value.price = props.service.premium_service.price
+    props.service.premium_service.forEach((it) => {
+      if (it.id === form.value.service_id) {
+        form.value.price = it.price
+      }
+    })
+    // form.value.price = props.service.premium_service.price
   }
 })
 </script>
@@ -129,7 +135,7 @@ watch(form.value, (val) => {
               <p class="text-sm mb-4">
                 Вид услуги:
               </p>
-              <div class="flex items-center gap-5">
+              <div class="flex flex-col gap-2">
                 <div class="flex items-center text-sm gap-3">
                   <input
                       name="service"
@@ -140,14 +146,16 @@ watch(form.value, (val) => {
                     Стандарт
                   </p>
                 </div>
-                <div class="flex items-center text-sm gap-3">
+                <div
+                    v-for="(it, ind) of props.service.premium_service"
+                    class="flex items-center text-sm gap-3">
                   <input
                       name="service"
                       v-model="form.service_id"
-                      :value="props.service.premium_service.id"
+                      :value="it.id"
                       type="radio">
                   <p :class="[{'text-red-500': v$.service_id.$error}]">
-                    Премиум
+                    {{ it.name }}
                   </p>
                 </div>
               </div>
@@ -188,6 +196,7 @@ watch(form.value, (val) => {
             Время
           </p>
           <select
+              @change="setTime"
               class="px-3 py-3 border rounded-lg w-full"
               :class="{'border-red-500': v$.date.start.$error}"
               name=""
@@ -198,8 +207,7 @@ watch(form.value, (val) => {
             <option
                 v-for="(it, ind) of props.service.times"
                 :key="ind"
-                @click="setTime(ind)"
-                value="">
+                :value="it">
               {{ it }}
             </option>
           </select>

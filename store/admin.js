@@ -14,6 +14,7 @@ export const useAdminStore = defineStore('admin', () => {
     const resultDoctors = ref(null);
     const resultNurses = ref(null);
     const resultServices = ref(null);
+    const resultVerification = ref(null);
     const notify = (type, text) => {
         const toast = useNuxtApp().$toast;
         type ? toast.success(text) : toast.error(text);
@@ -26,6 +27,7 @@ export const useAdminStore = defineStore('admin', () => {
         resultDoctors,
         resultNurses,
         resultServices,
+        resultVerification,
         async adminOrders() {
             const {data} = await useFetch(`/admin/orders`, {
                 method: 'GET',
@@ -51,6 +53,23 @@ export const useAdminStore = defineStore('admin', () => {
                 resultOrders.value = data.value
             } else {
                 resultOrders.value = false
+            }
+        },
+        async staffVerification(id, form) {
+            const {data} = await useFetch(`admin/staff/` + id, {
+                method: 'PATCH',
+                headers: {
+                    accept: "application/json",
+                    authorization: `Bearer ${adminToken.value}`,
+                },
+                body: JSON.stringify(form),
+                baseURL: runtimeConfig.public.API_LINK,
+                lazy: true,
+            })
+            if (data.value) {
+                resultVerification.value = data.value
+            } else {
+                resultVerification.value = false
             }
         },
         async adminAdmins() {

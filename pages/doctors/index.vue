@@ -4,7 +4,12 @@ import {IconDots, IconCheck, IconX} from "@tabler/icons-vue"
 const admin = useAdminStore()
 const {resultDoctors} = storeToRefs(admin)
 
-const pickedAdmin = ref(null)
+const pickedDoctor = ref(null)
+
+const openModal = (item) => {
+  pickedDoctor.value = item
+  verifyDoctor.showModal()
+}
 
 onMounted(async () => {
   await nextTick()
@@ -28,6 +33,7 @@ onMounted(async () => {
           <th class="border-r">ИИН</th>
           <th class="border-r">Email</th>
           <th class="border-r">Телефон</th>
+          <th class="border-r">Статус</th>
           <th>Действия</th>
         </tr>
         </thead>
@@ -62,6 +68,18 @@ onMounted(async () => {
               {{ item.phone_number }}
             </p>
           </td>
+          <td class="border-r">
+            <p
+                v-if="item.staff.is_verified"
+               class="mb-1 bg-green-300 text-black text-center rounded-md py-1">
+              Принят
+            </p>
+            <p
+                v-else
+                class="mb-1 bg-red-300 text-black text-center rounded-md py-1">
+              Не принят
+            </p>
+          </td>
           <td>
             <div class="dropdown dark:text-black">
               <div tabindex="0" class="bg-gray-200 p-1 rounded-md m-1">
@@ -73,10 +91,10 @@ onMounted(async () => {
               >
                 <div class="flex gap-2">
                   <button
-                      onclick="change_status.showModal()"
+                      @click="openModal(item)"
                       class="bg-buyerMenuBg px-1 py-1 rounded-lg block"
                   >
-                    <IconCheck v-if="!item.enabled" class="cursor-pointer" :size="18"/>
+                    <IconCheck v-if="!item.staff.is_verified" class="cursor-pointer" :size="18"/>
                     <IconX v-else class="cursor-pointer"/>
                   </button>
                 </div>
@@ -97,4 +115,5 @@ onMounted(async () => {
       </div>
     </div>
   </div>
+  <VerifyDoctor :pickedItem="pickedDoctor" />
 </template>

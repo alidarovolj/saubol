@@ -27,7 +27,7 @@ useHead({
 </script>
 
 <template>
-  <div class="w-full h-screen">
+  <div class="w-full min-h-screen">
     <NuxtLayout v-if="route.fullPath !== '/'" :name="layout">
       <NuxtLoadingIndicator color="#3E46FF"/>
       <DelayHydration>

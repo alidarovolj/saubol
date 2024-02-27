@@ -131,7 +131,7 @@ const sendForm = async () => {
           </NuxtLink>
           <NuxtLink
               class="text-mainColor text-sm text-end"
-              to="/auth/login">
+              to="/">
             Забыли пароль?
           </NuxtLink>
         </div>

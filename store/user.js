@@ -33,6 +33,14 @@ export const useUserStore = defineStore('user', () => {
                 lazy: true,
             })
             if (data.value) {
+                // Create two arrays: one for documents and one for certificates
+                const diploma = data.value.data.staff.documents.filter(doc => doc.type === 'diploma');
+                const certificates = data.value.data.staff.documents.filter(doc => doc.type === 'certificate');
+
+                // Add these arrays to data.value
+                data.value.diploma = diploma;
+                data.value.certificates = certificates;
+
                 result.value = data.value
             } else {
                 result.value = false
@@ -87,6 +95,7 @@ export const useUserStore = defineStore('user', () => {
                 lazy: true,
             })
             if (data.value) {
+
                 resultUpdate.value = data.value
             } else {
                 resultUpdate.value = false

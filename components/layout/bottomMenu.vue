@@ -1,9 +1,9 @@
 <script setup>
 import {
-  IconHome,
-  IconMenu2,
-  IconShoppingCart,
-  IconUser
+  IconClipboard,
+  IconUser,
+  IconCalendarTime,
+  IconSettings
 } from "@tabler/icons-vue"
 
 const route = useRoute()
@@ -19,59 +19,20 @@ const {token} = storeToRefs(auth)
       style="box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.10);">
     <div class="flex justify-between">
       <NuxtLink
-          to="/"
+          to="/profile/orders"
           class="w-1/4 text-center text-xs py-2"
       >
-        <IconHome
+        <IconClipboard
             size="24"
             class="w-6 h-6 mx-auto mb-1"
         />
         <p>
-          Главная
+          Заказы
         </p>
       </NuxtLink>
       <NuxtLink
-          to="/services"
-          :class="{ 'text-mainColor' : route.fullPath.includes('/services') }"
-          class="w-1/4 text-center text-xs py-2"
-      >
-        <IconMenu2
-            size="24"
-            class="w-6 h-6 mx-auto mb-1"
-        />
-        <p>
-          Услуги
-        </p>
-      </NuxtLink>
-      <NuxtLink
-          v-if="token"
-          to="/cart"
-          class="w-1/4 text-center text-xs py-2"
-      >
-        <IconShoppingCart
-            size="24"
-            class="w-6 h-6 mx-auto mb-1"
-        />
-        <p>
-          Корзина
-        </p>
-      </NuxtLink>
-      <NuxtLink
-          v-else
-          to="/auth/login"
-          class="w-1/4 text-center text-xs py-2"
-      >
-        <IconShoppingCart
-            size="24"
-            class="w-6 h-6 mx-auto mb-1"
-        />
-        <p>
-          Корзина
-        </p>
-      </NuxtLink>
-      <NuxtLink
-          v-if="token"
           to="/profile"
+          :class="{ 'text-mainColor' : route.fullPath.includes('/profile') }"
           class="w-1/4 text-center text-xs py-2"
       >
         <IconUser
@@ -83,16 +44,27 @@ const {token} = storeToRefs(auth)
         </p>
       </NuxtLink>
       <NuxtLink
-          v-else
-          to="/auth/login"
+          to="/time-settings"
           class="w-1/4 text-center text-xs py-2"
       >
-        <IconUser
+        <IconCalendarTime
             size="24"
             class="w-6 h-6 mx-auto mb-1"
         />
         <p>
-          Профиль
+          График работы
+        </p>
+      </NuxtLink>
+      <NuxtLink
+          to="/settings"
+          class="w-1/4 text-center text-xs py-2"
+      >
+        <IconSettings
+            size="24"
+            class="w-6 h-6 mx-auto mb-1"
+        />
+        <p>
+          Настройки
         </p>
       </NuxtLink>
     </div>

@@ -46,7 +46,7 @@ const sendForm = async () => {
     return;
   }
 
-  const {data, error} = await useFetch("/auth/staff-login", {
+  const {data} = await useFetch("/auth/staff-login", {
     method: "POST",
     baseURL: runtimeConfig.public.API_LINK,
     body: JSON.stringify(form.value),
@@ -57,8 +57,7 @@ const sendForm = async () => {
     await auth.initCookieToken(data.value.access_token)
     auth.token = data.value.access_token
     await user.getProfile()
-    await cart.cartList()
-    router.push('/')
+    router.push('/profile')
     loading.value = false;
     notify(true, 'Спасибо за авторизацию!')
   } else {
@@ -69,7 +68,7 @@ const sendForm = async () => {
 </script>
 
 <template>
-  <div class="relative h-full w-full">
+  <div class="relative h-screen w-full">
     <div class="flex justify-between h-full items-center">
       <div class="w-full bg-[#F6F6F7] relative h-full flex items-center justify-center">
         <form
@@ -127,11 +126,13 @@ const sendForm = async () => {
           <div class="flex justify-end mb-5">
             <NuxtLink
                 class="text-mainColor text-sm text-end"
-                to="/auth/login">
+                to="/">
               Забыли пароль?
             </NuxtLink>
           </div>
-          <button class="bg-mainColor py-3 text-white rounded-md w-full">
+          <button
+              type="submit"
+              class="bg-mainColor py-3 text-white rounded-md w-full">
             Войти
           </button>
         </form>

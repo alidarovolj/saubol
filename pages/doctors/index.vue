@@ -69,16 +69,18 @@ onMounted(async () => {
             </p>
           </td>
           <td class="border-r">
-            <p
-                v-if="item.staff.is_verified"
-               class="mb-1 bg-green-300 text-black text-center rounded-md py-1">
-              Принят
-            </p>
-            <p
-                v-else
-                class="mb-1 bg-red-300 text-black text-center rounded-md py-1">
-              Не принят
-            </p>
+            <div v-if="item.staff">
+              <p
+                  v-if="item.staff.is_verified"
+                  class="mb-1 bg-green-300 text-black text-center rounded-md py-1">
+                Принят
+              </p>
+              <p
+                  v-else
+                  class="mb-1 bg-red-300 text-black text-center rounded-md py-1">
+                Не принят
+              </p>
+            </div>
           </td>
           <td>
             <div class="dropdown dark:text-black">
@@ -89,7 +91,9 @@ onMounted(async () => {
                   tabindex="0"
                   class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-max"
               >
-                <div class="flex gap-2">
+                <div
+                    v-if="item.staff"
+                    class="flex gap-2">
                   <button
                       @click="openModal(item)"
                       class="bg-buyerMenuBg px-1 py-1 rounded-lg block"
@@ -115,5 +119,5 @@ onMounted(async () => {
       </div>
     </div>
   </div>
-  <VerifyDoctor :pickedItem="pickedDoctor" />
+  <VerifyDoctor :pickedItem="pickedDoctor"/>
 </template>

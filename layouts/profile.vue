@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {
   IconAddressBook, IconExclamationMark, IconLogout, IconUserCircle,
-  IconCamera,
+  IconMan,
   IconEdit,
   IconRuler3,
   IconScaleOutline,
@@ -173,7 +173,7 @@ onMounted(async () => {
             </div>
             <div
                 v-if="!result.data.img"
-                class="relative w-20 h-full bg-mainColor bg-opacity-20 rounded-lg min-w-20"
+                class="relative w-36 h-36 mx-auto bg-mainColor bg-opacity-20 rounded-lg min-w-20"
             >
               <p class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-mainColor text-xl">
                 {{ formattedName }}
@@ -181,156 +181,9 @@ onMounted(async () => {
             </div>
             <h1
                 v-if="!editMode"
-                class="text-xl font-bold text-center mt-3">
+                class="text-xl font-bold text-center my-3">
               {{ result.data.name }}
             </h1>
-            <div
-                v-if="editMode"
-                class="w-1/2 mx-auto mt-3"
-            >
-              <input
-                  v-model="form.name"
-                  :class="{'border-red-500': v$.name.$error}"
-                  class="px-2 py-2 border rounded-lg w-full text-center"
-                  type="text"
-                  placeholder="Введите имя"
-              >
-              <p
-                  v-if="v$.name.$error && editMode"
-                  class="text-red-500 text-xs">
-                Пожалуйста заполните данное поле
-              </p>
-            </div>
-          </div>
-          <div
-              style="box-shadow: 0px 4px 20px 0px #0000001A;"
-              class="mt-5 rounded-lg lg:mt-0 w-full lg:w-2/3 flex flex-col justify-between gap-5 bg-white p-5">
-            <div class="flex items-center justify-between text-mainColor w-full">
-              <h1 class="text-black text-xl font-bold">
-                Мои данные
-              </h1>
-              <div class="flex items-center gap-5">
-                <div
-                    v-if="editMode"
-                    class="w-max">
-                  <button
-                      v-if="!loading"
-                      type="submit"
-                      class="bg-mainColor text-center text-white px-5 py-2 rounded-lg"
-                  >
-                    Обновить
-                  </button>
-                  <p
-                      v-else
-                      class="w-max bg-mainColor text-center text-white px-5 py-2 rounded-lg"
-                  >
-                    <span class="spinner"></span>
-                  </p>
-                </div>
-                <IconEdit
-                    class="cursor-pointer"
-                    size="24"
-                    @click="editMode = !editMode"/>
-              </div>
-            </div>
-            <div class="block lg:flex justify-between gap-5">
-              <div class="mb-3 lg:mb-0 w-full lg:w-1/3 bg-[#ECEDFF] p-3 rounded-lg flex items-center gap-3">
-                <IconRuler3
-                    size="40"
-                    class="text-mainColor"
-                />
-                <div>
-                  <p class="text-[#9A9BA4] text-sm">
-                    Рост
-                  </p>
-                  <input
-                      v-if="editMode"
-                      v-model="form.height"
-                      :class="{'border-red-500': v$.height.$error}"
-                      class="px-2 py-2 border rounded-lg w-full"
-                      type="text"
-                      placeholder="Введите телефон"
-                  >
-                  <p
-                      v-if="v$.height.$error && editMode"
-                      class="text-red-500 text-xs">
-                    Пожалуйста заполните данное поле
-                  </p>
-                  <div v-if="result.data.user_data">
-                    <p
-                        v-if="!editMode"
-                        class="font-medium">
-                      {{ result.data.user_data.height }} см
-                    </p>
-                  </div>
-                  <div
-                      v-else
-                      class="text-red-500"
-                  >
-                    Необходимо заполнить
-                  </div>
-                </div>
-              </div>
-              <div class="mb-3 lg:mb-0 w-full lg:w-1/3 bg-[#ECEDFF] p-3 rounded-lg flex items-center gap-3">
-                <IconScaleOutline
-                    size="40"
-                    class="text-mainColor"
-                />
-                <div>
-                  <p class="text-[#9A9BA4] text-sm">
-                    Вес
-                  </p>
-                  <input
-                      v-if="editMode"
-                      v-model="form.weight"
-                      :class="{'border-red-500': v$.weight.$error}"
-                      class="px-2 py-2 border rounded-lg w-full"
-                      type="text"
-                      placeholder="Введите телефон"
-                  >
-                  <p
-                      v-if="v$.weight.$error && editMode"
-                      class="text-red-500 text-xs">
-                    Пожалуйста заполните данное поле
-                  </p>
-                  <div v-if="result.data.user_data">
-                    <p
-                        v-if="!editMode"
-                        class="font-medium">
-                      {{ result.data.user_data.weight }} кг
-                    </p>
-                  </div>
-                  <div
-                      v-else
-                      class="text-red-500"
-                  >
-                    Необходимо заполнить
-                  </div>
-                </div>
-              </div>
-              <div class="w-full lg:w-1/3 bg-[#ECEDFF] p-3 rounded-lg flex items-center gap-3">
-                <IconMathXDivideY
-                    size="40"
-                    class="text-mainColor"
-                />
-                <div>
-                  <p class="text-[#9A9BA4] text-sm">
-                    ИМТ
-                  </p>
-                  <p
-                      v-if="doneIMT"
-                      class="font-medium">
-                    {{ doneIMT }}
-                  </p>
-                  <p
-                      v-else
-                      class="text-red-500"
-                  >
-                    Заполните вес и рост
-                  </p>
-                </div>
-              </div>
-            </div>
             <div class="block">
               <div class="flex items-center justify-between mb-3 lg:mb-5">
                 <p class="text-[#9A9BA4] mb-1">
@@ -395,6 +248,232 @@ onMounted(async () => {
               <!--                        Необходимо заполнить-->
               <!--                      </p>-->
               <!--                    </div>-->
+            </div>
+            <div
+                v-if="editMode"
+                class="w-1/2 mx-auto mt-3"
+            >
+              <input
+                  v-model="form.name"
+                  :class="{'border-red-500': v$.name.$error}"
+                  class="px-2 py-2 border rounded-lg w-full text-center"
+                  type="text"
+                  placeholder="Введите имя"
+              >
+              <p
+                  v-if="v$.name.$error && editMode"
+                  class="text-red-500 text-xs">
+                Пожалуйста заполните данное поле
+              </p>
+            </div>
+          </div>
+          <div
+              style="box-shadow: 0px 4px 20px 0px #0000001A;"
+              class="mt-5 rounded-lg lg:mt-0 w-full lg:w-2/3 flex flex-col justify-between gap-5 bg-white p-5">
+            <div class="flex items-center justify-between text-mainColor w-full">
+              <h1 class="text-black text-xl font-bold">
+                Мои данные
+              </h1>
+              <div class="flex items-center gap-5">
+                <div
+                    v-if="editMode"
+                    class="w-max">
+                  <button
+                      v-if="!loading"
+                      type="submit"
+                      class="bg-mainColor text-center text-white px-5 py-2 rounded-lg"
+                  >
+                    Обновить
+                  </button>
+                  <p
+                      v-else
+                      class="w-max bg-mainColor text-center text-white px-5 py-2 rounded-lg"
+                  >
+                    <span class="spinner"></span>
+                  </p>
+                </div>
+                <IconEdit
+                    class="cursor-pointer"
+                    size="24"
+                    @click="editMode = !editMode"/>
+              </div>
+            </div>
+            <div class="block lg:flex justify-between gap-5">
+              <img
+                  v-if="doneIMT && doneIMT < 18.5"
+                  class="lg:w-1/2 w-full h-[300px] object-contain mb-5 lg:mb-0"
+                  src="@/assets/img/bodies/1.png"
+                  alt="">
+              <img
+                  v-else-if="doneIMT && doneIMT > 18.5 && doneIMT < 24.9"
+                  class="lg:w-1/2 w-full h-[300px] object-contain mb-5 lg:mb-0"
+                  src="@/assets/img/bodies/1.png"
+                  alt="">
+              <img
+                  v-else-if="doneIMT && doneIMT > 24.9 && doneIMT < 29.9"
+                  class="lg:w-1/2 w-full h-[300px] object-contain mb-5 lg:mb-0"
+                  src="@/assets/img/bodies/1.png"
+                  alt="">
+              <img
+                  v-else-if="doneIMT && doneIMT > 29.9 && doneIMT < 34.9"
+                  class="lg:w-1/2 w-full h-[300px] object-contain mb-5 lg:mb-0"
+                  src="@/assets/img/bodies/1.png"
+                  alt="">
+              <img
+                  v-else-if="doneIMT && doneIMT > 34.9"
+                  class="lg:w-1/2 w-full h-[300px] object-contain mb-5 lg:mb-0"
+                  src="@/assets/img/bodies/1.png"
+                  alt="">
+              <div class="lg:w-1/2 w-full flex flex-col justify-between gap-3">
+                <div
+                    :class="[
+                        { '!bg-emerald-300' : doneIMT < 18.5 },
+                        { '!bg-green-400' : doneIMT > 18.5 && doneIMT < 24.9 },
+                        { '!bg-blue-400 text-white' : doneIMT > 24.9 && doneIMT < 29.9 },
+                        { '!bg-purple-500 text-white' : doneIMT > 29.9 && doneIMT < 34.9 },
+                        { '!bg-red-700 text-white' : doneIMT > 34.9 }]"
+                    class="w-full bg-[#ECEDFF] p-3 rounded-lg flex items-center gap-3">
+                  <IconMan
+                      size="40"
+                      class="text-mainColor"
+                  />
+                  <div>
+                    <p
+                        :class="[
+                        { 'text-white' : doneIMT < 18.5 },
+                        { 'text-white' : doneIMT > 18.5 && doneIMT < 24.9 },
+                        { 'text-white' : doneIMT > 24.9 && doneIMT < 29.9 },
+                        { 'text-white' : doneIMT > 29.9 && doneIMT < 34.9 },
+                        { 'text-white' : doneIMT > 34.9 }]"
+                        class="text-[#9A9BA4] text-sm">
+                      Тип тела
+                    </p>
+                    <div
+                        v-if="doneIMT"
+                        class="font-medium">
+                      <p v-if="doneIMT < 18.5">
+                        Недостаточная масса тела
+                      </p>
+                      <p v-else-if="doneIMT > 18.5 && doneIMT < 24.9">
+                        Нормальная масса тела
+                      </p>
+                      <p v-else-if="doneIMT > 24.9 && doneIMT < 29.9">
+                        Избыточная масса тела
+                      </p>
+                      <p v-else-if="doneIMT > 29.9 && doneIMT < 34.9">
+                        Ожирение
+                      </p>
+                      <p v-else-if="doneIMT > 34.9">
+                        Резкое ожирение
+                      </p>
+                    </div>
+                    <p
+                        v-else
+                        class="text-red-500"
+                    >
+                      Заполните вес и рост
+                    </p>
+                  </div>
+                </div>
+                <div class="block lg:flex justify-between gap-5">
+                  <div class="mb-3 lg:mb-0 w-full bg-[#ECEDFF] p-3 rounded-lg flex items-center gap-3">
+                    <IconRuler3
+                        size="40"
+                        class="text-mainColor"
+                    />
+                    <div>
+                      <p class="text-[#9A9BA4] text-sm">
+                        Рост
+                      </p>
+                      <input
+                          v-if="editMode"
+                          v-model="form.height"
+                          :class="{'border-red-500': v$.height.$error}"
+                          class="px-2 py-2 border rounded-lg w-full"
+                          type="text"
+                          placeholder="Введите телефон"
+                      >
+                      <p
+                          v-if="v$.height.$error && editMode"
+                          class="text-red-500 text-xs">
+                        Пожалуйста заполните данное поле
+                      </p>
+                      <div v-if="result.data.user_data">
+                        <p
+                            v-if="!editMode"
+                            class="font-medium">
+                          {{ result.data.user_data.height }} см
+                        </p>
+                      </div>
+                      <div
+                          v-else
+                          class="text-red-500"
+                      >
+                        Необходимо заполнить
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-3 lg:mb-0 w-full bg-[#ECEDFF] p-3 rounded-lg flex items-center gap-3">
+                  <IconScaleOutline
+                      size="40"
+                      class="text-mainColor"
+                  />
+                  <div>
+                    <p class="text-[#9A9BA4] text-sm">
+                      Вес
+                    </p>
+                    <input
+                        v-if="editMode"
+                        v-model="form.weight"
+                        :class="{'border-red-500': v$.weight.$error}"
+                        class="px-2 py-2 border rounded-lg w-full"
+                        type="text"
+                        placeholder="Введите телефон"
+                    >
+                    <p
+                        v-if="v$.weight.$error && editMode"
+                        class="text-red-500 text-xs">
+                      Пожалуйста заполните данное поле
+                    </p>
+                    <div v-if="result.data.user_data">
+                      <p
+                          v-if="!editMode"
+                          class="font-medium">
+                        {{ result.data.user_data.weight }} кг
+                      </p>
+                    </div>
+                    <div
+                        v-else
+                        class="text-red-500"
+                    >
+                      Необходимо заполнить
+                    </div>
+                  </div>
+                </div>
+                <div class="w-full bg-[#ECEDFF] p-3 rounded-lg flex items-center gap-3">
+                  <IconMathXDivideY
+                      size="40"
+                      class="text-mainColor"
+                  />
+                  <div>
+                    <p class="text-[#9A9BA4] text-sm">
+                      ИМТ
+                    </p>
+                    <p
+                        v-if="doneIMT"
+                        class="font-medium">
+                      {{ doneIMT }}
+                    </p>
+                    <p
+                        v-else
+                        class="text-red-500"
+                    >
+                      Заполните вес и рост
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </form>

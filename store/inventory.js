@@ -1,7 +1,7 @@
 import {defineStore} from "pinia";
 import {useAuthStore} from "~/store/auth.js";
 
-export const useDomoLabStore = defineStore('domolab', () => {
+export const useInventoryStore = defineStore('inventory', () => {
     const runtimeConfig = useRuntimeConfig();
 
     const auth = useAuthStore()
@@ -9,7 +9,6 @@ export const useDomoLabStore = defineStore('domolab', () => {
     const {token} = storeToRefs(auth)
 
     const result = ref(null);
-    const resultCreate = ref(null);
     const resultCategories = ref(null);
 
     const notify = (type, text) => {
@@ -19,11 +18,9 @@ export const useDomoLabStore = defineStore('domolab', () => {
 
     return {
         result,
-        resultCreate,
         resultCategories,
-        async listDomolab(queryParams = {}) {
-            const queryString = new URLSearchParams(queryParams).toString();
-            const {data, error} = await useFetch(`/domo-lab?${queryString}`, {
+        async listInventory() {
+            const {data, error} = await useFetch(`/goods`, {
                 method: 'GET',
                 headers: {
                     accept: "application/json",
@@ -39,8 +36,8 @@ export const useDomoLabStore = defineStore('domolab', () => {
                 result.value = false
             }
         },
-        async listDomolabCategories() {
-            const {data, error} = await useFetch(`/domo-lab/categories`, {
+        async listInventoryCategories() {
+            const {data, error} = await useFetch(`/goods/categories`, {
                 method: 'GET',
                 headers: {
                     accept: "application/json",
@@ -55,23 +52,6 @@ export const useDomoLabStore = defineStore('domolab', () => {
                 notify(false, error.value.message)
                 resultCategories.value = false
             }
-        },
-        async createLab(form) {
-            const {data} = await useFetch(`/orders/domo-lab`, {
-                method: 'POST',
-                headers: {
-                    accept: "application/json",
-                    authorization: `Bearer ${token.value}`,
-                },
-                body: JSON.stringify(form),
-                baseURL: runtimeConfig.public.API_LINK,
-                lazy: true,
-            })
-            if (data.value) {
-                resultCreate.value = data.value
-            } else {
-                resultCreate.value = false
-            }
-        },
+        }
     }
 })

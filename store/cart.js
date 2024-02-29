@@ -36,7 +36,7 @@ export const useCartStore = defineStore('cart', () => {
             }
         },
         async makeOrder(form) {
-            const {data} = await useFetch(`/orders`, {
+            const {data} = await useFetch(`/orders/common`, {
                 method: 'POST',
                 headers: {
                     accept: "application/json",

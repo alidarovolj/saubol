@@ -83,16 +83,21 @@ const logoutLocal = async () => {
                   Мед-услуги
                 </NuxtLink>
               </li>
+              <li>
+                <NuxtLink to="/inventory">
+                  Аренда
+                </NuxtLink>
+              </li>
 <!--              <li>-->
 <!--                <NuxtLink to="/services/detox">-->
 <!--                  Процедуры детокс-->
 <!--                </NuxtLink>-->
 <!--              </li>-->
-<!--              <li>-->
-<!--                <NuxtLink to="/services/tests">-->
-<!--                  Сдать анализы-->
-<!--                </NuxtLink>-->
-<!--              </li>-->
+              <li>
+                <NuxtLink to="/services/tests">
+                  Сдача анализов
+                </NuxtLink>
+              </li>
             </ul>
           </div>
           <NuxtLink to="/contacts">
@@ -155,6 +160,7 @@ const logoutLocal = async () => {
                     </p>
                   </div>
                   <img
+                      v-else
                       class="w-10 h-10 rounded-full object-cover"
                       :src="result.data.img"
                       alt="">

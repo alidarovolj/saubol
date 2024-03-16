@@ -8,7 +8,7 @@ const cart = useCartStore();
 
 const auth = useAuthStore();
 auth.initCookieToken()
-const { token } = storeToRefs(auth);
+const {token} = storeToRefs(auth);
 
 const loading = ref(false);
 
@@ -49,7 +49,7 @@ const notify = (type, text) => {
 };
 
 onMounted(async () => {
-  if(!token.value) {
+  if (!token.value) {
     router.push('/')
     notify(false, 'Вы не авторизованы')
   }
@@ -120,7 +120,7 @@ useHead({
             <div v-if="cart.result.count > 0">
               <div
                   v-if="cart.result.doctor_order.length > 0"
-                  :class="{ 'mb-10 border-b border-[#E7F0FF] pb-5' : cart.result.nurse_order.length > 0 }">
+                  class="mb-10 border-b border-[#E7F0FF] pb-5">
                 <h2 class="text-mainColor font-semibold text-xl mb-5">
                   Врачи
                 </h2>
@@ -214,7 +214,10 @@ useHead({
                   </div>
                 </div>
               </div>
-              <div v-if="cart.result.nurse_order.length > 0">
+              <div
+                  v-if="cart.result.nurse_order.length > 0"
+                  class="mb-10 border-b border-[#E7F0FF] pb-5"
+              >
                 <h2 class="text-mainColor font-semibold text-xl mb-5">
                   Мед-услуги
                 </h2>
@@ -305,7 +308,10 @@ useHead({
                   </div>
                 </div>
               </div>
-              <div v-if="cart.result.analyze_order.length > 0">
+              <div
+                  v-if="cart.result.analyze_order.length > 0"
+                  class="mb-10 border-b border-[#E7F0FF] pb-5"
+              >
                 <h2 class="text-mainColor font-semibold text-xl mb-5">
                   Анализы
                 </h2>

@@ -307,22 +307,22 @@ onMounted(async () => {
               <img
                   v-else-if="doneIMT && doneIMT > 18.5 && doneIMT < 24.9"
                   class="lg:w-1/2 w-full h-[300px] object-contain mb-5 lg:mb-0"
-                  src="@/assets/img/bodies/1.png"
+                  src="@/assets/img/bodies/2.png"
                   alt="">
               <img
                   v-else-if="doneIMT && doneIMT > 24.9 && doneIMT < 29.9"
                   class="lg:w-1/2 w-full h-[300px] object-contain mb-5 lg:mb-0"
-                  src="@/assets/img/bodies/1.png"
+                  src="@/assets/img/bodies/3.png"
                   alt="">
               <img
                   v-else-if="doneIMT && doneIMT > 29.9 && doneIMT < 34.9"
                   class="lg:w-1/2 w-full h-[300px] object-contain mb-5 lg:mb-0"
-                  src="@/assets/img/bodies/1.png"
+                  src="@/assets/img/bodies/4.png"
                   alt="">
               <img
                   v-else-if="doneIMT && doneIMT > 34.9"
                   class="lg:w-1/2 w-full h-[300px] object-contain mb-5 lg:mb-0"
-                  src="@/assets/img/bodies/1.png"
+                  src="@/assets/img/bodies/5.png"
                   alt="">
               <div class="lg:w-1/2 w-full flex flex-col justify-between gap-3">
                 <div

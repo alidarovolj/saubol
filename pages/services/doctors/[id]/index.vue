@@ -32,12 +32,8 @@ const notify = (type, text) => {
 
 const form = ref({
   user_id: null,
-  date: {
-    day: "",
-    start: "",
-    end: ""
-  },
-  staff_id: 37,
+  time_id: null,
+  staff_id: null,
   service_id: null,
   price: null,
   address_id: null
@@ -45,11 +41,7 @@ const form = ref({
 
 const v$ = useVuelidate({
   user_id: {required},
-  date: {
-    day: {required},
-    start: {required},
-    end: {required}
-  },
+  time_id: {required},
   staff_id: {required},
   service_id: {required},
   price: {required},
@@ -59,11 +51,6 @@ const v$ = useVuelidate({
 const changeService = (val) => {
   form.value.service_id = val.service_id
   form.value.price = val.price
-}
-
-const setTime = (e) => {
-  form.value.date.start = e.start
-  form.value.date.end = e.end
 }
 
 const links = ref([
@@ -117,16 +104,15 @@ const setPickDay = (day) => {
 onMounted(async () => {
   await nextTick()
   await staff.getStaffDetail(route.params.id)
+  await addresses.listAddresses()
+  form.value.staff_id = resultDetail.value.id
+  form.value.user_id = user.result.data.id
   links.value.push({
     title: resultDetail.value.user.name,
     link: '/services/doctors/' + resultDetail.value.id
   })
   form.value.price = resultDetail.value.services[0].price
   form.value.service_id = resultDetail.value.services[0].service_id
-  if (user.result) {
-    await addresses.listAddresses()
-    form.value.user_id = user.result.data.id
-  }
   resultDetail.value.documents.forEach((item) => {
     if (item.type === 'diploma') {
       diplomas.value.push(item)
@@ -329,8 +315,8 @@ watch(() => user.result, () => {
                 </label>
               </div>
             </div>
-            <div class="block lg:flex justify-between gap-4 mb-4">
-              <div class="w-full lg:w-3/5 mb-3 lg:mb-0">
+            <div class="block mb-4">
+              <div class="w-full mb-3">
                 <p class="text-sm lg:text-base mb-1">
                   Дни приема:
                 </p>
@@ -339,7 +325,7 @@ watch(() => user.result, () => {
                       @click="setPickDay(it)"
                       v-for="(it, ind) of resultDetail.schedule"
                       :key="ind"
-                      :class="[{ 'bg-mainColor text-white' : pickedDay.id === it.id }, {'border-red-500': v$.date.day.$error}]"
+                      :class="[{ 'bg-mainColor text-white' : pickedDay.id === it.id }]"
                       class="cursor-pointer py-1 px-3 border w-max rounded text-sm lg:text-base text-center leading-none">
                     <p class="text-xs">
                       {{ it.weekday }}
@@ -355,21 +341,21 @@ watch(() => user.result, () => {
                   </div>
                 </div>
               </div>
-              <div class="w-full lg:w-2/5">
+              <div class="w-full">
                 <p class="mb-1">
                   Время
                 </p>
                 <select
-                    :disabled="pickedTime.length <= 0"
+                    :disabled="!pickedDay"
+                    v-model="form.time_id"
+                    :class="{'border-red-500': v$.time_id.$error || v$.time_id.$error}"
                     class="px-3 py-3 border rounded-lg w-full">
                   <option :value="null">
                     Выберите время
                   </option>
                   <option
-                      @click="setTime(it)"
-                      v-for="(it, ind) of pickedTime"
+                      v-for="(it, ind) of pickedDay.times"
                       :key="ind"
-                      :class="{'border-red-500': v$.date.start.$error || v$.date.end.$error}"
                       :value="it.id">
                     {{ it.start }} - {{ it.end }}
                   </option>

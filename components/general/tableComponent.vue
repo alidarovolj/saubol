@@ -1,6 +1,6 @@
 <script>
 import {IconChevronDown} from "@tabler/icons-vue";
-import PaginationComponent from "~/components/General/Pagination.vue";
+import PaginationComponent from "~/components/General/pagination.vue";
 
 export default {
   name: "TableComponent",

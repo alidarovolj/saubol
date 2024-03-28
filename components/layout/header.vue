@@ -1,5 +1,5 @@
 <script setup>
-import {IconMenu2, IconUserCircle, IconShoppingBag} from "@tabler/icons-vue"
+import {IconMenu2, IconUserCircle, IconShoppingCart} from "@tabler/icons-vue"
 
 const route = useRoute();
 
@@ -43,18 +43,22 @@ const logoutLocal = async () => {
 </script>
 
 <template>
-  <div
-      class="py-4 absolute top-0 left-0 z-50 w-full bg-white"
-      style="box-shadow: 0px 4px 15px 0px rgba(57, 121, 245, 0.15);">
+  <div class="py-4 absolute top-0 left-0 z-50 w-full bg-white">
     <div class="container mx-auto px-4 lg:px-0">
       <div class="flex justify-between items-center">
         <div class="flex items-center">
-          <NuxtLink to="/">
+          <NuxtLink
+              to="/"
+              class="flex items-center gap-2"
+          >
             <img
-                class="w-7 h-7 lg:w-12 lg:h-12"
+                class="w-auto h-7 lg:h-12"
                 src="@/assets/img/logo.png"
                 alt=""
             >
+            <p class="text-3xl font-bold text-black">
+              Saubol
+            </p>
           </NuxtLink>
         </div>
         <div class="hidden lg:flex gap-10">
@@ -108,12 +112,12 @@ const logoutLocal = async () => {
           </NuxtLink>
         </div>
         <div class="flex items-center gap-5">
-          <div>
+          <div class="p-2 border border-black rounded-lg whitespace-nowrap">
             <NuxtLink
                 v-if="result === false"
                 to="/auth/login"
             >
-              <IconShoppingBag class="text-mainColor" size="30"/>
+              <IconShoppingCart size="20"/>
             </NuxtLink>
             <div v-else-if="!result">
               <div class="spinner p-2"></div>
@@ -125,7 +129,7 @@ const logoutLocal = async () => {
               <NuxtLink
                   v-if="result.data"
                   to="/cart">
-                <IconShoppingBag class="text-mainColor" size="30"/>
+                <IconShoppingCart size="20"/>
               </NuxtLink>
               <div v-if="cart.result">
                 <div
@@ -141,7 +145,7 @@ const logoutLocal = async () => {
           <NuxtLink
               v-if="result === false"
               to="/auth/login"
-              class="text-sm lg:text-base bg-mainColor !text-white py-2 lg:py-3 px-8 lg:px-16 rounded">
+              class="text-sm lg:text-base bg-mainColor !text-white py-2 px-8 lg:px-16 rounded">
             Войти
           </NuxtLink>
           <div v-else-if="result === null">

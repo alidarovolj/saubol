@@ -1,5 +1,6 @@
 <script setup>
 import Hero from "~/components/mainPage/hero.vue";
+import WayToHealth from "~/components/mainPage/wayToHealth.vue";
 
 const route = useRoute()
 
@@ -23,6 +24,8 @@ useHead({
   <div>
     <Hero/>
     <ServicesTypes />
-    <AnimationBlock />
+    <WayToHealth />
+<!--    <AnimationBlock />-->
+    <News />
   </div>
 </template>

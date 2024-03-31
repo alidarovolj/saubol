@@ -15,7 +15,7 @@ body {
 
 .router-link-active,
 .router-link-exact-active {
-    color: #0043E8;
+    color: #FE2D39;
 }
 
 .zoom-on-hover {
@@ -83,8 +83,8 @@ body {
 /*}*/
 
 .spinner {
-    border-top-color: #4299e1;
-    border-left-color: #4299e1;
+    border-top-color: #FE2D39;
+    border-left-color: #FE2D39;
     animation: spinner-spin 1s infinite linear;
     display: flex;
     justify-content: center;
@@ -250,4 +250,19 @@ body {
 .editorBlock button.is-active {
     background-color: black;
     color: white;
+}
+
+.carousel__slide {
+    align-items: normal !important;
+}
+
+.carousel__track {
+    gap: 10px;
+}
+
+.carousel__prev,
+.carousel__next {
+    display: block !important;
+    position: static !important;
+    transform: translate(0, 0) !important;
 }

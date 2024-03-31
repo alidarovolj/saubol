@@ -1,6 +1,6 @@
 <script setup>
 import 'vue3-carousel/dist/carousel.css'
-import {Carousel, Navigation, Slide} from "vue3-carousel";
+import {Carousel, Slide} from "vue3-carousel";
 import {IconArrowRight, IconChevronRight} from "@tabler/icons-vue";
 import {useNewsStore} from "~/store/news.js";
 
@@ -85,9 +85,6 @@ onMounted(async () => {
                   </p>
                 </nuxt-link>
               </Slide>
-              <template #addons>
-                <Navigation/>
-              </template>
             </Carousel>
           </client-only>
         </div>

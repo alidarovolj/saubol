@@ -37,7 +37,7 @@ const accordion = ref([
 </script>
 
 <template>
-  <div>
+  <div class="mb-20">
     <div class="container mx-auto px-4 lg:px-0">
       <div class="flex flex-col-reverse lg:flex-row justify-between gap-6">
         <div class="w-full lg:w-1/2">

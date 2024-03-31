@@ -1,22 +1,25 @@
 <script setup lang="ts">
-const {$anime} = useNuxtApp()
+const { $anime } = useNuxtApp();
 
-onMounted(() => {
-  window.addEventListener('scroll', updateLeftStyle);
+// Setting up the animation
+const animation = $anime({
+  targets: '.title',
+  translateY: 500,
+  duration: 1000,
+  easing: 'easeInOutQuad',
+  autoplay: false,
 });
 
-onUnmounted(() => {
-  window.removeEventListener('scroll', updateLeftStyle);
-});
+// Querying the progress element and asserting its type
+const seekProgressEl = document.querySelector('.seek-anim-demo .progress');
+const inputElement = seekProgressEl as HTMLInputElement | null;
 
-function updateLeftStyle() {
-  const scrollPercentage = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
-  $anime({
-    targets: '.title',
-    marginLeft: [`${50 - (scrollPercentage * 50)}%`, '0%'],
-    duration: 1000,
-    easing: 'linear'
-  });
+// Adding an input event listener if the element exists
+if (inputElement) {
+  inputElement.oninput = function() {
+    // Seeking the animation based on the input value
+    animation.seek(animation.duration * (inputElement.valueAsNumber / 100));
+  };
 }
 </script>
 

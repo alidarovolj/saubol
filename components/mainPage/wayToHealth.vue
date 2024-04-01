@@ -1,5 +1,4 @@
 <script setup>
-import { Carousel, Slide } from "vue3-carousel";
 import {IconBrandFacebook, IconBrandInstagram, IconBrandLinkedin, IconBrandTwitter, IconChevronRight, IconChevronLeft} from "@tabler/icons-vue";
 import img1 from "@/assets/img/landing/1.png"
 import img2 from "@/assets/img/landing/2.png"
@@ -80,14 +79,14 @@ const breakpoints = ref({
             </div>
           </div>
           <div v-if="slides" class="w-full lg:w-1/2">
-            <ClientOnly>
-              <Carousel
+            <client-only>
+              <my-carousel-carousel
                   ref="myCarousel"
                   :mouse-drag="true"
                   :loop="true"
                   :wrap-around="true"
                   :breakpoints="breakpoints">
-                <Slide v-for="(item, index) in slides" :key="index">
+                <my-carousel-slide v-for="(item, index) in slides" :key="index">
                   <img
                       class="w-1/3 rounded-l-2xl"
                       :src="item.img"
@@ -107,7 +106,7 @@ const breakpoints = ref({
                       {{ item.content }}
                     </p>
                   </div>
-                </Slide>
+                </my-carousel-slide>
                 <template #addons="{ currentSlide, slidesCount }">
                   <div class="flex justify-between items-center mt-3">
                     <div class="flex flex-row-reverse py-2">
@@ -120,18 +119,11 @@ const breakpoints = ref({
                       >
                         <IconChevronRight size="20" />
                       </button>
-<!--                      <button-->
-<!--                          :class="{ 'text-[#CCCCCC]': currentSlide + 1 === 1 }"-->
-<!--                          class="dark:text-dText"-->
-<!--                          @click="myCarousel.prev"-->
-<!--                      >-->
-<!--                        <IconChevronLeft />-->
-<!--                      </button>-->
                     </div>
                   </div>
                 </template>
-              </Carousel>
-            </ClientOnly>
+              </my-carousel-carousel>
+            </client-only>
           </div>
         </div>
       </div>

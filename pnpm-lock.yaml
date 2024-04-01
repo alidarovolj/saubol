@@ -35,9 +35,9 @@ dependencies:
   vue-yandex-maps:
     specifier: ^1.1.0
     version: 1.1.0
-  vue3-carousel:
-    specifier: ^0.3.1
-    version: 0.3.1(vue@3.4.13)
+  vue3-carousel-nuxt:
+    specifier: ^1.1.0
+    version: 1.1.0(vue@3.4.13)
   vue3-toastify:
     specifier: ^0.2.1
     version: 0.2.1(vue@3.4.13)
@@ -6031,6 +6031,17 @@ packages:
 
   /vue-yandex-maps@1.1.0:
     resolution: {integrity: sha512-pYgjEl8BRCkwK2BPF23/OwHD9Yk58wp2t0WSAHa+hKbb1JyMpbDTgVFXD4+7BkzGk6YpQT6zu1BV4aXOcyoJhQ==}
+    dev: false
+
+  /vue3-carousel-nuxt@1.1.0(vue@3.4.13):
+    resolution: {integrity: sha512-l5nyzKi4PhFVRuopnNUvnPD4fOZ6vpLPH/RCwKcC+35sDmWPvTjpkSs6ondkiAHAgOX61LHoOB9WBJb8CRIdkQ==}
+    dependencies:
+      '@nuxt/kit': 3.9.1
+      vue3-carousel: 0.3.1(vue@3.4.13)
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
+      - vue
     dev: false
 
   /vue3-carousel@0.3.1(vue@3.4.13):

@@ -1,6 +1,4 @@
 <script setup>
-import 'vue3-carousel/dist/carousel.css'
-import {Carousel, Navigation, Slide} from "vue3-carousel";
 import {IconArrowRight, IconChevronRight} from "@tabler/icons-vue";
 import {useNewsStore} from "~/store/news.js";
 import {useBannersStore} from "~/store/banners.js";
@@ -36,11 +34,11 @@ onMounted(async () => {
       <div v-if="result">
         <div class="block">
           <client-only>
-            <Carousel
+            <my-carousel-carousel
                 :breakpoints="breakpoints"
                 :itemsToShow="settings.itemsToShow"
                 class="mt-9 py-0">
-              <Slide
+              <my-carousel-slide
                   v-for="(item, index) in result"
                   :key="index"
                   class=""
@@ -55,11 +53,11 @@ onMounted(async () => {
                     {{ item.text }}
                   </p>
                 </div>
-              </Slide>
+              </my-carousel-slide>
               <template #addons>
-                <Navigation/>
+                <my-carousel-navigation/>
               </template>
-            </Carousel>
+            </my-carousel-carousel>
           </client-only>
         </div>
       </div>

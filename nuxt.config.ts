@@ -1,9 +1,13 @@
 export default defineNuxtConfig({
+    ssr: false,
     devtools: {
         enabled: false
     },
     css: ["assets/css/style.css", "assets/css/fonts.css"],
-    modules: ['nuxt-delay-hydration', "@pinia/nuxt", '@hypernym/nuxt-anime'],
+    modules: ['nuxt-delay-hydration', "@pinia/nuxt", '@hypernym/nuxt-anime', 'vue3-carousel-nuxt'],
+    carousel: {
+        prefix: 'myCarousel'
+    },
     components: [
         {
             path: "~/components", pathPrefix: false,

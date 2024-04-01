@@ -25,7 +25,8 @@ useHead({
     <Hero/>
     <ServicesTypes />
     <WayToHealth />
-<!--    <AnimationBlock />-->
+    <AnimationBlock />
+    <RegistrationForm />
     <News />
   </div>
 </template>

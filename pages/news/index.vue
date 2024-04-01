@@ -1,6 +1,4 @@
 <script setup>
-import 'vue3-carousel/dist/carousel.css'
-import {Carousel, Navigation, Slide} from "vue3-carousel";
 import {IconArrowRight, IconChevronRight} from "@tabler/icons-vue";
 import {useNewsStore} from "~/store/news.js";
 

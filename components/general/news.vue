@@ -1,6 +1,4 @@
 <script setup>
-import 'vue3-carousel/dist/carousel.css'
-import {Carousel, Slide} from "vue3-carousel";
 import {IconArrowRight, IconChevronRight} from "@tabler/icons-vue";
 import {useNewsStore} from "~/store/news.js";
 
@@ -48,11 +46,11 @@ onMounted(async () => {
       <div v-if="result">
         <div class="hidden lg:block">
           <client-only>
-            <Carousel
+            <my-carousel-carousel
                 :breakpoints="breakpoints"
                 :itemsToShow="settings.itemsToShow"
                 class="mt-9 py-0">
-              <Slide
+              <my-carousel-slide
                   v-for="(item, index) in result.data"
                   :key="index"
                   class=""
@@ -84,8 +82,8 @@ onMounted(async () => {
                     {{ item.created_at }}
                   </p>
                 </nuxt-link>
-              </Slide>
-            </Carousel>
+              </my-carousel-slide>
+            </my-carousel-carousel>
           </client-only>
         </div>
         <div class="block lg:hidden">

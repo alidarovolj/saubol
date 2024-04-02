@@ -103,29 +103,29 @@ onMounted(async () => {
           style="box-shadow: 0px 4px 20px 0px #0000001A;"
           class="bg-white p-2 rounded-lg flex flex-col gap-1">
         <NuxtLink
-            class="flex items-center hover:bg-[#ECEDFF] hover:text-mainColor gap-3 p-3 rounded-lg transition-all"
-            :class="{ 'bg-[#ECEDFF] text-mainColor' : route.fullPath === '/profile' }"
+            class="flex items-center hover:bg-[#fe2c3945] hover:text-mainColor gap-3 p-3 rounded-lg transition-all"
+            :class="{ 'bg-[#fe2c3945] text-mainColor' : route.fullPath === '/profile' }"
             to="/profile">
           <IconUserCircle size="30"/>
           <p>Мои профиль</p>
         </NuxtLink>
         <NuxtLink
-            class="flex items-center hover:bg-[#ECEDFF] hover:text-mainColor gap-3 p-3 rounded-lg transition-all"
-            :class="{ 'bg-[#ECEDFF] text-mainColor' : route.fullPath === '/profile/orders' }"
+            class="flex items-center hover:bg-[#fe2c3945] hover:text-mainColor gap-3 p-3 rounded-lg transition-all"
+            :class="{ 'bg-[#fe2c3945] text-mainColor' : route.fullPath === '/profile/orders' }"
             to="/profile/orders">
           <IconUserCircle size="30"/>
           <p>Мои заказы</p>
         </NuxtLink>
         <NuxtLink
-            class="flex items-center hover:bg-[#ECEDFF] hover:text-mainColor gap-3 p-3 rounded-lg transition-all"
-            :class="{ 'bg-[#ECEDFF] text-mainColor' : route.fullPath === '/profile/addresses' }"
+            class="flex items-center hover:bg-[#fe2c3945] hover:text-mainColor gap-3 p-3 rounded-lg transition-all"
+            :class="{ 'bg-[#fe2c3945] text-mainColor' : route.fullPath === '/profile/addresses' }"
             to="/profile/addresses">
           <IconAddressBook size="30"/>
           <p>Мои адреса</p>
         </NuxtLink>
         <div
             @click="logoutLocal"
-            class="cursor-pointer flex items-center hover:bg-[#ECEDFF] hover:text-mainColor gap-3 p-3 rounded-lg transition-all"
+            class="cursor-pointer flex items-center hover:bg-[#fe2c3945] hover:text-mainColor gap-3 p-3 rounded-lg transition-all"
         >
           <IconLogout size="30"/>
           <span>Выйти</span>
@@ -332,7 +332,7 @@ onMounted(async () => {
                         { '!bg-blue-400 text-white' : doneIMT > 24.9 && doneIMT < 29.9 },
                         { '!bg-purple-500 text-white' : doneIMT > 29.9 && doneIMT < 34.9 },
                         { '!bg-red-700 text-white' : doneIMT > 34.9 }]"
-                    class="w-full bg-[#ECEDFF] p-3 rounded-lg flex items-center gap-3">
+                    class="w-full bg-[#fe2c3945] p-3 rounded-lg flex items-center gap-3">
                   <IconMan
                       size="40"
                       class="text-mainColor"
@@ -376,7 +376,7 @@ onMounted(async () => {
                   </div>
                 </div>
                 <div class="block lg:flex justify-between gap-5">
-                  <div class="mb-3 lg:mb-0 w-full bg-[#ECEDFF] p-3 rounded-lg flex items-center gap-3">
+                  <div class="mb-3 lg:mb-0 w-full bg-[#fe2c3945] p-3 rounded-lg flex items-center gap-3">
                     <IconRuler3
                         size="40"
                         class="text-mainColor"
@@ -414,7 +414,7 @@ onMounted(async () => {
                     </div>
                   </div>
                 </div>
-                <div class="mb-3 lg:mb-0 w-full bg-[#ECEDFF] p-3 rounded-lg flex items-center gap-3">
+                <div class="mb-3 lg:mb-0 w-full bg-[#fe2c3945] p-3 rounded-lg flex items-center gap-3">
                   <IconScaleOutline
                       size="40"
                       class="text-mainColor"
@@ -451,7 +451,7 @@ onMounted(async () => {
                     </div>
                   </div>
                 </div>
-                <div class="w-full bg-[#ECEDFF] p-3 rounded-lg flex items-center gap-3">
+                <div class="w-full bg-[#fe2c3945] p-3 rounded-lg flex items-center gap-3">
                   <IconMathXDivideY
                       size="40"
                       class="text-mainColor"

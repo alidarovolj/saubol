@@ -61,7 +61,7 @@ useHead({
         Аренда инвентаря
       </h1>
       <ServicesNavigation />
-      <div class="bg-white p-5 rounded-lg my-8">
+      <div class="bg-white p-5 rounded-lg my-8" style="box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 10px 0px;">
         <h1 class="mb-5 text-mainColor text-2xl lg:text-4xl font-semibold">
           Аренда инвентаря
         </h1>
@@ -87,7 +87,7 @@ useHead({
           v-if="!pending"
         class="block lg:flex items-start gap-4"
       >
-        <div class="w-full lg:w-1/4 bg-white py-5 px-3 rounded-lg mb-5 lg:mb-0">
+        <div class="w-full lg:w-1/4 bg-white py-5 px-3 rounded-lg mb-5 lg:mb-0" style="box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 10px 0px;">
           <h2 class="text-lg lg:text-3xl mb-5 text-mainColor">
             Категории
           </h2>
@@ -95,7 +95,7 @@ useHead({
               to="/"
             v-for="(category, index) in resultCategories"
               class="block py-2 px-3 text-sm lg:text-base rounded-lg"
-              :class="{ 'bg-[#ECEDFF]' : index === 0 }"
+              :class="{ 'bg-[#fe2c3945]' : index === 0 }"
               :key="index"
           >
             {{ category.name }}

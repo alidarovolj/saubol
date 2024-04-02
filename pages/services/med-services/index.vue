@@ -103,7 +103,7 @@ useHead({
         Мед-услуги
       </h1>
       <ServicesNavigation/>
-      <div class="bg-white p-5 rounded-lg mb-8">
+      <div class="bg-white p-5 rounded-lg mb-8" style="box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 10px 0px;">
         <h1 class="mb-2 text-mainColor text-2xl lg:text-4xl font-semibold">
           Мед-услуги
         </h1>

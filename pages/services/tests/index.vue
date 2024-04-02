@@ -78,7 +78,7 @@ useHead({
         Сдача анализов
       </h1>
       <ServicesNavigation />
-      <div class="bg-white p-5 rounded-lg my-8">
+      <div class="bg-white p-5 rounded-lg my-8" style="box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 10px 0px;">
         <h1 class="mb-5 text-mainColor text-2xl lg:text-4xl font-semibold">
           Сдача анализов
         </h1>
@@ -117,7 +117,7 @@ useHead({
               to="/"
               v-for="(category, index) in resultCategories"
               class="block py-2 px-3 text-sm lg:text-base rounded-lg"
-              :class="{ 'bg-[#ECEDFF]' : index === 0 }"
+              :class="{ 'bg-[#fe2c3945]' : index === 0 }"
               :key="index"
           >
             {{ category.name }}

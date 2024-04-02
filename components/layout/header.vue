@@ -49,7 +49,7 @@ const logoutLocal = async () => {
         <div class="flex items-center">
           <NuxtLink
               to="/"
-              class="flex items-center gap-2"
+              class="flex items-center gap-2 mr-5 lg:mr-0"
           >
             <img
                 class="w-auto h-7 lg:h-12"
@@ -191,10 +191,19 @@ const logoutLocal = async () => {
                 <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
                 <div class="menu p-4 w-80 min-h-full bg-base-200 text-base-content flex flex-col justify-between h-screen">
                   <div>
-                    <img
-                        class="mb-10"
-                        src="@/assets/img/main-color-logo.svg"
-                        alt="">
+                    <NuxtLink
+                        to="/"
+                        class="flex items-center gap-2 mr-5 lg:mr-0 mb-10"
+                    >
+                      <img
+                          class="w-auto h-7 lg:h-12"
+                          src="@/assets/img/logo.png"
+                          alt=""
+                      >
+                      <p class="text-3xl font-bold text-black">
+                        Saubol
+                      </p>
+                    </NuxtLink>
                     <div class="flex flex-col gap-2">
                       <div
                           v-for="(item, index) of links"

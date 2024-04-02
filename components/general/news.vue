@@ -49,7 +49,7 @@ onMounted(async () => {
             <my-carousel-carousel
                 :breakpoints="breakpoints"
                 :itemsToShow="settings.itemsToShow"
-                class="mt-9 py-0">
+                class="mt-9 py-0 pb-3">
               <my-carousel-slide
                   v-for="(item, index) in result.data"
                   :key="index"

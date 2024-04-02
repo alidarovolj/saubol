@@ -2,7 +2,11 @@
   <div>
     <div id="bound-two" class="scroll-bound" ref="boundRef">
       <div class="content">
-        <video width="600" muted preload ref="videoRef">
+        <video class="block lg:hidden" width="600" muted preload ref="videoRef1">
+          <source src="@/assets/videos/mobVideo.mp4" type="video/mp4">
+          <p>Your user agent does not support the HTML5 Video element.</p>
+        </video>
+        <video class="hidden lg:block" width="600" muted preload ref="videoRef2">
           <source src="@/assets/videos/mainPage.mp4" type="video/mp4">
           <p>Your user agent does not support the HTML5 Video element.</p>
         </video>
@@ -15,19 +19,18 @@
 export default {
   setup() {
     const boundRef = ref(null);
-    const videoRef = ref(null);
+    const videoRef1 = ref(null);
+    const videoRef2 = ref(null);
 
     const scrollVideo = () => {
+      const videoRef = window.innerWidth >= 1024 ? videoRef2 : videoRef1; // Choose the video based on the window width
+
       if (videoRef.value && videoRef.value.duration) {
         const boundRect = boundRef.value.getBoundingClientRect();
-        const videoTop = boundRect.top; // Get video's top position relative to viewport
-        const videoHeight = boundRect.height;
-
-        const scrollBoundTop = boundRect.top + window.scrollY; // Calculate the top of the scroll-bound element in relation to the entire page
-        const scrollBoundBottom = scrollBoundTop + boundRect.height; // Calculate the bottom of the scroll-bound element
+        const scrollBoundTop = boundRect.top + window.scrollY;
+        const scrollBoundBottom = scrollBoundTop + boundRect.height;
 
         if (window.scrollY >= scrollBoundTop && window.scrollY < scrollBoundBottom) {
-          // Calculate percentage scrolled within the scroll-bound element
           const rawPercentScrolled = (window.scrollY - scrollBoundTop) / (boundRect.height - window.innerHeight);
           const percentScrolled = Math.min(Math.max(rawPercentScrolled, 0), 1);
           videoRef.value.currentTime = videoRef.value.duration * percentScrolled;
@@ -41,7 +44,8 @@ export default {
 
     return {
       boundRef,
-      videoRef,
+      videoRef1,
+      videoRef2,
     };
   },
 };

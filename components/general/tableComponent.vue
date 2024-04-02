@@ -126,7 +126,7 @@ export default {
           <tr
               v-for="(row, key) in source?.data"
               :key="key"
-              :class="{'bg-[#ECEDFF]': key % 2 === 0}"
+              :class="{'bg-[#fe2c3945]': key % 2 === 0}"
               class="whitespace-nowrap lg:whitespace-normal text-sm font-medium !rounded-lg"
           >
             <td
@@ -256,7 +256,7 @@ export default {
           <tr
               v-for="(row, key) in source"
               :key="key"
-              :class="{'bg-[#ECEDFF]': key % 2 === 0}"
+              :class="{'bg-[#fe2c3945]': key % 2 === 0}"
               class="whitespace-nowrap lg:whitespace-normal text-sm font-medium !rounded-lg"
           >
             <td

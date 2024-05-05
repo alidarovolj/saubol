@@ -28,7 +28,7 @@ const links = ref([
   },
   {
     title: 'Аренда',
-    link: '/inventory'
+    link: '/services/inventory'
   }
 ])
 

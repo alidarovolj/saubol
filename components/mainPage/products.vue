@@ -26,7 +26,7 @@ onMounted(async () => {
             Аренда инвентаря
           </h2>
           <NuxtLink
-              to="/inventory"
+              to="/services/inventory"
               class="flex items-center rounded-lg shadow py-2 px-3 bg-white text-mainColor text-sm"
           >
             <span>Посмотреть все товары</span>

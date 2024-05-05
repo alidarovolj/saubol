@@ -10,7 +10,6 @@ const passwordFieldConfirmType = ref("password");
 const runtimeConfig = useRuntimeConfig();
 const auth = useAuthStore()
 const user = useUserStore()
-const {result} = storeToRefs(user)
 const cart = useCartStore()
 
 const loading = ref(false);
@@ -58,7 +57,7 @@ const sendForm = async () => {
     return;
   }
 
-  if(form.value.password === form.value.password_confirmation) {
+  if (form.value.password === form.value.password_confirmation) {
 
     const {data, error} = await useFetch("/auth/register", {
       method: "POST",
@@ -194,7 +193,8 @@ const sendForm = async () => {
             </div>
           </div>
           <ul class="list-disc pl-5 mb-5">
-            <li :class="{ 'text-green-400' : form.password.length >= 8 }">Длина пароля должна быть не менее 8 символов</li>
+            <li :class="{ 'text-green-400' : form.password.length >= 8 }">Длина пароля должна быть не менее 8 символов
+            </li>
             <li :class="{ 'text-green-400' : /[A-Z]/.test(form.password) }">Латинские заглавные буквы</li>
             <li :class="{ 'text-green-400' : /[a-z]/.test(form.password) }">Латинские строчные буквы</li>
             <li :class="{ 'text-green-400' : /[0-9]/.test(form.password) }">Цифры 0-9</li>
@@ -234,12 +234,21 @@ const sendForm = async () => {
       </div>
       <div class="hidden lg:flex w-3/5 relative items-center">
         <img class="w-full h-full absolute left-0 top-0 object-cover" src="@/assets/img/auth/bg.jpg" alt="">
-        <img class="w-full h-full absolute left-0 top-0" src="@/assets/img/auth/bg-fill.png" alt="">
+        <div class="w-full h-full bg-mainColor opacity-20 z-10 absolute left-0 top-0"></div>
         <div class="relative z-20 pl-11 text-5xl text-white">
-          <img
-              class="mb-5"
-              src="@/assets/img/footer-logo.png"
-              alt="">
+          <NuxtLink
+              to="/"
+              class="flex justify-start items-center gap-2 mr-5 lg:mr-0 mb-10"
+          >
+            <img
+                class="w-auto h-7 lg:h-14"
+                src="@/assets/img/logo.png"
+                alt=""
+            >
+            <p class="text-4xl font-bold text-white">
+              Saubol
+            </p>
+          </NuxtLink>
           <p>
             Забота о вашем здоровье с Saubol: Надежно и Качественно!
           </p>

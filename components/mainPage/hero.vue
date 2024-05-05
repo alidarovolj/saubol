@@ -24,12 +24,14 @@ onUnmounted(() => {
           <div class="text-3xl lg:text-6xl font-semibold mb-5">
             <div class="flex items-center gap-2">
               <p>Забота</p>
-              <img
-                  :class="imgClass"
-                  class="transition-all"
-                  src="@/assets/img/logo.png"
-                  alt=""
-              />
+              <div class="flex items-center justify-center w-14 h-14">
+                <img
+                    :class="imgClass"
+                    class="transition-all"
+                    src="@/assets/img/logo.png"
+                    alt=""
+                />
+              </div>
               <p>о</p><br>
             </div>
             <p>вашем здоровье с <span class="text-mainColor">Saubol</span></p>
@@ -46,7 +48,9 @@ onUnmounted(() => {
         <div class="w-full lg:w-half flex gap-6">
           <div class="w-full flex flex-col gap-6">
             <div class="w-full">
-              <div class="cardHover w-full relative h-[350px]">
+              <NuxtLink
+                  to="/services/doctors"
+                  class="cardHover block w-full relative h-[350px]">
                 <img
                     class="w-full rounded-lg h-full object-cover"
                     src="@/assets/img/mainPage/services/1.png"
@@ -70,10 +74,12 @@ onUnmounted(() => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </NuxtLink>
             </div>
             <div class="w-full">
-              <div class="cardHover w-full relative h-[350px]">
+              <NuxtLink
+                  to="/services/med-services"
+                  class="cardHover block w-full relative h-[350px]">
                 <img
                     class="w-full rounded-lg h-full object-cover"
                     src="@/assets/img/mainPage/services/2.png"
@@ -97,12 +103,14 @@ onUnmounted(() => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </NuxtLink>
             </div>
           </div>
           <div class="w-full flex flex-col gap-6 -mt-12">
             <div class="w-full">
-              <div class="cardHover w-full relative h-[350px]">
+              <NuxtLink
+                  to="/services/tests"
+                  class="cardHover block w-full relative h-[350px]">
                 <img
                     class="w-full rounded-lg h-full object-cover"
                     src="@/assets/img/mainPage/services/3.png"
@@ -126,10 +134,12 @@ onUnmounted(() => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </NuxtLink>
             </div>
             <div class="w-full">
-              <div class="cardHover w-full relative h-[350px]">
+              <NuxtLink
+                  to="/services/detox"
+                  class="cardHover block w-full relative h-[350px]">
                 <img
                     class="w-full rounded-lg h-full object-cover"
                     src="@/assets/img/mainPage/services/1.png"
@@ -153,7 +163,7 @@ onUnmounted(() => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </NuxtLink>
             </div>
           </div>
         </div>

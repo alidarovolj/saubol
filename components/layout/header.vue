@@ -6,6 +6,10 @@ const route = useRoute();
 const user = useUserStore()
 const {result} = storeToRefs(user)
 
+const auth = useAuthStore()
+auth.initCookieToken()
+const {token} = storeToRefs(auth)
+
 const cart = useCartStore()
 
 const openedDrawer = ref(false)
@@ -46,70 +50,74 @@ const logoutLocal = async () => {
   <div class="py-4 absolute top-0 left-0 z-50 w-full bg-white">
     <div class="container mx-auto px-4 lg:px-0">
       <div class="flex justify-between items-center">
-        <div class="flex items-center">
-          <NuxtLink
-              to="/"
-              class="flex items-center gap-2 mr-5 lg:mr-0"
-          >
-            <img
-                class="w-auto h-7 lg:h-12"
-                src="@/assets/img/logo.png"
-                alt=""
+        <div class="flex items-center gap-12 text-xl font-semibold">
+          <div class="flex items-center">
+            <NuxtLink
+                to="/"
+                class="flex items-center gap-2 mr-5 lg:mr-0"
             >
-            <p class="text-3xl font-bold text-black">
-              Saubol
-            </p>
-          </NuxtLink>
-        </div>
-        <div class="hidden lg:flex gap-10">
-          <NuxtLink to="/news">
-            Новости
-          </NuxtLink>
-          <div class="dropdown">
-            <div
-                tabindex="0"
-                role="button"
-                :class="{ 'text-mainColor' : route.fullPath.includes('/services') }"
-            >
-              Услуги
-            </div>
-            <ul
-                tabindex="0"
-                class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
-            >
-              <li>
-                <NuxtLink to="/services/doctors">
-                  Доктора
-                </NuxtLink>
-              </li>
-              <li>
-                <NuxtLink to="/services/med-services">
-                  Мед-услуги
-                </NuxtLink>
-              </li>
-              <li>
-                <NuxtLink to="/inventory">
-                  Аренда
-                </NuxtLink>
-              </li>
-<!--              <li>-->
-<!--                <NuxtLink to="/services/detox">-->
-<!--                  Процедуры детокс-->
-<!--                </NuxtLink>-->
-<!--              </li>-->
-              <li>
-                <NuxtLink to="/services/tests">
-                  Сдача анализов
-                </NuxtLink>
-              </li>
-            </ul>
+              <img
+                  class="w-auto h-7 lg:h-12"
+                  src="@/assets/img/logo.png"
+                  alt=""
+              >
+              <p class="text-3xl font-bold text-black">
+                Saubol
+              </p>
+            </NuxtLink>
           </div>
-          <NuxtLink to="/contacts">
-            Контакты
-          </NuxtLink>
-          <NuxtLink to="/about">
-            О нас
-          </NuxtLink>
+          <div class="hidden lg:flex gap-10">
+            <NuxtLink to="/news">
+              Новости
+            </NuxtLink>
+            <div
+                v-if="token"
+                class="dropdown dropdown-hover">
+              <div
+                  tabindex="0"
+                  role="button"
+                  :class="{ 'text-mainColor' : route.fullPath.includes('/services') }"
+              >
+                Услуги
+              </div>
+              <ul
+                  tabindex="0"
+                  class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+              >
+                <li>
+                  <NuxtLink to="/services/doctors">
+                    Доктора
+                  </NuxtLink>
+                </li>
+                <li>
+                  <NuxtLink to="/services/med-services">
+                    Мед-услуги
+                  </NuxtLink>
+                </li>
+                <li>
+                  <NuxtLink to="/services/inventory">
+                    Аренда
+                  </NuxtLink>
+                </li>
+                <li>
+                  <NuxtLink to="/services/detox">
+                    Процедуры детокс
+                  </NuxtLink>
+                </li>
+                <li>
+                  <NuxtLink to="/services/tests">
+                    Сдача анализов
+                  </NuxtLink>
+                </li>
+              </ul>
+            </div>
+            <NuxtLink to="/contacts">
+              Контакты
+            </NuxtLink>
+            <NuxtLink to="/about">
+              О нас
+            </NuxtLink>
+          </div>
         </div>
         <div class="flex items-center gap-5">
           <div class="p-2 border border-black rounded-lg whitespace-nowrap">
@@ -153,9 +161,9 @@ const logoutLocal = async () => {
           </div>
           <div v-else>
             <div v-if="result.data">
-              <div class="dropdown">
+              <div class="dropdown dropdown-end">
                 <div tabindex="0" role="button" class="flex items-center gap-3">
-                  <p class="text-mainColor">{{ result.data.name }}</p>
+                  <p class="hidden lg:flex text-sm text-mainColor">{{ result.data.name }}</p>
                   <div
                       v-if="!result.data.img"
                       class="relative w-10 h-10 bg-mainColor bg-opacity-20 rounded-full">
@@ -189,7 +197,8 @@ const logoutLocal = async () => {
               </div>
               <div class="drawer-side">
                 <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
-                <div class="menu p-4 w-80 min-h-full bg-base-200 text-base-content flex flex-col justify-between h-screen">
+                <div
+                    class="menu p-4 w-80 min-h-full bg-base-200 text-base-content flex flex-col justify-between h-screen">
                   <div>
                     <NuxtLink
                         to="/"

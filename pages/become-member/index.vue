@@ -474,7 +474,7 @@ useHead({
                     </option>
                   </select>
                 </div>
-                <p class="font-medium bg-[#E7F0FF] py-1 px-4 mb-5 rounded">
+                <p class="font-medium bg-[#ffe7e7] py-1 px-4 mb-5 rounded">
                   Дни приема
                 </p>
                 <div class="flex flex-col lg:flex-row gap-3 mb-5">
@@ -487,7 +487,7 @@ useHead({
                     {{ day.title }}
                   </div>
                 </div>
-                <p class="font-medium bg-[#E7F0FF] py-1 px-4 mb-5 rounded">
+                <p class="font-medium bg-[#ffe7e7] py-1 px-4 mb-5 rounded">
                   Время приема
                 </p>
                 <div class="flex flex-wrap gap-1 lg:gap-2">
@@ -570,7 +570,7 @@ useHead({
                         v-for="(item, index) of diplomaFiles"
                         :key="index"
                         class="flex justify-between">
-                      <div class="w-full bg-[#E7F0FF] rounded-md px-3 py-2 flex justify-between items-center gap-3">
+                      <div class="w-full bg-[#ffe7e7] rounded-md px-3 py-2 flex justify-between items-center gap-3">
                         <img class="w-max" src="@/assets/img/attachment.png" alt="">
                         <div class="w-full flex justify-between text-xs">
                           <p>{{ item.name }}</p>
@@ -606,7 +606,7 @@ useHead({
                         v-for="(item, index) of sertificateFiles"
                         :key="index"
                         class="flex justify-between">
-                      <div class="w-full bg-[#E7F0FF] rounded-md px-3 py-2 flex justify-between items-center gap-3">
+                      <div class="w-full bg-[#ffe7e7] rounded-md px-3 py-2 flex justify-between items-center gap-3">
                         <img class="w-max" src="@/assets/img/attachment.png" alt="">
                         <div class="w-full flex justify-between text-xs">
                           <p>{{ item.name }}</p>
@@ -644,7 +644,7 @@ useHead({
                       v-model="form.experience"
                       :class="{'border-red-500': v$.experience.$error}"
                       type="text"
-                      class="bg-[#E7F0FF] rounded-md w-14 text-center"
+                      class="bg-[#ffe7e7] rounded-md w-14 text-center"
                   >
                   <div class="bg-mainColor text-white p-1 rounded-md cursor-pointer">
                     <IconPlus @click="form.experience = form.experience + 1"/>

@@ -6,23 +6,18 @@ import {required} from "@vuelidate/validators";
 import {useCartStore} from "~/store/cart.js";
 
 const user = useUserStore();
-const {resultImage} = storeToRefs(user);
 
 const addresses = useAddressesStore();
-const {resultAddresses} = storeToRefs(addresses);
 
 const lab = useDomoLabStore();
-const {result} = storeToRefs(lab);
 
 const loading = ref(false);
-const pending = ref(true);
 
 const cart = useCartStore()
 
-const props = defineProps({
-  test: Object,
-  required: true
-})
+const pickedTest = ref(null);
+
+const props = defineProps(['test'])
 
 const times = ref([]);
 const dates = ref([]);
@@ -103,23 +98,21 @@ const sendForm = async () => {
   await cart.cartList()
 }
 
-onMounted(async () => {
-  await nextTick()
-  await lab.listDomolab()
-  await addresses.listAddresses()
-  pending.value = false
-})
-
 const notify = (type, text) => {
   const toast = useNuxtApp().$toast;
   type ? toast.success(text) : toast.error(text);
 };
 
-watch(() => props.test, (newValue, oldValue) => {
-  if (newValue) {
-    form.value.analysis_ids = [newValue.id]
-  }
+onMounted(async () => {
+  await nextTick()
+  pickedTest.value = props.test
+  await addresses.listAddresses()
 })
+
+watch(() => props.test, (newService) => {
+  pickedTest.value = newService;
+  form.value.analysis_ids.push(props.test.id)
+});
 </script>
 
 <template>
@@ -133,15 +126,15 @@ watch(() => props.test, (newValue, oldValue) => {
       </h3>
       <div class="w-full bg-white flex items-center justify-center text-regText p-4 lg:p-0">
         <div
-            v-if="!pending"
+            v-if="pickedTest"
             class="w-full">
-          <div v-if="props.test" class="block lg:flex items-start justify-between w-full mb-6">
+          <div class="block lg:flex items-start justify-between w-full mb-6">
             <div>
               <p class="text-black font-bold mb-2">
-                {{ props.test.name }}
+                {{ pickedTest.name }}
               </p>
               <p class="text-sm mb-3">
-                {{ props.test.category.name }}
+                {{ pickedTest.category.name }}
               </p>
               <div class="flex gap-3">
                 <div class="flex items-center bg-[#EFD7B2] text-xs gap-1 p-1 rounded">
@@ -159,9 +152,9 @@ watch(() => props.test, (newValue, oldValue) => {
               </div>
             </div>
             <div class="flex flex-col justify-between text-sm">
-              <p class="px-7 py-2 bg-[#E7F0FF] rounded-md text-center w-max font-bold text-mainColor mb-2">
+              <p class="px-7 py-2 bg-[#ffe7e7] rounded-md text-center w-max font-bold text-mainColor mb-2">
               <span>
-                {{ props.test.price }}
+                {{ pickedTest.price }}
               </span> ₸
               </p>
             </div>

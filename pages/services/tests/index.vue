@@ -29,30 +29,58 @@ const links = ref([
 
 const searchValue = ref('')
 
+const filters = ref({
+  'fields[category.name]': null,
+})
+
+const searchTests = async (val) => {
+  if (val) {
+    filters.value['fields[category.name]'] = val
+  } else {
+    filters.value['fields[category.name]'] = null
+  }
+
+  const nonNullFilters = Object.entries(filters.value).reduce((acc, [key, value]) => {
+    if (value !== null) {
+      acc[key] = value;
+    }
+    return acc;
+  }, {});
+
+  const queryParams = {
+    ...nonNullFilters,
+    perPage: route.query.perPage || 10,
+    page: route.query.page || 1
+  };
+
+  await router.push({query: {...route.query, ...queryParams}})
+  await lab.listDomolab(queryParams)
+}
+
 onMounted(async () => {
   await nextTick()
-  if (route.query.page) {
-    await router.push({query: {...route.query, page: route.query.page}})
-  } else {
-    await router.push({query: {...route.query, page: 1}})
-  }
-  if (route.query.perPage) {
-    await router.push({query: {...route.query, perPage: route.query.perPage}})
-  } else {
-    await router.push({query: {...route.query, perPage: 10}})
-  }
+
+  // Prepare the queries
+  const queries = {
+    ...route.query,
+    page: route.query.page || 1,
+    perPage: route.query.perPage || 10,
+  };
+
+  // Update the search value if it exists in the query
   if (route.query['fields[name]']) {
     searchValue.value = route.query['fields[name]'];
   }
-  await lab.listDomolabCategories()
-  const existingQueries = route.query;
-  const newQueries = {perPage: route.query.perPage, page: route.query.page};
 
-  const fullQueries = {...existingQueries, ...newQueries};
+  // Navigate to the new route
+  await router.push({query: queries});
 
-  await lab.listDomolab(fullQueries);
-  pending.value = false
-})
+  // Fetch the data
+  await lab.listDomolabCategories();
+  await searchTests();
+
+  pending.value = false;
+});
 
 useHead({
   title: "Сдача анализов | Услуги | SaubolMed",
@@ -68,16 +96,18 @@ useHead({
   ],
   link: [{rel: "canonical", href: "https://saubolmed.kz/"}],
 });
+
+watch(route.query, async (newVal) => {
+  const newQuery = {...route.query, perPage: route.query.perPage, page: route.query.page, 'fields[name]': newVal};
+  await lab.listDomolab(newQuery);
+})
 </script>
 
 <template>
   <div class="pt-8">
     <div class="container mx-auto px-4 lg:px-0">
-      <Breadcrumbs :links="links"/>
-      <h1 class="text-4xl lg:text-6xl font-semibold text-mainColor mb-7">
-        Сдача анализов
-      </h1>
-      <ServicesNavigation />
+      <Breadcrumbs :links="links" class="mb-5"/>
+      <!--      <ServicesNavigation />-->
       <div class="bg-white p-5 rounded-lg my-8" style="box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 10px 0px;">
         <h1 class="mb-5 text-mainColor text-2xl lg:text-4xl font-semibold">
           Сдача анализов
@@ -113,15 +143,22 @@ useHead({
           <h2 class="text-lg lg:text-3xl mb-5 text-mainColor">
             Категории
           </h2>
-          <NuxtLink
-              to="/"
+          <div
+              @click="searchTests(null)"
+              class="block py-2 px-3 text-sm lg:text-base rounded-lg cursor-pointer"
+              :class="{ 'bg-[#fe2c3945]' : !filters['fields[category.name]']}"
+          >
+            Все
+          </div>
+          <div
+              @click="searchTests(category.name)"
               v-for="(category, index) in resultCategories"
-              class="block py-2 px-3 text-sm lg:text-base rounded-lg"
-              :class="{ 'bg-[#fe2c3945]' : index === 0 }"
+              class="cursor-pointer block py-2 px-3 text-sm lg:text-base rounded-lg"
+              :class="{ 'bg-[#fe2c3945]' : category.name === filters['fields[category.name]']}"
               :key="index"
           >
             {{ category.name }}
-          </NuxtLink>
+          </div>
         </div>
         <div class="w-full lg:w-3/4 flex flex-col gap-2">
           <div
@@ -133,23 +170,25 @@ useHead({
                 :key="index">
               <TestCard :service="service"/>
             </div>
+            <Pagination
+                :meta="result.meta"
+                @navigate="async () => {
+      const newQuery = {...route.query, perPage: route.query.perPage, page: route.query.page};
+      await lab.listDomolab(newQuery);
+    }"
+            />
+
           </div>
           <div
               v-else
               style="box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.05);"
-            class="bg-white p-5 rounded-lg w-full text-center"
+              class="bg-white p-5 rounded-lg w-full text-center"
           >
             <p class="text-red-500 font-semibold">
               Ничего не найдено
             </p>
           </div>
         </div>
-        <!--        <div>-->
-        <!--          <Pagination-->
-        <!--              :meta="result.meta"-->
-        <!--              @navigate="staff.getStaff({perPage: route.query.perPage, page: route.query.page})"-->
-        <!--          />-->
-        <!--        </div>-->
       </div>
       <div
           v-else

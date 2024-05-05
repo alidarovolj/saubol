@@ -106,7 +106,9 @@ onMounted(async () => {
   await staff.getStaffDetail(route.params.id)
   await addresses.listAddresses()
   form.value.staff_id = resultDetail.value.id
-  form.value.user_id = user.result.data.id
+  if(user.result) {
+    form.value.user_id = user.result.data.id
+  }
   links.value.push({
     title: resultDetail.value.user.name,
     link: '/services/doctors/' + resultDetail.value.id
@@ -134,7 +136,7 @@ watch(() => user.result, () => {
   <div class="relative pt-8">
     <div class="container mx-auto px-4 lg:px-0">
       <Breadcrumbs :links="links" class="mb-5"/>
-      <ServicesNavigation/>
+<!--      <ServicesNavigation/>-->
       <div
           v-if="!pending"
           class="block lg:flex items-start justify-between gap-6">
@@ -215,7 +217,7 @@ watch(() => user.result, () => {
               <div
                   v-if="resultDetail.additional_info"
                   class="mb-5">
-                <p class="bg-[#E7F0FF] p-3 rounded-md text-sm">
+                <p class="bg-[#ffe7e7] p-3 rounded-md text-sm">
                   {{ resultDetail.additional_info }}
                 </p>
               </div>
@@ -233,7 +235,7 @@ watch(() => user.result, () => {
                         :href="item.path"
                         target="_blank"
                         :class="{ 'mb-3' : sertificates.length - 1 !== index }"
-                        class="flex items-center cursor-pointer justify-between bg-[#E7F0FF] p-2 rounded text-xs">
+                        class="flex items-center cursor-pointer justify-between bg-[#ffe7e7] p-2 rounded text-xs">
                       <div class="flex items-center gap-3">
                         <IconFileFilled class="w-7 h-7 text-mainColor"/>
                         <p>
@@ -259,7 +261,7 @@ watch(() => user.result, () => {
                         :href="item.path"
                         target="_blank"
                         :class="{ 'mb-3' : diplomas.length - 1 !== index }"
-                        class="flex items-center cursor-pointer justify-between bg-[#E7F0FF] p-2 rounded text-xs">
+                        class="flex items-center cursor-pointer justify-between bg-[#ffe7e7] p-2 rounded text-xs">
                       <div class="flex items-center gap-3">
                         <IconFileFilled class="w-7 h-7 text-mainColor"/>
                         <p>
@@ -287,7 +289,7 @@ watch(() => user.result, () => {
               <p class="text-xs lg:text-sm mb-1">
                 Цена
               </p>
-              <p class="px-7 py-3 bg-[#E7F0FF] rounded-md text-center w-max font-bold text-mainColor">
+              <p class="px-7 py-3 bg-[#ffe7e7] rounded-md text-center w-max font-bold text-mainColor">
                 {{ form.price }} тг
               </p>
             </div>
@@ -395,7 +397,7 @@ watch(() => user.result, () => {
             </div>
           </div>
           <!--          <Schedule />-->
-          <div class="flex gap-6 border-t border-[#E7F0FF] pt-4">
+          <div class="flex gap-6 border-t border-[#ffe7e7] pt-4">
             <p
                 v-if="user.result && !loading"
                 @click="sendForm"

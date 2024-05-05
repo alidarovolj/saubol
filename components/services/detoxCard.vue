@@ -3,13 +3,14 @@ import {useAddressesStore} from "~/store/addresses.js";
 import {useVuelidate} from "@vuelidate/core";
 import {required} from "@vuelidate/validators";
 import {useNursesStore} from "~/store/nurses.js";
+import {useDetoxStore} from "~/store/detox.js";
 
 const addresses = useAddressesStore()
 
 const user = useUserStore()
 const {result} = storeToRefs(user)
 
-const nurse = useNursesStore()
+const detox = useDetoxStore()
 const cart = useCartStore()
 
 const props = defineProps({
@@ -79,8 +80,8 @@ const sendForm = async () => {
     return;
   }
 
-  await nurse.cartNurses(form.value)
-  if (nurse.resultNurseCart) {
+  await detox.cartDetox(form.value)
+  if (detox.resultDetoxCart) {
     await cart.cartList()
     notify(true, 'Услуга успешно добавлена в корзину')
     loading.value = false;
@@ -245,11 +246,11 @@ watch(form.value, (val) => {
         </div>
       </div>
       <div class="flex gap-6 border-t border-[#ffe7e7] pt-4">
-        <NuxtLink
-            :to="'/services/med-services/' + props.service.id"
-            class="block w-full py-3 rounded-lg text-mainColor bg-[#ffe7e7] text-center">
-          Подробнее
-        </NuxtLink>
+<!--        <NuxtLink-->
+<!--            :to="'/services/med-services/' + props.service.id"-->
+<!--            class="block w-full py-3 rounded-lg text-mainColor bg-[#ffe7e7] text-center">-->
+<!--          Подробнее-->
+<!--        </NuxtLink>-->
         <p
             v-if="user.result && !loading"
             @click="sendForm"

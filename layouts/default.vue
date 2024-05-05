@@ -4,11 +4,9 @@ import Header from "~/components/layout/header.vue";
 const route = useRoute()
 
 const user = useUserStore()
-const {result} = storeToRefs(user)
 
 const auth = useAuthStore()
 auth.initCookieToken()
-const {token} = storeToRefs(auth)
 
 onMounted(async () => {
   await nextTick()
@@ -19,7 +17,9 @@ onMounted(async () => {
 <template>
   <div class="relative pt-16">
     <Header/>
-    <div class="relative z-30 pb-10">
+    <div
+        :class="{ '!pb-0' : route.fullPath === '/auth/login' || route.fullPath === '/auth/registration' }"
+        class="relative z-30 pb-10">
       <slot/>
     </div>
     <Footer/>

@@ -48,7 +48,7 @@ onMounted(async () => {
           class="mb-6"
       />
       <div class="block lg:flex justify-between items-start">
-        <div class="lg:mr-6 mb-6 lg:mb-0 p-6 bg-white shadow-custom rounded-lg w-full lg:w-2/3">
+        <div class="lg:mr-6 mb-6 lg:mb-0 p-6 bg-white shadow-lg rounded-lg w-full lg:w-2/3">
           <div v-if="resultDetail">
             <h1 class="text-xl font-bold mb-3">
               {{ resultDetail.name }}

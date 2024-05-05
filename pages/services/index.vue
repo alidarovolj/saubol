@@ -1,15 +1,7 @@
 <script setup>
-import {IconStethoscope, IconNurse, IconVaccine, IconMicroscope} from "@tabler/icons-vue"
-import jsonData from '@/assets/json/data.json'
-import Doctor from "~/components/services/doctor.vue";
-import {useStaffStore} from "~/store/staff.js";
+import {IconStethoscope, IconNurse, IconVaccine, IconMicroscope, IconDisabled} from "@tabler/icons-vue"
 
 const route = useRoute()
-const router = useRouter()
-const staff = useStaffStore()
-const {result} = storeToRefs(staff);
-
-const pending = ref(true)
 
 const links = ref([
   {
@@ -21,22 +13,6 @@ const links = ref([
     link: '/services'
   }
 ])
-
-onMounted(async () => {
-  await nextTick()
-  if (route.query.page) {
-    await router.push({query: {...route.query, page: route.query.page}})
-  } else {
-    await router.push({query: {...route.query, page: 1}})
-  }
-  if (route.query.perPage) {
-    await router.push({query: {...route.query, perPage: route.query.perPage}})
-  } else {
-    await router.push({query: {...route.query, perPage: 10}})
-  }
-  await staff.getStaff({perPage: route.query.perPage, page: route.query.page})
-  pending.value = false
-})
 
 useHead({
   title: "Услуги | SaubolMed",
@@ -57,85 +33,84 @@ useHead({
 <template>
   <div class="pt-8">
     <div class="container mx-auto px-4 lg:px-0">
-      <Breadcrumbs :links="links" />
-      <h1 class="text-4xl lg:text-6xl font-semibold text-mainColor mb-7">
-        Услуги
-      </h1>
-      <ServicesNavigation />
-      <div class="bg-white p-5 rounded-lg mb-8" style="box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 10px 0px;">
-        <h1 class="mb-2 text-mainColor text-2xl lg:text-4xl font-semibold">
-          Врач
-        </h1>
-        <p class="text-sm lg:text-lg mb-5">
-          Онлайн консультации и вызов врача: Медицинская помощь у вас дома
-        </p>
-        <form @submit.prevent="setFilters" class="block lg:flex justify-between items-end">
-          <div class="w-full lg:w-fourth mb-3 lg:mb-0">
-            <p class="text-sm mb-2">
-              Врач
-            </p>
-            <div class="relative">
-              <select class="px-3 py-3 border  rounded-lg w-full">
-                <option value="">Выберите анализ</option>
-              </select>
+      <Breadcrumbs :links="links" class="mb-5" />
+      <div class="w-full">
+        <h2 class="text-xl font-semibold mb-4">
+          Услуги
+        </h2>
+        <div class="flex gap-4 mb-4">
+          <NuxtLink
+              to="/services/med-services"
+              class="relative h-[228px] w-full border rounded-lg p-5 flex flex-col justify-between">
+            <div class="w-max bg-[#0065FF] rounded-lg text-white">
+              <IconNurse size="20" class="m-3"/>
             </div>
-          </div>
-          <div class="w-full lg:w-fourth mb-3 lg:mb-0">
-            <p class="text-sm mb-2">
-              Дата
+            <p class="font-semibold">
+              Мед услуги
             </p>
-            <div class="relative">
-              <input
-                  class="px-3 py-3 border  rounded-lg w-full"
-                  type="date"
-              >
+            <img
+                class="absolute right-0 bottom-0"
+                src="@/assets/img/servicesVectors/1.png"
+                alt="">
+          </NuxtLink>
+          <NuxtLink
+              to="/services/doctors"
+              class="relative h-[228px] w-full border rounded-lg p-5 flex flex-col justify-between">
+            <div class="w-max bg-[#FEAA48] rounded-lg text-white">
+              <IconStethoscope size="20" class="m-3"/>
             </div>
-          </div>
-          <div class="w-full lg:w-fourth mb-4 lg:mb-0">
-            <p class="text-sm mb-2">
-              Время
+            <p class="font-semibold">
+              Запись к врачу
             </p>
-            <div class="relative">
-              <input
-                  class="px-3 py-3 border  rounded-lg w-full"
-                  type="time"
-              >
+            <img
+                class="absolute right-0 bottom-0"
+                src="@/assets/img/servicesVectors/2.png"
+                alt="">
+          </NuxtLink>
+          <NuxtLink
+              to="/services/tests"
+              class="relative h-[228px] w-full border rounded-lg p-5 flex flex-col justify-between">
+            <div class="w-max bg-[#FD586B] rounded-lg text-white">
+              <IconMicroscope size="20" class="m-3"/>
             </div>
-          </div>
-          <div class="w-full lg:w-fourth">
-            <button
-                type="submit"
-                class="py-[14px] bg-mainColor text-white rounded-lg w-full cursor-pointer">
-              Применить фильтр
-            </button>
-          </div>
-        </form>
-      </div>
-      <div v-if="!pending">
-        <div class="flex justify-between flex-wrap">
-          <div
-              class="w-full lg:w-half mb-5"
-              v-for="(doctor, index) in result.data"
-              :key="index">
-            <Doctor :doctor="doctor"/>
-          </div>
+            <p class="font-semibold">
+              Анализы
+            </p>
+            <img
+                class="absolute right-0 bottom-0"
+                src="@/assets/img/servicesVectors/3.png"
+                alt="">
+          </NuxtLink>
+          <NuxtLink
+              to="/services/inventory"
+              class="relative h-[228px] w-full border rounded-lg p-5 flex flex-col justify-between">
+            <div class="w-max bg-[#CF0CE0] rounded-lg text-white">
+              <IconDisabled size="20" class="m-3"/>
+            </div>
+            <p class="font-semibold">
+              Аренда инвентаря
+            </p>
+            <img
+                class="absolute right-0 bottom-0"
+                src="@/assets/img/servicesVectors/4.png"
+                alt="">
+          </NuxtLink>
+          <NuxtLink
+              to="/services/detox"
+              class="relative h-[228px] w-full border rounded-lg p-5 flex flex-col justify-between">
+            <div class="w-max bg-[#0CE07A] rounded-lg text-white">
+              <IconVaccine size="20" class="m-3"/>
+            </div>
+            <p class="font-semibold">
+              Детокс
+            </p>
+            <img
+                class="absolute right-0 bottom-0"
+                src="@/assets/img/servicesVectors/5.png"
+                alt="">
+          </NuxtLink>
         </div>
-        <div>
-          <Pagination
-              :meta="result.meta"
-              @navigate="staff.getStaff({perPage: route.query.perPage, page: route.query.page})"
-          />
-        </div>
-      </div>
-      <div
-          v-else
-          class="flex justify-between flex-wrap"
-      >
-        <div
-            class="skeleton w-full lg:w-half h-[400px] mb-5"
-            v-for="(doctor, index) in 6"
-            :key="index">
-        </div>
+        <BannersCarousel/>
       </div>
     </div>
   </div>

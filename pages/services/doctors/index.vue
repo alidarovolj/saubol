@@ -100,11 +100,8 @@ useHead({
 <template>
   <div class="pt-8">
     <div class="container mx-auto px-4 lg:px-0">
-      <Breadcrumbs :links="links"/>
-      <h1 class="text-4xl lg:text-6xl font-semibold text-mainColor mb-7">
-        Доктора
-      </h1>
-      <ServicesNavigation/>
+      <Breadcrumbs :links="links" class="mb-5"/>
+<!--      <ServicesNavigation/>-->
       <div class="bg-white p-5 rounded-lg mb-8" style="box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 10px 0px;">
         <h1 class="mb-2 text-mainColor text-2xl lg:text-4xl font-semibold">
           Врач

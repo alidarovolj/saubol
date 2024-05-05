@@ -10,6 +10,7 @@ export const useInventoryStore = defineStore('inventory', () => {
 
     const result = ref(null);
     const resultCategories = ref(null);
+    const resultDetail = ref(null);
 
     const notify = (type, text) => {
         const toast = useNuxtApp().$toast;
@@ -19,8 +20,10 @@ export const useInventoryStore = defineStore('inventory', () => {
     return {
         result,
         resultCategories,
-        async listInventory() {
-            const {data, error} = await useFetch(`/goods`, {
+        resultDetail,
+        async listInventory(queryParams = {}) {
+            const queryString = new URLSearchParams(queryParams).toString();
+            const {data, error} = await useFetch(`/goods?${queryString}`, {
                 method: 'GET',
                 headers: {
                     accept: "application/json",
@@ -34,6 +37,22 @@ export const useInventoryStore = defineStore('inventory', () => {
             } else {
                 notify(false, error.value.message)
                 result.value = false
+            }
+        },
+        async getInventoryById(id) {
+            const {data} = await useFetch(`/goods/${id}`, {
+                method: 'GET',
+                headers: {
+                    accept: "application/json"
+                },
+                baseURL: runtimeConfig.public.API_LINK,
+                lazy: true,
+            })
+
+            if (data.value) {
+                resultDetail.value = data.value;
+            } else {
+                resultDetail.value = false;
             }
         },
         async listInventoryCategories() {

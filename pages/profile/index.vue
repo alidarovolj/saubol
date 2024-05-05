@@ -42,10 +42,10 @@ useHead({
 <template>
   <div class="mt-8">
     <div class="container mx-auto px-4 lg:px-0">
-      <Breadcrumbs :links="links"/>
-      <h1 class="text-6xl font-semibold text-mainColor mb-7">
-        Профиль
-      </h1>
+      <Breadcrumbs
+          class="mb-4"
+          :links="links"
+      />
       <NuxtLayout :name="layout">
         <NuxtLoadingIndicator color="#3E46FF"/>
         <DelayHydration>

@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html {
-    font-family: "SF Pro Display", sans-serif;
+    font-family: "Aktiv Grotesk Corp", sans-serif;
     color: #1A1A1A;
     background: linear-gradient(180deg, #D9D9D9 0%, rgba(217, 217, 217, 0.00) 90.03%);
     overflow-x: hidden;
@@ -252,17 +252,20 @@ body {
     color: white;
 }
 
-.carousel__slide {
-    align-items: normal !important;
+.carousel__next {
+    transform: translateX(-100%) !important;
+}
+
+.carousel__prev {
+    transform: translateX(100%) !important;
 }
 
 .carousel__track {
     gap: 10px;
 }
 
-.carousel__prev,
-.carousel__next {
-    display: block !important;
-    position: static !important;
-    transform: translate(0, 0) !important;
+.custom-shadow {
+    -webkit-box-shadow: 10px 10px 19px -13px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 19px -13px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 19px -13px rgba(0,0,0,0.75);
 }

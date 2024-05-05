@@ -18,7 +18,8 @@ export default {
             colors: {
                 mainColor: "#FE2D39",
                 bColor: "#9A9BA4",
-                regText: "#02051C"
+                regText: "#02051C",
+                secColor: "#F7FAFF"
             },
             width: {
                 fifth: "19%",

@@ -90,19 +90,19 @@ const sendForm = async () => {
   <div class="pt-10 lg:pt-40 pb-10 lg:pb-64">
     <div class="container mx-auto px-4 lg:px-0">
       <div class="relative">
-        <div class="block lg:flex grad-block py-12 px-7 rounded-2xl">
-          <div class="w-full lg:w-1/2">
+        <div class="block lg:flex grad-block py-12 px-7 rounded-2xl gap-10">
+          <div class="w-full lg:w-2/3">
             <div class="flex items-center gap-3 mb-6">
               <img class="w-16 h-auto" src="@/assets/img/whiteLogo.png" alt="">
               <p class="text-3xl font-bold text-white">
                 Saubol
               </p>
             </div>
-            <p class="text-xl lg:text-2xl text-white mb-5 lg:mb-0">
+            <p class="text-xl lg:text-3xl text-white mb-5 lg:mb-0">
               Превратите заботу о здоровье в простой шаг - зарегистрируйтесь , чтобы заказать услугу и начать свой путь к здоровому образу жизни!
             </p>
           </div>
-          <div class="relative w-full lg:w-1/2">
+          <div class="relative w-full lg:w-1/3">
             <form
                 @submit.prevent="sendForm"
                 style="box-shadow: 0px 0px 15px 0px #00000040;"
@@ -233,9 +233,24 @@ const sendForm = async () => {
 
 <style>
 .grad-block {
-  background: linear-gradient(90deg, #F47167 0%, #ED6B5A 100%),
-  linear-gradient(90deg, #D56053 0%, #EDB091 100%),
-  linear-gradient(90deg, #D56053 0%, #EDB091 100%),
-  linear-gradient(113.29deg, #FE5861 15.67%, #FE645B 25.11%, #FE6E54 34.55%, #FE764F 43.99%, #FF7C49 53.44%, #FF8044 62.88%, #FF8440 72.32%, #FF873C 81.76%, #FF8A38 91.2%, #FF8B35 100.64%, #FF8D33 110.08%, #FF8E31 119.52%, #FF8E30 128.96%, #FF8F30 138.4%, #FF8F2F 147.84%, #FF8F2F 157.28%, #FF8F2F 166.72%)
+  background: linear-gradient(113.29deg,
+  #FE5861 15.67%,
+  #FE645B 25.11%,
+  #FE6E54 34.55%,
+  #FE764F 43.99%,
+  #FF7C49 53.44%,
+  #FF8044 62.88%,
+  #FF8440 72.32%,
+  #FF873C 81.76%,
+  #FF8A38 91.2%,
+  #FF8B35 100.64%,
+  #FF8D33 110.08%,
+  #FF8E31 119.52%,
+  #FF8E30 128.96%,
+  #FF8F30 138.4%,
+  #FF8F2F 147.84%,
+  #FF8F2F 157.28%,
+  #FF8F2F 166.72%
+  );
 }
 </style>

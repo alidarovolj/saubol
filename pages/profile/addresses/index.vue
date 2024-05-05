@@ -1,13 +1,10 @@
 <script setup>
-import {IconUserCircle, IconLogout, IconAddressBook, IconVaccine, IconEdit} from "@tabler/icons-vue"
-import BottomMenu from "~/components/layout/bottomMenu.vue";
 import {useAddressesStore} from "~/store/addresses.js";
 
 const layout = ref("profile");
 const route = useRoute()
 
 const user = useUserStore()
-const {result} = storeToRefs(user)
 
 const addresses = useAddressesStore()
 const {resultAddresses} = storeToRefs(addresses)
@@ -54,10 +51,10 @@ useHead({
 <template>
   <div class="mt-8">
     <div class="container mx-auto px-4 lg:px-0">
-      <Breadcrumbs :links="links"/>
-      <h1 class="text-6xl font-semibold text-mainColor mb-7">
-        Адреса
-      </h1>
+      <Breadcrumbs
+          class="mb-4"
+          :links="links"
+      />
       <NuxtLayout :name="layout">
         <NuxtLoadingIndicator color="#3E46FF"/>
         <DelayHydration>

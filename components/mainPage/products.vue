@@ -55,7 +55,7 @@ onMounted(async () => {
                 </div>
                 <div class="font-medium">
                   <NuxtLink
-                      class="bg-[#E7F0FF] text-mainColor text-sm rounded-lg px-3 py-2 mt-3 w-full block text-center"
+                      class="bg-[#ffe7e7] text-mainColor text-sm rounded-lg px-3 py-2 mt-3 w-full block text-center"
                       to="/services">
                     Подробнее
                   </NuxtLink>

@@ -43,11 +43,11 @@ onMounted(async () => {
                   :key="index"
                   class=""
               >
-                <div class="relative w-full h-96">
+                <div class="relative w-full h-20 lg:h-96">
                   <img
                       :src="item.img"
                       alt=""
-                      class="w-full h-full object-cover rounded-lg"
+                      class="w-full h-full object-contain rounded-lg my-auto"
                   >
                   <p class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-sm lg:text-2xl font-bold text-white">
                     {{ item.text }}

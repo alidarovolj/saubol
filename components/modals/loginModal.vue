@@ -74,11 +74,19 @@ const sendForm = async () => {
       <form
           @submit.prevent="sendForm"
           class="w-full mx-auto px-4 lg:px-0 relative z-20">
-        <img
-            class="mx-auto mb-5"
-            src="@/assets/img/main-color-logo.svg"
-            alt=""
+        <NuxtLink
+            to="/"
+            class="flex justify-center items-center gap-2 mr-5 lg:mr-0 mb-10"
         >
+          <img
+              class="w-auto h-7 lg:h-12"
+              src="@/assets/img/logo.png"
+              alt=""
+          >
+          <p class="text-3xl font-bold text-black">
+            Saubol
+          </p>
+        </NuxtLink>
         <div class="mb-5">
           <p class="text-sm mb-1">
             Email

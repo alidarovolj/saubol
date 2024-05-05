@@ -1,9 +1,11 @@
 <script setup>
 import {useVuelidate} from "@vuelidate/core";
 import {required} from "@vuelidate/validators";
+import {useInventoryStore} from "~/store/inventory.js";
+import {IconMinus, IconPlus} from "@tabler/icons-vue";
 
-const nurses = useNursesStore()
-const {resultDetail} = storeToRefs(nurses);
+const inventory = useInventoryStore()
+const {resultDetail} = storeToRefs(inventory);
 
 const addresses = useAddressesStore()
 const user = useUserStore()
@@ -28,8 +30,8 @@ const links = ref([
     link: '/services'
   },
   {
-    title: 'Мед-услуги',
-    link: '/services/med-services'
+    title: 'Инвентарь',
+    link: '/services/inventory'
   }
 ])
 
@@ -44,6 +46,7 @@ const form = ref({
     start: "",
     end: ""
   },
+  days: 1,
   staff_id: null,
   service_id: null,
   price: null,
@@ -56,6 +59,7 @@ const v$ = useVuelidate({
     start: {required},
     end: {required}
   },
+  days: {required},
   staff_id: {required},
   service_id: {required},
   price: {required},
@@ -95,24 +99,16 @@ const sendForm = async () => {
 
 onMounted(async () => {
   await nextTick()
-  await nurses.getNurse(route.params.id)
+  await inventory.getInventoryById(route.params.id)
   await addresses.listAddresses()
-  form.value.price = resultDetail.value.data.price
-  form.value.service_id = resultDetail.value.data.id
-  form.value.staff_id = resultDetail.value.data.id
+  form.value.price = resultDetail.value.price
+  form.value.service_id = resultDetail.value.id
+  form.value.staff_id = resultDetail.value.id
   links.value.push({
-    title: resultDetail.value.data.name,
-    link: '/services/med-services/' + resultDetail.value.data.id
+    title: resultDetail.value.name,
+    link: '/services/med-services/' + resultDetail.value.id
   })
   pending.value = false
-})
-
-watch(form.value, (val) => {
-  if (val.service_id == resultDetail.value.data.id) {
-    form.value.price = resultDetail.value.data.price
-  } else {
-    form.value.price = resultDetail.value.data.premium_service.price
-  }
 })
 </script>
 
@@ -120,7 +116,7 @@ watch(form.value, (val) => {
   <div class="relative pt-8">
     <div class="container mx-auto px-4 lg:px-0">
       <Breadcrumbs :links="links" class="mb-5"/>
-<!--      <ServicesNavigation/>-->
+      <!--      <ServicesNavigation/>-->
       <div
           v-if="!pending"
           class="block lg:flex items-start justify-between gap-6">
@@ -143,10 +139,10 @@ watch(form.value, (val) => {
             </div>
             <div class="flex flex-col gap-3">
               <p class="text-sm lg:text-xl font-semibold">
-                {{ resultDetail.data.name }}
+                {{ resultDetail.name }}
               </p>
               <p class="text-sm lg:text-2xl text-mainColor font-semibold">
-                {{ resultDetail.data.category.name }}
+                {{ resultDetail.category.name }}
               </p>
               <p class="px-7 py-3 bg-[#ffe7e7] rounded-md text-center w-max font-bold text-mainColor">
                 {{ form.price }} ₸
@@ -158,19 +154,9 @@ watch(form.value, (val) => {
               <h2 class="text-mainColor text-2xl font-semibold border-b border-mainColor w-full pb-2 mb-5">
                 Общая информация
               </h2>
-              <p class="mb-5">{{ resultDetail.data.description }}</p>
-              <div
-                  v-if="resultDetail.data.specialization_details.length > 0"
-                  class="bg-[#ffe7e7] p-3 pl-8 rounded-md text-sm">
-                <ul class="list-disc">
-                  <li
-                      v-for="(item, index) of resultDetail.data.specialization_details"
-                      :key="index"
-                      class="">
-                    {{ item }}
-                  </li>
-                </ul>
-              </div>
+              <p>
+                {{ resultDetail.description }}
+              </p>
             </div>
           </div>
         </div>
@@ -179,62 +165,29 @@ watch(form.value, (val) => {
             class="w-full lg:w-1/3 rounded-lg">
           <div class="bg-white rounded-lg p-5">
             <p class="text-mainColor font-semibold pb-2 border-b border-mainColor text-2xl mb-4">
-              Запись
+              Аренда
             </p>
             <div class="w-full bg-white rounded-lg">
-              <div class="flex items-center mb-4 gap-5">
-                <img
-                    v-if="resultDetail.data.img"
-                    class="rounded-md h-full w-[130px]"
-                    :src="resultDetail.data.img"
-                    alt=""
-                >
-                <img
-                    v-else
-                    class="rounded-md h-full w-[130px]"
-                    src="@/assets/img/services/male_doctor.png"
-                    alt=""
-                >
-                <div class="block lg:flex items-center justify-between w-full">
-                  <div>
-                    <p class="text-sm lg:text-xl font-semibold mb-3">
-                      {{ resultDetail.data.category.name }}
-                    </p>
-                    <p class="text-mainColor font-semibold mb-2">
-                      {{ resultDetail.data.name }}
-                    </p>
-                    <div class="block">
-                      <p class="text-sm mb-4">
-                        Вид услуги:
-                      </p>
-                      <div class="flex items-center gap-5">
-                        <div class="flex items-center text-sm gap-3">
-                          <input
-                              name="service"
-                              v-model="form.service_id"
-                              :value="resultDetail.data.id"
-                              type="radio">
-                          <p :class="[{'text-red-500': v$.service_id.$error}]">
-                            Стандарт
-                          </p>
-                        </div>
-                        <div class="flex items-center text-sm gap-3">
-                          <input
-                              name="service"
-                              v-model="form.service_id"
-                              :value="resultDetail.data.premium_service.id"
-                              type="radio">
-                          <p :class="[{'text-red-500': v$.service_id.$error}]">
-                            Премиум
-                          </p>
-                        </div>
-                      </div>
-                    </div>
+              <div class="flex items-center justify-between mb-3">
+                <p class="text-sm mb-2">
+                  Количество дней
+                </p>
+                <div class="flex gap-2">
+                  <div class="bg-mainColor text-white p-1 rounded-md cursor-pointer">
+                    <IconMinus @click="form.days = form.days - 1"/>
+                  </div>
+                  <input
+                      v-model="form.days"
+                      type="text"
+                      class="bg-[#ffe7e7] rounded-md w-14 text-center"
+                  >
+                  <div class="bg-mainColor text-white p-1 rounded-md cursor-pointer">
+                    <IconPlus @click="form.days = form.days + 1"/>
                   </div>
                 </div>
               </div>
-              <div class="mb-3">
-                <p class="text-sm mb-2">
+              <div class="mb-3 flex justify-between items-center">
+                <p class="text-sm">
                   Цена
                 </p>
                 <p class="px-7 py-3 bg-[#ffe7e7] rounded-md text-center w-max font-bold text-mainColor">
@@ -242,46 +195,6 @@ watch(form.value, (val) => {
                 {{ form.price }}
               </span> ₸
                 </p>
-              </div>
-              <div class="block mb-4">
-                <div class="w-full mb-3">
-                  <p class="text-sm lg:text-base mb-1">
-                    Дни приема:
-                  </p>
-                  <div class="flex justify-between">
-                    <!--            :class="{ 'bg-gray-200 cursor-not-allowed' : props.doctor.free_time[0].length === 0 }"-->
-                    <div
-                        v-for="(it, ind) of resultDetail.dates"
-                        :key="ind"
-                        @click="setDay(ind)"
-                        :class="[{'bg-mainColor text-white': pickedDay === ind}, {'border-red-500': v$.date.day.$error}]"
-                        class="cursor-pointer transition-all py-1 px-3 border w-max rounded text-sm lg:text-base text-center">
-                      <p class="text-xs">{{ it.day_number }}</p>
-                      <p>{{ it.day_of_week }}</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="w-full">
-                  <p class="mb-1">
-                    Время
-                  </p>
-                  <select
-                      class="px-3 py-3 border rounded-lg w-full"
-                      :class="{'border-red-500': v$.date.start.$error}"
-                      name=""
-                      id="">
-                    <option :value="null">
-                      Выберите время
-                    </option>
-                    <option
-                        v-for="(it, ind) of resultDetail.times"
-                        :key="ind"
-                        @click="setTime(ind)"
-                        value="">
-                      {{ it }}
-                    </option>
-                  </select>
-                </div>
               </div>
               <div
                   v-if="addresses.resultAddresses"

@@ -43,19 +43,19 @@ const route = useRoute()
       </div>
     </NuxtLink>
     <NuxtLink
-        to="/inventory"
+        to="/services/inventory"
         class="flex w-max lg:w-fourth relative cursor-pointer mr-5 lg:mr-0"
     >
       <div
           class="min-w-8 lg:min-w-12 w-8 lg:w-12 min-h-8 lg:min-h-12 h-8 lg:h-12 bg-mainColor text-white rounded-full flex items-center justify-center absolute -left-1 top-0"
-          :class="{ '!bg-white !text-mainColor' : route.fullPath.includes('/inventory') }"
+          :class="{ '!bg-white !text-mainColor' : route.fullPath.includes('/services/inventory') }"
           style="filter: drop-shadow(3px 0px 12px rgba(0, 0, 0, 0.15));"
       >
         <IconWheelchair class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"/>
       </div>
       <div
           class="flex items-center justify-center bg-white w-full rounded-3xl border border-mainColor h-8 lg:h-12 min-h-8 lg:min-h-12 text-mainColor px-12 lg:px-0"
-          :class="{ '!bg-mainColor !text-white' : route.fullPath.includes('/inventory') }"
+          :class="{ '!bg-mainColor !text-white' : route.fullPath.includes('/services/inventory') }"
       >
         <h2 class="text-sm lg:text-2xl font-semibold whitespace-nowrap lg:whitespace-normal">Аренда</h2>
       </div>

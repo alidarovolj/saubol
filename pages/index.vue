@@ -1,32 +1,22 @@
 <script setup>
-import Hero from "~/components/mainPage/hero.vue";
-import WayToHealth from "~/components/mainPage/wayToHealth.vue";
+import { ref, watchEffect } from 'vue';
+import landingPage from "@/components/mainPage/landingPage.vue";
+import dashboardPage from "@/components/mainPage/dashboard.vue";
 
-const route = useRoute()
+const auth = useAuthStore()
+auth.initCookieToken()
+const { token } = storeToRefs(auth)
 
-useHead({
-  title: "Главная страница | SaubolMed",
-  meta: [
-    {
-      property: "og:title",
-      content: "Главная страница | SaubolMed",
-    },
-    {
-      property: "og:url",
-      content: route.fullPath,
-    },
-  ],
-  link: [{rel: "canonical", href: "https://saubolmed.kz/"}],
+const ComponentToRender = ref(landingPage);
+
+watchEffect(() => {
+  ComponentToRender.value = token.value ? dashboardPage : landingPage;
 });
+
 </script>
 
 <template>
   <div>
-    <Hero/>
-    <ServicesTypes />
-    <WayToHealth />
-    <AnimationBlock />
-    <RegistrationForm />
-    <News />
+    <component :is="ComponentToRender" />
   </div>
 </template>

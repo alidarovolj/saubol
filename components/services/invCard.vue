@@ -8,7 +8,6 @@ import {IconMinus, IconPlus} from "@tabler/icons-vue";
 const addresses = useAddressesStore()
 
 const user = useUserStore()
-const {result} = storeToRefs(user)
 
 const nurse = useNursesStore()
 const cart = useCartStore()
@@ -18,8 +17,6 @@ const props = defineProps({
   required: true
 })
 
-const pickedDay = ref(null)
-
 const loading = ref(false)
 
 const notify = (type, text) => {
@@ -27,11 +24,10 @@ const notify = (type, text) => {
   type ? toast.success(text) : toast.error(text);
 };
 
-const type = ref(1)
-
 const form = ref({
   date: null,
   service_id: null,
+  days: 1,
   price: null,
   address_id: null
 })
@@ -42,6 +38,7 @@ const v$ = useVuelidate({
     start: {required},
     end: {required}
   },
+  days: {required},
   service_id: {required},
   price: {required},
   address_id: {required}
@@ -104,7 +101,7 @@ const sendForm = async () => {
             <p class="text-sm mb-2">
               Цена
             </p>
-            <p class="px-7 py-3 bg-[#E7F0FF] rounded-md text-center w-max font-bold text-mainColor">
+            <p class="px-7 py-3 bg-[#ffe7e7] rounded-md text-center w-max font-bold text-mainColor">
               <span>
                 {{ form.price }}
               </span> ₸
@@ -117,15 +114,15 @@ const sendForm = async () => {
           </p>
           <div class="flex gap-2">
             <div class="bg-mainColor text-white p-1 rounded-md cursor-pointer">
-              <IconMinus @click="form.experience = form.experience - 1"/>
+              <IconMinus @click="form.days = form.days - 1"/>
             </div>
             <input
-                v-model="form.experience"
+                v-model="form.days"
                 type="text"
-                class="bg-[#E7F0FF] rounded-md w-14 text-center"
+                class="bg-[#ffe7e7] rounded-md w-14 text-center"
             >
             <div class="bg-mainColor text-white p-1 rounded-md cursor-pointer">
-              <IconPlus @click="form.experience = form.experience + 1"/>
+              <IconPlus @click="form.days = form.days + 1"/>
             </div>
           </div>
         </div>
@@ -167,10 +164,10 @@ const sendForm = async () => {
           </button>
         </div>
       </div>
-      <div class="flex gap-3 border-t border-[#E7F0FF] pt-4 text-sm">
+      <div class="flex gap-3 border-t border-[#ffe7e7] pt-4 text-sm">
         <NuxtLink
-            :to="'/services/med-services/' + props.service.id"
-            class="block w-full py-3 rounded-lg text-mainColor bg-[#E7F0FF] text-center">
+            :to="'/services/inventory/' + props.service.id"
+            class="block w-full py-3 rounded-lg text-mainColor bg-[#ffe7e7] text-center">
           Подробнее
         </NuxtLink>
         <p

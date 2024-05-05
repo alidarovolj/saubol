@@ -161,23 +161,25 @@ onMounted(async () => {
                 <IconEdit/>
               </button>
             </div>
-            <div
-                v-if="result.data.img"
-                class="relative h-full"
-            >
-              <img
-                  :src="result.data.img"
-                  class="w-36 h-36 rounded-full object-cover mx-auto"
-                  alt=""
+            <div class="mb-3">
+              <div
+                  v-if="result.data.img"
+                  class="relative h-full"
               >
-            </div>
-            <div
-                v-if="!result.data.img"
-                class="relative w-36 h-36 mx-auto bg-mainColor bg-opacity-20 rounded-lg min-w-20"
-            >
-              <p class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-mainColor text-xl">
-                {{ formattedName }}
-              </p>
+                <img
+                    :src="result.data.img"
+                    class="w-36 h-36 rounded-full object-cover mx-auto"
+                    alt=""
+                >
+              </div>
+              <div
+                  v-if="!result.data.img"
+                  class="relative w-36 h-36 mx-auto bg-mainColor bg-opacity-20 rounded-lg min-w-20"
+              >
+                <p class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-mainColor text-xl">
+                  {{ formattedName }}
+                </p>
+              </div>
             </div>
             <h1
                 v-if="!editMode"
@@ -189,19 +191,21 @@ onMounted(async () => {
                 <p class="text-[#9A9BA4] mb-1">
                   ИИН
                 </p>
-                <input
-                    v-if="editMode"
-                    v-model="form.iin"
-                    :class="{'border-red-500': v$.iin.$error}"
-                    class="px-2 py-2 border rounded-lg w-full lg:w-1/2"
-                    type="text"
-                    placeholder="Введите ИИН"
-                >
-                <p
-                    v-if="v$.iin.$error && editMode"
-                    class="text-red-500 text-xs">
-                  Пожалуйста заполните данное поле
-                </p>
+                <div class="w-full lg:w-1/2">
+                  <input
+                      v-if="editMode"
+                      v-model="form.iin"
+                      :class="{'border-red-500': v$.iin.$error}"
+                      class="px-2 py-2 border rounded-lg w-full"
+                      type="text"
+                      placeholder="Введите ИИН"
+                  >
+                  <p
+                      v-if="v$.iin.$error && editMode"
+                      class="text-red-500 text-xs">
+                    Пожалуйста заполните данное поле
+                  </p>
+                </div>
                 <div v-if="!editMode">
                   <p v-if="result.data.iin">
                     {{ result.data.iin }}
@@ -299,6 +303,11 @@ onMounted(async () => {
               </div>
             </div>
             <div class="block lg:flex justify-between gap-5">
+              <img
+                  v-if="!doneIMT"
+                  class="lg:w-1/2 w-full h-[300px] object-contain mb-5 lg:mb-0"
+                  src="@/assets/img/bodies/1.png"
+                  alt="">
               <img
                   v-if="doneIMT && doneIMT < 18.5"
                   class="lg:w-1/2 w-full h-[300px] object-contain mb-5 lg:mb-0"

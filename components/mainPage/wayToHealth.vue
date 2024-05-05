@@ -43,7 +43,7 @@ const breakpoints = ref({
 </script>
 
 <template>
-  <div class="py-10">
+  <div class="py-10 mb-20">
     <div class="container mx-auto px-4 lg:px-0">
       <div class="bg-[#F7FAFF] p-7 rounded-3xl">
         <div class="block lg:flex items-center">
@@ -93,7 +93,7 @@ const breakpoints = ref({
                        alt="">
                   <div class="w-2/3 flex flex-col text-left bg-white rounded-r-2xl">
                     <p
-                        class="px-5 py-3 rounded-tr-2xl text-white whitespace-nowrap text-sm font-bold"
+                        class="px-5 py-3 rounded-tr-2xl text-white whitespace-nowrap text-xs font-bold"
                         :class="[
                             { 'bg-[#FD586B]' : index === 0 },
                             { 'bg-[#0065FF]' : index === 1 },
@@ -102,7 +102,7 @@ const breakpoints = ref({
                         ]">
                       {{ item.title }}
                     </p>
-                    <p class="px-5 pt-5 rounded-br-2xl text-xs">
+                    <p class="px-5 pt-5 rounded-br-2xl text-[10px]">
                       {{ item.content }}
                     </p>
                   </div>
@@ -130,3 +130,20 @@ const breakpoints = ref({
     </div>
   </div>
 </template>
+
+<style scoped>
+.carousel__slide {
+  align-items: normal !important;
+}
+
+.carousel__track {
+  gap: 10px;
+}
+
+.carousel__prev,
+.carousel__next {
+  display: block !important;
+  position: static !important;
+  transform: translate(0, 0) !important;
+}
+</style>

@@ -55,7 +55,7 @@ const accordion = ref([
             <div
                 v-for="(item, index) of accordion"
                 :key="index"
-                @click="active = index"
+                @mouseover="active = index"
                 class="mb-11 flex gap-8 cursor-pointer"
             >
               <div class="w-10 min-w-10 h-10 min-h-10 relative">

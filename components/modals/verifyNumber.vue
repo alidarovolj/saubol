@@ -100,7 +100,7 @@ watch(() => props.numPhone, (val) => {
       >
         <button
             type="submit"
-            class="btn btn-primary w-full mt-5">
+            class="btn bg-mainColor text-white w-full mt-5">
           Отправить СМС
         </button>
       </form>
@@ -140,12 +140,12 @@ watch(() => props.numPhone, (val) => {
         <button
             v-if="loading === false"
             type="submit"
-            class="btn btn-primary w-full mt-5">
+            class="btn bg-mainColor text-white w-full mt-5">
           Верифицировать
         </button>
         <div
             v-else
-            class="btn btn-primary w-full mt-5">
+            class="btn bg-mainColor text-white w-full mt-5">
           <span class="spinner"></span>
         </div>
       </form>

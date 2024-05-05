@@ -98,11 +98,8 @@ useHead({
 <template>
   <div class="pt-8">
     <div class="container mx-auto px-4 lg:px-0">
-      <Breadcrumbs :links="links"/>
-      <h1 class="text-4xl lg:text-6xl font-semibold text-mainColor mb-7">
-        Мед-услуги
-      </h1>
-      <ServicesNavigation/>
+      <Breadcrumbs :links="links"  class="mb-5"/>
+<!--      <ServicesNavigation/>-->
       <div class="bg-white p-5 rounded-lg mb-8" style="box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 10px 0px;">
         <h1 class="mb-2 text-mainColor text-2xl lg:text-4xl font-semibold">
           Мед-услуги
@@ -110,7 +107,7 @@ useHead({
         <p class="text-sm lg:text-lg mb-5">
           Онлайн консультации и вызов врача: Медицинская помощь у вас дома
         </p>
-        <div class="block lg:flex justify-between items-end bg-[#E7F0FF] p-3 rounded-lg gap-2 text-sm">
+        <div class="block lg:flex justify-between items-end bg-[#ffe7e7] p-3 rounded-lg gap-2 text-sm">
           <div
               @click="searchDoctors(null)"
               :class="{ 'bg-mainColor text-white ' : filters['filters[category.id]'] === null }"

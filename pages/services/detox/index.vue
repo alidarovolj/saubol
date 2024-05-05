@@ -1,13 +1,24 @@
 <script setup>
-import {IconStethoscope, IconNurse, IconVaccine, IconMicroscope} from "@tabler/icons-vue"
-import jsonData from '@/assets/json/data.json'
-import Doctor from "~/components/services/doctor.vue";
-import {useStaffStore} from "~/store/staff.js";
+import {
+  IconHeartRateMonitor,
+  IconVaccine,
+  IconVaccineBottle,
+  IconBandage,
+  IconFirstAidKit,
+  IconEmergencyBed
+} from "@tabler/icons-vue"
+import {useNursesStore} from "~/store/nurses.js";
+import {useAddressesStore} from "~/store/addresses.js";
+import {useDetoxStore} from "~/store/detox.js";
+import DetoxCard from "~/components/services/detoxCard.vue";
 
 const route = useRoute()
 const router = useRouter()
-const staff = useStaffStore()
-const {result} = storeToRefs(staff);
+const detox = useDetoxStore()
+const {result} = storeToRefs(detox);
+const addresses = useAddressesStore()
+
+const pending = ref(true)
 
 const links = ref([
   {
@@ -24,21 +35,49 @@ const links = ref([
   }
 ])
 
-const pending = ref(true)
+const filters = ref({
+  'filters[category.id]': null
+})
+
+const searchDetox = async (val) => {
+  if (val) {
+    filters.value['filters[category.id]'] = val
+  } else {
+    filters.value['filters[category.id]'] = null
+  }
+  const nonNullFilters = Object.entries(filters.value).reduce((acc, [key, value]) => {
+    if (value !== null) {
+      acc[key] = value;
+    }
+    return acc;
+  }, {});
+
+  const queryParams = {
+    ...nonNullFilters,
+    perPage: route.query.perPage || 10,
+    page: route.query.page || 1
+  };
+
+  await router.push({query: {...route.query, ...queryParams}})
+  await detox.getDetoxList(queryParams)
+}
 
 onMounted(async () => {
   await nextTick()
-  if (route.query.page) {
-    await router.push({query: {...route.query, page: route.query.page}})
-  } else {
-    await router.push({query: {...route.query, page: 1}})
-  }
-  if (route.query.perPage) {
-    await router.push({query: {...route.query, perPage: route.query.perPage}})
-  } else {
-    await router.push({query: {...route.query, perPage: 10}})
-  }
-  await staff.getStaff({perPage: route.query.perPage, page: route.query.page})
+
+  const nonNullQueries = Object.entries(route.query).reduce((acc, [key, value]) => {
+    if (value !== null) {
+      acc[key] = value;
+    }
+    return acc;
+  }, {});
+
+  filters.value = {
+    ...filters.value,
+    ...nonNullQueries
+  };
+  await addresses.listAddresses()
+  await searchDetox()
   pending.value = false
 })
 
@@ -61,74 +100,67 @@ useHead({
 <template>
   <div class="pt-8">
     <div class="container mx-auto px-4 lg:px-0">
-      <Breadcrumbs :links="links"/>
-      <h1 class="text-4xl lg:text-6xl font-semibold text-mainColor mb-7">
-        Услуги
-      </h1>
-      <ServicesNavigation />
-      <div class="bg-white p-5 rounded-lg mb-8">
+      <Breadcrumbs :links="links" class="mb-5"/>
+      <div class="bg-white p-5 rounded-lg mb-8" style="box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 10px 0px;">
         <h1 class="mb-2 text-mainColor text-2xl lg:text-4xl font-semibold">
-          Врач
+          Процедуры детокс
         </h1>
         <p class="text-sm lg:text-lg mb-5">
           Онлайн консультации и вызов врача: Медицинская помощь у вас дома
         </p>
-        <form @submit.prevent="setFilters" class="block lg:flex justify-between items-end">
-          <div class="w-full lg:w-fourth mb-3 lg:mb-0">
-            <p class="text-sm mb-2">
-              Врач
-            </p>
-            <div class="relative">
-              <select class="px-3 py-3 border  rounded-lg w-full">
-                <option value="">Выберите анализ</option>
-              </select>
-            </div>
-          </div>
-          <div class="w-full lg:w-fourth mb-3 lg:mb-0">
-            <p class="text-sm mb-2">
-              Дата
-            </p>
-            <div class="relative">
-              <input
-                  class="px-3 py-3 border  rounded-lg w-full"
-                  type="date"
-              >
-            </div>
-          </div>
-          <div class="w-full lg:w-fourth mb-4 lg:mb-0">
-            <p class="text-sm mb-2">
-              Время
-            </p>
-            <div class="relative">
-              <input
-                  class="px-3 py-3 border  rounded-lg w-full"
-                  type="time"
-              >
-            </div>
-          </div>
-          <div class="w-full lg:w-fourth">
-            <button
-                type="submit"
-                class="py-[14px] bg-mainColor text-white rounded-lg w-full cursor-pointer">
-              Применить фильтр
-            </button>
-          </div>
-        </form>
+<!--        <div class="block lg:flex justify-between items-end bg-[#ffe7e7] p-3 rounded-lg gap-2 text-sm">-->
+<!--          <div-->
+<!--              @click="searchDetox(null)"-->
+<!--              :class="{ 'bg-mainColor text-white ' : filters['filters[category.id]'] === null }"-->
+<!--              class="w-full lg:w-1/6 flex items-center cursor-pointer transition-all py-3 rounded-lg text-center justify-center">-->
+<!--            <IconHeartRateMonitor class="w-6 h-6 mr-2"/>-->
+<!--            <p>Все услуги</p>-->
+<!--          </div>-->
+<!--          <div-->
+<!--              @click="searchDoctors(1)"-->
+<!--              :class="{ 'bg-mainColor text-white ' : filters['filters[category.id]'] === 1 }"-->
+<!--              class="w-full lg:w-1/6 flex items-center cursor-pointer transition-all py-3 rounded-lg text-center justify-center">-->
+<!--            <IconVaccine class="w-6 h-6 mr-2"/>-->
+<!--            <p>Уколы</p>-->
+<!--          </div>-->
+<!--          <div-->
+<!--              @click="searchDoctors(2)"-->
+<!--              :class="{ 'bg-mainColor text-white ' : filters['filters[category.id]'] === 2 }"-->
+<!--              class="w-full lg:w-1/6 flex items-center cursor-pointer transition-all py-3 rounded-lg text-center justify-center">-->
+<!--            <IconVaccineBottle class="w-6 h-6 mr-2"/>-->
+<!--            <p>Капельницы</p>-->
+<!--          </div>-->
+<!--          <div-->
+<!--              @click="searchDoctors(3)"-->
+<!--              :class="{ 'bg-mainColor text-white ' : filters['filters[category.id]'] === 3 }"-->
+<!--              class="w-full lg:w-1/6 flex items-center cursor-pointer transition-all py-3 rounded-lg text-center justify-center">-->
+<!--            <IconBandage class="w-6 h-6 mr-2"/>-->
+<!--            <p>Перевязка</p>-->
+<!--          </div>-->
+<!--          <div-->
+<!--              @click="searchDoctors(4)"-->
+<!--              :class="{ 'bg-mainColor text-white ' : filters['filters[category.id]'] === 4 }"-->
+<!--              class="w-full lg:w-1/6 flex items-center cursor-pointer transition-all py-3 rounded-lg text-center justify-center">-->
+<!--            <IconFirstAidKit class="w-6 h-6 mr-2"/>-->
+<!--            <p>Пакеты процедур</p>-->
+<!--          </div>-->
+<!--          <div-->
+<!--              @click="searchDoctors(5)"-->
+<!--              :class="{ 'bg-mainColor text-white ' : filters['filters[category.id]'] === 5 }"-->
+<!--              class="w-full lg:w-1/6 flex items-center cursor-pointer transition-all py-3 rounded-lg text-center justify-center">-->
+<!--            <IconEmergencyBed class="w-6 h-6 mr-2"/>-->
+<!--            <p>Дополнительные услуги</p>-->
+<!--          </div>-->
+<!--        </div>-->
       </div>
       <div v-if="!pending">
         <div class="flex justify-between flex-wrap">
           <div
               class="w-full lg:w-half mb-5"
-              v-for="(doctor, index) in result.data"
+              v-for="(service, index) in result.data"
               :key="index">
-            <Doctor :doctor="doctor"/>
+            <DetoxCard :service="service"/>
           </div>
-        </div>
-        <div>
-          <Pagination
-              :meta="result.meta"
-              @navigate="staff.getStaff({perPage: route.query.perPage, page: route.query.page})"
-          />
         </div>
       </div>
       <div

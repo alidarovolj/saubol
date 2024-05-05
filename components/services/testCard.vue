@@ -65,7 +65,7 @@ const setTest = async () => {
             </div>
           </div>
           <div class="flex flex-col justify-between text-sm">
-            <p class="px-7 py-2 bg-[#E7F0FF] rounded-md text-center w-max font-bold text-mainColor mb-2">
+            <p class="px-7 py-2 bg-[#ffe7e7] rounded-md text-center w-max font-bold text-mainColor mb-2">
               <span>
                 {{ props.service.price }}
               </span> ₸

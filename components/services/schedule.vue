@@ -81,12 +81,12 @@ const dayLabels = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
           <div class="flex gap-4">
             <button
                 @click="decrementMonth"
-                class="p-2 bg-[#E7F0FF] text-mainColor rounded hover:bg-mainColor hover:text-white transition-all">
+                class="p-2 bg-[#ffe7e7] text-mainColor rounded hover:bg-mainColor hover:text-white transition-all">
               <IconChevronLeft size="15"/>
             </button>
             <button
                 @click="incrementMonth"
-                class="p-2 bg-[#E7F0FF] text-mainColor rounded hover:bg-mainColor hover:text-white transition-all">
+                class="p-2 bg-[#ffe7e7] text-mainColor rounded hover:bg-mainColor hover:text-white transition-all">
               <IconChevronRight size="15"/>
             </button>
           </div>
@@ -105,14 +105,14 @@ const dayLabels = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
             {{ day.day }}
             <div v-if="day.schedule.length > 0">
               <div v-for="(item, itemIndex) in day.schedule" :key="itemIndex">
-                <p class="w-full bg-[#E7F0FF] text-mainColor px-4 py-1">
+                <p class="w-full bg-[#ffe7e7] text-mainColor px-4 py-1">
                   Day: {{ item.day }}
                 </p>
                 <div class="flex flex-wrap gap-3 px-4 py-5 pt-0">
                   <p
                       v-for="(time, timeIndex) in item.times"
                       :key="timeIndex"
-                      class="bg-[#E7F0FF] text-mainColor px-4 py-1 rounded-lg cursor-pointer hover:bg-mainColor hover:text-white transition-all"
+                      class="bg-[#ffe7e7] text-mainColor px-4 py-1 rounded-lg cursor-pointer hover:bg-mainColor hover:text-white transition-all"
                   >
                     {{ time.start }} - {{ time.end }}
                   </p>

@@ -144,7 +144,7 @@ watch(() => user.result, () => {
           <p class="text-xs lg:text-sm mb-1">
             Цена
           </p>
-          <p class="px-7 py-3 bg-[#E7F0FF] rounded-md text-center w-max font-bold text-mainColor">
+          <p class="px-7 py-3 bg-[#ffe7e7] rounded-md text-center w-max font-bold text-mainColor">
             {{ form.price }} тг
           </p>
         </div>
@@ -251,10 +251,10 @@ watch(() => user.result, () => {
           </button>
         </div>
       </div>
-      <div class="flex gap-6 border-t border-[#E7F0FF] pt-4">
+      <div class="flex gap-6 border-t border-[#ffe7e7] pt-4">
         <NuxtLink
             :to="'/services/doctors/' + props.doctor.id"
-            class="block w-full py-3 rounded-lg text-mainColor bg-[#E7F0FF] text-center">
+            class="block w-full py-3 rounded-lg text-mainColor bg-[#ffe7e7] text-center">
           Подробнее
         </NuxtLink>
         <p

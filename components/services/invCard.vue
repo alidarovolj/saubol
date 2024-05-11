@@ -9,8 +9,9 @@ const addresses = useAddressesStore()
 
 const user = useUserStore()
 
-const nurse = useNursesStore()
 const cart = useCartStore()
+
+const inventory = useInventoryStore()
 
 const props = defineProps({
   service: Object,
@@ -26,27 +27,23 @@ const notify = (type, text) => {
 
 const form = ref({
   date: null,
-  service_id: null,
-  days: 1,
+  good_id: null,
+  days_quantity: 1,
   price: null,
   address_id: null
 })
 
 const v$ = useVuelidate({
-  date: {
-    day: {required},
-    start: {required},
-    end: {required}
-  },
-  days: {required},
-  service_id: {required},
+  date: {required},
+  days_quantity: {required},
+  good_id: {required},
   price: {required},
   address_id: {required}
 }, form);
 
 onMounted(async () => {
   form.value.price = props.service.price
-  form.value.service_id = props.service.id
+  form.value.good_id = props.service.id
 })
 
 const sendForm = async () => {
@@ -59,8 +56,8 @@ const sendForm = async () => {
     return;
   }
 
-  await nurse.cartNurses(form.value)
-  if (nurse.resultNurseCart) {
+  await inventory.cartInventory(form.value)
+  if (inventory.resultInventoryCart) {
     await cart.cartList()
     notify(true, 'Услуга успешно добавлена в корзину')
     loading.value = false;
@@ -113,16 +110,18 @@ const sendForm = async () => {
             Количество дней
           </p>
           <div class="flex gap-2">
-            <div class="bg-mainColor text-white p-1 rounded-md cursor-pointer">
-              <IconMinus @click="form.days = form.days - 1"/>
+            <div
+                v-if="form.days_quantity > 1"
+                class="bg-mainColor text-white p-1 rounded-md cursor-pointer">
+              <IconMinus @click="form.days_quantity = form.days_quantity - 1"/>
             </div>
             <input
-                v-model="form.days"
+                v-model="form.days_quantity"
                 type="text"
                 class="bg-[#ffe7e7] rounded-md w-14 text-center"
             >
             <div class="bg-mainColor text-white p-1 rounded-md cursor-pointer">
-              <IconPlus @click="form.days = form.days + 1"/>
+              <IconPlus @click="form.days_quantity = form.days_quantity + 1"/>
             </div>
           </div>
         </div>
@@ -131,7 +130,11 @@ const sendForm = async () => {
         <p class="mb-1 text-sm">
           Дата
         </p>
-        <input type="date" class="px-3 py-3 border rounded-lg w-full">
+        <input
+            v-model="form.date"
+            :class="[{'!border-red-500': v$.date.$error}]"
+            type="date"
+            class="px-3 py-3 border rounded-lg w-full">
       </div>
       <div
           v-if="addresses.resultAddresses"

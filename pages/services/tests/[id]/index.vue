@@ -1,11 +1,10 @@
 <script setup>
 import {useVuelidate} from "@vuelidate/core";
 import {required} from "@vuelidate/validators";
-import {useInventoryStore} from "~/store/inventory.js";
-import {IconMinus, IconPlus} from "@tabler/icons-vue";
+import {useDomoLabStore} from "~/store/domoLab.js";
 
-const inventory = useInventoryStore()
-const {resultDetail} = storeToRefs(inventory);
+const test = useDomoLabStore()
+const {resultDetail} = storeToRefs(test);
 
 const addresses = useAddressesStore()
 const user = useUserStore()
@@ -15,6 +14,8 @@ const cart = useCartStore()
 const route = useRoute()
 
 const loading = ref(false)
+
+const pickedTab = ref(0)
 
 const pending = ref(true)
 
@@ -30,8 +31,8 @@ const links = ref([
     link: '/services'
   },
   {
-    title: 'Инвентарь',
-    link: '/services/inventory'
+    title: 'Сдача анализов',
+    link: '/services/tests'
   }
 ])
 
@@ -42,19 +43,28 @@ const notify = (type, text) => {
 
 const form = ref({
   date: null,
-  good_id: null,
-  days_quantity: 1,
-  price: null,
-  address_id: null
+  start_time: null,
+  end_time: null,
+  address_id: null,
+  analysis_ids: [],
 })
 
 const v$ = useVuelidate({
   date: {required},
-  days_quantity: {required},
-  good_id: {required},
-  price: {required},
-  address_id: {required}
+  start_time: {required},
+  end_time: {required},
+  address_id: {required},
 }, form);
+
+const setTime = (index) => {
+  form.value.start_time = resultDetail.value.times[index]
+  form.value.end_time = resultDetail.value.times[index + 1]
+}
+
+const setDay = (index) => {
+  form.value.date = resultDetail.value.dates[index].date
+  pickedDay.value = index
+}
 
 const sendForm = async () => {
   loading.value = true;
@@ -66,8 +76,8 @@ const sendForm = async () => {
     return;
   }
 
-  await inventory.cartInventory(form.value)
-  if (inventory.resultInventoryCart) {
+  await test.cartTest(form.value)
+  if (test.resultTestCart) {
     await cart.cartList()
     notify(true, 'Услуга успешно добавлена в корзину')
     loading.value = false;
@@ -79,13 +89,12 @@ const sendForm = async () => {
 
 onMounted(async () => {
   await nextTick()
-  await inventory.getInventoryById(route.params.id)
+  await test.getTestById(route.params.id)
   await addresses.listAddresses()
-  form.value.price = resultDetail.value.price
-  form.value.good_id = resultDetail.value.id
+  form.value.analysis_ids.push(route.params.id)
   links.value.push({
-    title: resultDetail.value.name,
-    link: '/services/med-services/' + resultDetail.value.id
+    title: resultDetail.name,
+    link: '/services/med-services/' + resultDetail.id
   })
   pending.value = false
 })
@@ -124,18 +133,54 @@ onMounted(async () => {
                 {{ resultDetail.category.name }}
               </p>
               <p class="px-7 py-3 bg-[#ffe7e7] rounded-md text-center w-max font-bold text-mainColor">
-                {{ form.price }} ₸
+                {{ resultDetail.price }} ₸
               </p>
             </div>
           </div>
           <div class="bg-white p-5 rounded-lg h-full">
-            <div>
-              <h2 class="text-mainColor text-2xl font-semibold border-b border-mainColor w-full pb-2 mb-5">
-                Общая информация
-              </h2>
-              <p>
-                {{ resultDetail.description }}
-              </p>
+            <div class="text-sm">
+              <div class="flex gap-3 py-3 text-base">
+                <div
+                    @click="pickedTab = 0"
+                    :class="{ 'border-mainColor text-mainColor font-semibold' : pickedTab === 0 }"
+                    class="border-b-2 cursor-pointer">
+                  Описание
+                </div>
+                <div
+                    @click="pickedTab = 1"
+                    :class="{ 'border-mainColor text-mainColor font-semibold' : pickedTab === 1 }"
+                    class="border-b-2 cursor-pointer">
+                  Подготовка
+                </div>
+                <div
+                    @click="pickedTab = 2"
+                    :class="{ 'border-mainColor text-mainColor font-semibold' : pickedTab === 2 }"
+                    class="border-b-2 cursor-pointer">
+                  Показания
+                </div>
+                <div
+                    @click="pickedTab = 3"
+                    :class="{ 'border-mainColor text-mainColor font-semibold' : pickedTab === 3 }"
+                    class="border-b-2 cursor-pointer">
+                  Интерпретация результатов
+                </div>
+              </div>
+              <p
+                  v-if="pickedTab === 0"
+                  v-html="resultDetail.description"
+                  class="mb-5"></p>
+              <p
+                  v-if="pickedTab === 1"
+                  v-html="resultDetail.prepare"
+                  class="mb-5"></p>
+              <p
+                  v-if="pickedTab === 2"
+                  v-html="resultDetail.indications"
+                  class="mb-5"></p>
+              <p
+                  v-if="pickedTab === 3"
+                  v-html="resultDetail.interpretations"
+                  class="mb-5"></p>
             </div>
           </div>
         </div>
@@ -144,48 +189,70 @@ onMounted(async () => {
             class="w-full lg:w-1/3 rounded-lg">
           <div class="bg-white rounded-lg p-5">
             <p class="text-mainColor font-semibold pb-2 border-b border-mainColor text-2xl mb-4">
-              Аренда
+              Запись
             </p>
             <div class="w-full bg-white rounded-lg">
-              <div class="flex items-center justify-between mb-3">
-                <p class="text-sm mb-2">
-                  Количество дней
-                </p>
-                <div class="flex gap-2">
-                  <div
-                      v-if="form.days_quantity > 1"
-                      class="bg-mainColor text-white p-1 rounded-md cursor-pointer">
-                    <IconMinus @click="form.days_quantity = form.days_quantity - 1"/>
-                  </div>
-                  <input
-                      v-model="form.days_quantity"
-                      type="text"
-                      class="bg-[#ffe7e7] rounded-md w-14 text-center"
-                  >
-                  <div class="bg-mainColor text-white p-1 rounded-md cursor-pointer">
-                    <IconPlus @click="form.days_quantity = form.days_quantity + 1"/>
+              <div class="flex items-center mb-4 gap-5">
+                <div class="block lg:flex items-center justify-between w-full">
+                  <div>
+                    <p class="text-sm lg:text-xl font-semibold mb-3">
+                      {{ resultDetail.category.name }}
+                    </p>
+                    <p class="text-mainColor font-semibold mb-2">
+                      {{ resultDetail.name }}
+                    </p>
                   </div>
                 </div>
               </div>
-              <div class="mb-3 flex justify-between items-center">
-                <p class="text-sm">
+              <div class="mb-3">
+                <p class="text-sm mb-2">
                   Цена
                 </p>
                 <p class="px-7 py-3 bg-[#ffe7e7] rounded-md text-center w-max font-bold text-mainColor">
               <span>
-                {{ form.price }}
+                {{ resultDetail.price }}
               </span> ₸
                 </p>
               </div>
               <div class="block mb-4">
-                <p class="mb-1 text-sm">
-                  Дата
-                </p>
-                <input
-                    v-model="form.date"
-                    :class="[{'!border-red-500': v$.date.$error}]"
-                    type="date"
-                    class="px-3 py-3 border rounded-lg w-full">
+                <div class="w-full mb-3">
+                  <p class="text-sm lg:text-base mb-1">
+                    Дни приема:
+                  </p>
+                  <div class="flex justify-between">
+                    <!--            :class="{ 'bg-gray-200 cursor-not-allowed' : props.doctor.free_time[0].length === 0 }"-->
+                    <div
+                        v-for="(it, ind) of resultDetail.dates"
+                        :key="ind"
+                        @click="setDay(ind)"
+                        :class="[{'bg-mainColor text-white': pickedDay === ind}, {'border-red-500': v$.date.$error}]"
+                        class="cursor-pointer transition-all py-1 px-3 border w-max rounded text-sm lg:text-base text-center">
+                      <p class="text-xs">{{ it.day_number }}</p>
+                      <p>{{ it.day_of_week }}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="w-full">
+                  <p class="mb-1">
+                    Время
+                  </p>
+                  <select
+                      class="px-3 py-3 border rounded-lg w-full"
+                      :class="{'border-red-500': v$.start_time.$error}"
+                      name=""
+                      id="">
+                    <option :value="null">
+                      Выберите время
+                    </option>
+                    <option
+                        v-for="(it, ind) of resultDetail.times"
+                        :key="ind"
+                        @click="setTime(ind)"
+                        value="">
+                      {{ it }}
+                    </option>
+                  </select>
+                </div>
               </div>
               <div
                   v-if="addresses.resultAddresses"
@@ -194,7 +261,7 @@ onMounted(async () => {
                 <p class="text-sm mb-3">
                   Адресная книга <span class="text-red-500">*</span>
                 </p>
-                <div class="block lg:flex justify-between gap-5 text-sm">
+                <div class="block lg:flex justify-between gap-5">
                   <div class="relative w-full lg:w-3/5 mb-2 lg:mb-0">
                     <select
                         v-model="form.address_id"

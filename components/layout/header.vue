@@ -150,12 +150,12 @@ const logoutLocal = async () => {
               </div>
             </div>
           </div>
-          <NuxtLink
+          <button
               v-if="result === false"
-              to="/auth/login"
+              onclick="loginModal.showModal()"
               class="text-sm lg:text-base bg-mainColor !text-white py-2 px-8 lg:px-16 rounded">
             Войти
-          </NuxtLink>
+          </button>
           <div v-else-if="result === null">
             <div class="spinner p-2"></div>
           </div>
@@ -225,13 +225,13 @@ const logoutLocal = async () => {
                       </div>
                     </div>
                   </div>
-                  <div>
+                  <div v-if="result">
                     <div class="dropdown dropdown-top mb-6">
                       <div
                           class=" border px-4 py-2 rounded-lg hover:bg-mainColor hover:text-white transition-all"
                           role="button"
                           tabindex="0">
-                        <div v-if="result">
+                        <div>
                           <p class="text-sm font-bold">
                             {{ result.data.name }}
                           </p>
@@ -246,6 +246,13 @@ const logoutLocal = async () => {
                       </ul>
                     </div>
                   </div>
+                  <div v-else>
+                    <button
+                        onclick="loginModal.showModal()"
+                        class="text-sm bg-mainColor !text-white py-2 px-8 rounded w-full">
+                      Войти
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -254,4 +261,5 @@ const logoutLocal = async () => {
       </div>
     </div>
   </div>
+  <LoginModal v-if="!user.result"/>
 </template>

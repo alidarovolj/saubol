@@ -60,22 +60,17 @@ const searchTests = async (val) => {
 onMounted(async () => {
   await nextTick()
 
-  // Prepare the queries
   const queries = {
     ...route.query,
     page: route.query.page || 1,
     perPage: route.query.perPage || 10,
   };
 
-  // Update the search value if it exists in the query
   if (route.query['fields[name]']) {
     searchValue.value = route.query['fields[name]'];
   }
 
-  // Navigate to the new route
   await router.push({query: queries});
-
-  // Fetch the data
   await lab.listDomolabCategories();
   await searchTests();
 

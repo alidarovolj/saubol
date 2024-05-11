@@ -1,5 +1,21 @@
 <script setup>
 import {IconNurse, IconStethoscope, IconMicroscope, IconDisabled, IconVaccine, IconFileSearch} from "@tabler/icons-vue"
+import {useOrdersStore} from "~/store/orders.js";
+
+const pending = ref(true)
+
+const orders = useOrdersStore()
+
+const columns = ref([
+  {name: "Услуга", fname: "name"},
+  {name: "Дата", fname: "date.day"},
+])
+
+onMounted(async () => {
+  await nextTick()
+  await orders.listOrders()
+  pending.value = false
+})
 </script>
 
 <template>
@@ -85,11 +101,15 @@ import {IconNurse, IconStethoscope, IconMicroscope, IconDisabled, IconVaccine, I
           <BannersCarousel/>
         </div>
         <div class="w-full lg:w-1/4">
-          <div class="p-5 border rounded-lg mb-6">
+          <div
+              v-if="orders.result"
+              class="p-5 border rounded-lg mb-6">
             <p class="text-2xl font-bold text-mainColor mb-5">
               Записи к услугам
             </p>
-            <div class="py-16">
+            <div
+                v-if="orders.result.length === 0"
+                class="py-16">
               <IconFileSearch
                   size="140"
                   class="text-[#DFDFDF] mx-auto"
@@ -97,6 +117,41 @@ import {IconNurse, IconStethoscope, IconMicroscope, IconDisabled, IconVaccine, I
               <p class="text-[#DFDFDF] text-center">
                 У вас пока нет записей
               </p>
+            </div>
+            <div v-else>
+              <TableComponent
+                  :columns="columns"
+                  :numbered="true"
+                  :source="orders.result"
+                  @refreshTable="orders.listOrders()"
+              >
+                <template #default="{row, column} ">
+                  <template v-if="column.name === 'Номер заявки'">
+                    <div>
+                      <NuxtLink :to="'/profile/orders/' + row.id" class="text-primary50 cursor-pointer">
+                        {{ row.id }}
+                      </NuxtLink>
+                    </div>
+                  </template>
+                  <template v-if="column.fname === 'status' ">
+                    <div class="flex items-center bg-yellow-200 w-max p-2 rounded-md">
+                      <p class="flex gap-2 items-center text-sm w-max">
+                        {{ row.status }}
+                      </p>
+                    </div>
+                  </template>
+                </template>
+              </TableComponent>
+            </div>
+          </div>
+          <div
+              v-else
+              class="p-5 border rounded-lg mb-6">
+            <p class="text-2xl font-bold text-mainColor mb-5">
+              Записи к услугам
+            </p>
+            <div class="py-16">
+              <div class="spinner p-10"></div>
             </div>
           </div>
           <div class="p-5 border rounded-lg">

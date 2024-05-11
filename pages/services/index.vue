@@ -38,10 +38,10 @@ useHead({
         <h2 class="text-xl font-semibold mb-4">
           Услуги
         </h2>
-        <div class="flex gap-4 mb-4">
+        <div class="flex flex-wrap justify-between lg:flex-nowrap lg:gap-4 mb-4">
           <NuxtLink
               to="/services/med-services"
-              class="relative h-[228px] w-full border rounded-lg p-5 flex flex-col justify-between">
+              class="mb-1 lg:mb-0 relative h-[228px] w-half lg:w-full border rounded-lg p-5 flex flex-col justify-between">
             <div class="w-max bg-[#0065FF] rounded-lg text-white">
               <IconNurse size="20" class="m-3"/>
             </div>
@@ -55,7 +55,7 @@ useHead({
           </NuxtLink>
           <NuxtLink
               to="/services/doctors"
-              class="relative h-[228px] w-full border rounded-lg p-5 flex flex-col justify-between">
+              class="mb-1 lg:mb-0 relative h-[228px] w-half lg:w-full border rounded-lg p-5 flex flex-col justify-between">
             <div class="w-max bg-[#FEAA48] rounded-lg text-white">
               <IconStethoscope size="20" class="m-3"/>
             </div>
@@ -69,7 +69,7 @@ useHead({
           </NuxtLink>
           <NuxtLink
               to="/services/tests"
-              class="relative h-[228px] w-full border rounded-lg p-5 flex flex-col justify-between">
+              class="mb-1 lg:mb-0 relative h-[228px] w-half lg:w-full border rounded-lg p-5 flex flex-col justify-between">
             <div class="w-max bg-[#FD586B] rounded-lg text-white">
               <IconMicroscope size="20" class="m-3"/>
             </div>
@@ -83,7 +83,7 @@ useHead({
           </NuxtLink>
           <NuxtLink
               to="/services/inventory"
-              class="relative h-[228px] w-full border rounded-lg p-5 flex flex-col justify-between">
+              class="mb-1 lg:mb-0 relative h-[228px] w-half lg:w-full border rounded-lg p-5 flex flex-col justify-between">
             <div class="w-max bg-[#CF0CE0] rounded-lg text-white">
               <IconDisabled size="20" class="m-3"/>
             </div>
@@ -97,7 +97,7 @@ useHead({
           </NuxtLink>
           <NuxtLink
               to="/services/detox"
-              class="relative h-[228px] w-full border rounded-lg p-5 flex flex-col justify-between">
+              class="mb-1 lg:mb-0 relative h-[228px] w-half lg:w-full border rounded-lg p-5 flex flex-col justify-between">
             <div class="w-max bg-[#0CE07A] rounded-lg text-white">
               <IconVaccine size="20" class="m-3"/>
             </div>

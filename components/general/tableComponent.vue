@@ -84,11 +84,11 @@ export default {
   <div v-if="source">
     <div
         v-if="source.data"
-        class="rounded-lg overflow-x-auto"
+        class="rounded-lg overflow-x-auto text-xs"
     >
       <table
           :class="[{ 'pe-none': spinner }]"
-          class="hidden lg:block custom-table dark:border-darkElBg text-black dark:text-darkText min-w-full bg-white dark:bg-darkElBg text-sm"
+          class="hidden lg:block custom-table dark:border-darkElBg text-black dark:text-darkText min-w-full bg-white dark:bg-darkElBg text-xs"
       >
         <div
             v-if="spinner"
@@ -107,7 +107,7 @@ export default {
           <th
               v-for="(column, key) in columns"
               :key="key"
-              class="py-2 lg:py-3 px-3 font-bold !text-[#9A9BA4] dark:text-darkText text-sm whitespace-nowrap"
+              class="py-2 lg:py-3 px-3 font-bold !text-[#9A9BA4] dark:text-darkText text-xs whitespace-nowrap"
           >
             {{ column.name }}
           </th>
@@ -127,7 +127,7 @@ export default {
               v-for="(row, key) in source?.data"
               :key="key"
               :class="{'bg-[#fe2c3945]': key % 2 === 0}"
-              class="whitespace-nowrap lg:whitespace-normal text-sm font-medium !rounded-lg"
+              class="whitespace-nowrap lg:whitespace-normal text-xs font-medium !rounded-lg"
           >
             <td
                 v-for="(column, index) in columns"
@@ -218,7 +218,7 @@ export default {
     >
       <table
           :class="[{ 'pe-none': spinner }, { 'archiveTable' : $route.name === 'ArchiveGroups' }]"
-          class="hidden lg:block custom-table dark:border-darkElBg text-black dark:text-darkText min-w-full bg-white dark:bg-darkElBg text-sm overflow-x-auto"
+          class="hidden lg:block custom-table dark:border-darkElBg text-black dark:text-darkText min-w-full bg-white dark:bg-darkElBg text-xs overflow-x-auto"
       >
         <div
             v-if="spinner"
@@ -237,7 +237,7 @@ export default {
           <th
               v-for="(column, key) in columns"
               :key="key"
-              class="py-2 lg:py-3 px-3 font-bold text-[#9A9BA4] dark:text-darkText text-sm whitespace-nowrap"
+              class="py-2 lg:py-3 px-3 font-bold text-[#9A9BA4] dark:text-darkText text-xs whitespace-nowrap"
           >
             {{ column.name }}
           </th>
@@ -257,7 +257,7 @@ export default {
               v-for="(row, key) in source"
               :key="key"
               :class="{'bg-[#fe2c3945]': key % 2 === 0}"
-              class="whitespace-nowrap lg:whitespace-normal text-sm font-medium !rounded-lg"
+              class="whitespace-nowrap lg:whitespace-normal text-xs font-medium !rounded-lg"
           >
             <td
                 v-for="(column, index) in columns"

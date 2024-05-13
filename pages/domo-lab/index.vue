@@ -24,7 +24,7 @@ onMounted(async () => {
       Анализы
     </h1>
     <div v-if="result">
-      <table class="table table-xs lg:table-sm z-2">
+      <table class="table table-xs lg:table-sm z-2 mb-3">
         <thead class="font-bold text-xs uppercase">
         <tr class="border-t">
           <th class="border-r">ID</th>
@@ -90,12 +90,12 @@ onMounted(async () => {
                     <IconCheck v-if="!item.enabled" class="cursor-pointer" :size="18"/>
                     <IconX v-else class="cursor-pointer"/>
                   </button>
-                  <p
-                      @click="setChange(item)"
+                  <NuxtLink
+                      :to="`/domo-lab/edit/${item.id}`"
                       class="bg-buyerMenuBg px-1 py-1 rounded-lg block w-max"
                   >
                     <IconEdit class="cursor-pointer" :size="18"/>
-                  </p>
+                  </NuxtLink>
                 </div>
               </div>
             </div>
@@ -103,6 +103,10 @@ onMounted(async () => {
         </tr>
         </tbody>
       </table>
+      <Pagination
+          :pages-data="result.meta"
+          @first-link="analyzises.analyzisesList"/>
+
     </div>
     <div v-else>
       <div v-for="(item, index) of 10" :key="index" class="flex justify-between mb-5">

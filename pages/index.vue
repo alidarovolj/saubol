@@ -46,7 +46,7 @@ const sendForm = async () => {
     return;
   }
 
-  const {data, error} = await useFetch("/auth/login", {
+  const {data, error} = await useFetch("/auth/admin-login", {
     method: "POST",
     baseURL: runtimeConfig.public.API_LINK,
     body: JSON.stringify(form.value),
@@ -75,11 +75,19 @@ const sendForm = async () => {
         <form
             @submit.prevent="sendForm"
             class="w-full lg:w-3/5 mx-auto px-4 lg:px-0 relative z-20">
+            <NuxtLink
+            to="/"
+            class="flex justify-center items-center gap-2 mr-5 lg:mr-0 mb-10"
+        >
           <img
-              class="mx-auto mb-5"
-              src="@/assets/img/main-color-logo.svg"
+              class="w-auto h-7 lg:h-12"
+              src="@/assets/img/logo.png"
               alt=""
           >
+          <p class="text-3xl font-bold text-black">
+            Saubol
+          </p>
+        </NuxtLink>
           <div class="mb-5">
             <p class="text-sm mb-1">
               Email
@@ -131,12 +139,21 @@ const sendForm = async () => {
       </div>
       <div class="hidden lg:flex w-3/5 relative items-center">
         <img class="w-full h-full absolute left-0 top-0 object-cover" src="@/assets/img/auth/bg.jpg" alt="">
-        <img class="w-full h-full absolute left-0 top-0" src="@/assets/img/auth/bg-fill.png" alt="">
+        <div class="w-full h-full bg-mainColor opacity-20 z-10 absolute left-0 top-0"></div>
         <div class="relative z-20 pl-11 text-5xl text-white">
-          <img
-              class="mb-5"
-              src="@/assets/img/footer-logo.png"
-              alt="">
+          <NuxtLink
+              to="/"
+              class="flex justify-start items-center gap-2 mr-5 lg:mr-0 mb-10"
+          >
+            <img
+                class="w-auto h-7 lg:h-14"
+                src="@/assets/img/logo.png"
+                alt=""
+            >
+            <p class="text-4xl font-bold text-white">
+              Saubol
+            </p>
+          </NuxtLink>
           <p>
             Забота о вашем здоровье с Saubol: Надежно и Качественно!
           </p>

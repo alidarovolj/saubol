@@ -17,9 +17,7 @@ onMounted(async () => {
     <h1 class="text-4xl font-semibold mb-5">
       Пользователи
     </h1>
-    <div
-        v-if="resultUsers"
-        class="overflow-x-auto lg:overflow-hidden">
+    <div v-if="resultUsers">
       <table class="table table-xs lg:table-sm z-2">
         <thead class="font-bold text-xs uppercase">
         <tr class="border-t">

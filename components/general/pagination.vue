@@ -1,58 +1,69 @@
-<script setup>
-const route = useRoute()
-const router = useRouter()
-const props = defineProps({
-  meta: {
-    type: Object,
-    required: true
-  }
-})
-
-const emit = defineEmits(['navigate'])
-
-const perPage = ref(route.query.perPage || 10)
-const page = ref(route.query.page || 1)
-
-watch(perPage, async (newPerPage) => {
-  await router.push({ query: { ...route.query, perPage: newPerPage, page: page.value } })
-  emit('navigate')
-})
-
-const links = computed(() => props.meta.links.map(link => {
-  if (link.label.includes('Previous')) {
-    return { ...link, label: '«' }
-  } else if (link.label.includes('Next')) {
-    return { ...link, label: '»' }
-  }
-  return link
-}))
-</script>
-
 <template>
-  <nav class="relative z-20 flex justify-between">
-    <select v-model="perPage" class="rounded-md p-2 shadow">
-      <option :value="10">10</option>
-      <option :value="20">20</option>
-      <option :value="30">30</option>
-      <option :value="40">40</option>
-      <option :value="50">50</option>
-    </select>
-    <ul class="pagination flex gap-3 bg-white w-max p-2 rounded-md shadow">
-      <li v-for="(link, index) in links" :key="index" :class="{ active: link.active }">
-        <NuxtLink :to="{ path: route.path, query: { ...route.query, page: link.label, perPage: perPage.value } }"
-                  v-if="link.url" @click="() => emit('navigate', link.url)">
-          <span v-html="link.label"></span>
-        </NuxtLink>
-        <button :disabled="!link.url" v-else>
-          <span v-html="link.label"></span>
-        </button>
-      </li>
-    </ul>
-  </nav>
+  <div class="flex items-center justify-between lg:justify-end  overflow-x-auto">
+    <p
+        v-for="(page, item) of filterLinks"
+        :key="item"
+        :class="{ 'bg-mainColor text-white': page.active }"
+        class="transition-all mx-1 text-black px-2 py-1 rounded-md hover:bg-mainColor hover:text-white cursor-pointer"
+        @click="sendToParent(page.label)"
+    >
+      {{ page.label }}
+    </p>
+  </div>
 </template>
 
-<style scoped>
-.active {
-  /* Add your active button styles here */
-}
-</style>
+<script>
+export default {
+  name: 'PaginationComponent',
+  props: {
+    pagesData: {
+      type: Object,
+      required: false
+    }
+  },
+  emits: ['firstLink'],
+  computed: {
+    filterLinks() {
+      const newArray = [...this.pagesData.links];
+      newArray[0].label = '<';
+      newArray[newArray.length - 1].label = '>';
+      return newArray;
+    }
+  },
+  methods: {
+    async sendToParent(item) {
+      try {
+        const currentPage = this.pagesData.current_page;
+        const lastPage = this.pagesData.last_page;
+        let newPage;
+
+        if(currentPage === 1 && item === '<' || currentPage === lastPage && item === '>' || item === '...') {
+          return;
+        }
+
+        if (item === '<' && currentPage !== 1) {
+          newPage = currentPage - 1;
+        } else if (item === '>' && currentPage !== lastPage) {
+          newPage = currentPage + 1;
+        } else if (item !== '...' && item !== '<' && item !== '>') {
+          newPage = item;
+        }
+
+        if (newPage !== undefined) {
+          await this.$router.push({
+            query: {
+              ...this.$route.query,
+              page: newPage,
+              perPage: this.$route.query.perPage
+            }
+          });
+        }
+
+        this.$emit('firstLink', item);
+      } catch (error) {
+        console.error('Ошибка при навигации по маршруту:', error.response);
+      }
+    }
+  }
+};
+</script>

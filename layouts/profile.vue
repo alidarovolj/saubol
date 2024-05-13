@@ -23,12 +23,8 @@ const logoutLocal = async () => {
 }
 
 onMounted(async () => {
+  await nextTick()
   await user.getProfile()
-  if (result.value === false) {
-    router.push('/')
-  } else {
-    pending.value = false
-  }
 })
 </script>
 

@@ -2,21 +2,10 @@
 import AdminSidebar from "~/components/layout/adminSidebar.vue";
 
 const user = useUserStore()
-const {result} = storeToRefs(user)
-
-const router = useRouter()
-
-const auth = useAuthStore()
-auth.initCookieAdminToken()
-const {adminToken} = storeToRefs(auth)
 
 onMounted(async () => {
   await nextTick()
-  if(adminToken.value) {
-    await user.getProfile()
-  } else {
-    router.push('/')
-  }
+  await user.getProfile()
 })
 </script>
 

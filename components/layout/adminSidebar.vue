@@ -1,8 +1,6 @@
 <script setup>
-import {IconChevronLeft} from "@tabler/icons-vue"
 import {storeToRefs} from "pinia";
 
-const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
 
 const user = useUserStore()
@@ -13,14 +11,6 @@ const logoutLocal = async () => {
   await user.getProfile()
   router.push('/')
 }
-
-const request = ref({
-  title: "",
-  description: "",
-  prepare: "", // Подготовка
-  indications : "", // показания
-  interpretation: "", // интерпретация
-})
 
 const links = [
   {
@@ -62,9 +52,19 @@ const links = [
   <div class="h-full">
     <div class="w-full h-full flex flex-col justify-between border-r p-10 pr-6">
       <div>
-        <NuxtLink class="text-2xl font-bold mb-10 block" to="/admin">
-          <img alt="" class="mb-12 w-full" src="@/assets/img/main-color-logo.svg">
-        </NuxtLink>
+        <NuxtLink
+              to="/admin"
+              class="flex justify-start items-center gap-2 mr-5 lg:mr-0 mb-10"
+          >
+            <img
+                class="w-auto h-7 lg:h-14"
+                src="@/assets/img/logo.png"
+                alt=""
+            >
+            <p class="text-4xl font-bold text-black">
+              Saubol
+            </p>
+          </NuxtLink>
         <div class="flex flex-col adminLinks">
           <NuxtLink
               v-for="(link, index) in links"

@@ -34,27 +34,27 @@
               <div class="block lg:flex justify-between">
                 <div class="w-full lg:w-1/3 mb-10 lg:mb-0">
                   <p class="font-semibold mb-4">
-                    Контакты:
+                    Телефоны:
                   </p>
                   <p class="mb-3">
                     <a
-                        href="tel:+77777777777"
+                        href="tel:+77756860022"
                         class="text-mainColor font-semibold">
-                      +7 (777) 777-77-77
+                      +7 (775) 686-00-22
                     </a> - по вопросам сотрудничества
                   </p>
                   <p class="mb-3">
                     <a
-                        href="tel:+77777777777"
+                        href="tel:+77472367503"
                         class="text-mainColor font-semibold">
-                      +7 (777) 777-77-77
+                      +7 (747) 236-75-03
                     </a> - WhatsApp
                   </p>
                   <p>
                     <a
-                        href="tel:+77777777777"
+                        href="tel:+77756860022"
                         class="text-mainColor font-semibold">
-                      +7 (777) 777-77-77
+                      +7 (775) 686-00-22
                     </a> - Telegram
                   </p>
                 </div>
@@ -91,46 +91,46 @@
                   <p class="font-semibold mb-4">
                     Социальные сети:
                   </p>
-                  <div class="flex items-center gap-3 mb-3">
-                    <div class="p-2 rounded-full border border-mainColor text-mainColor">
-                      <IconBrandLinkedin size="14"/>
-                    </div>
-                    <p>
-                      Saubolmed
-                    </p>
-                  </div>
-                  <div class="flex items-center gap-3 mb-3">
+<!--                  <div class="flex items-center gap-3 mb-3">-->
+<!--                    <div class="p-2 rounded-full border border-mainColor text-mainColor">-->
+<!--                      <IconBrandLinkedin size="14"/>-->
+<!--                    </div>-->
+<!--                    <p>-->
+<!--                      Saubolmed-->
+<!--                    </p>-->
+<!--                  </div>-->
+                  <a href="https://www.facebook.com/profile.php?id=100080161426914&mibextid=LQQJ4d" class="flex items-center gap-3 mb-3">
                     <div class="p-2 rounded-full border border-mainColor text-mainColor">
                       <IconBrandFacebook size="14"/>
                     </div>
                     <p>
                       Saubolmed
                     </p>
-                  </div>
-                  <div class="flex items-center gap-3 mb-3">
-                    <div class="p-2 rounded-full border border-mainColor text-mainColor">
-                      <IconBrandX size="14"/>
-                    </div>
-                    <p>
-                      Saubolmed
-                    </p>
-                  </div>
-                  <div class="flex items-center gap-3 mb-3">
+                  </a>
+<!--                  <div class="flex items-center gap-3 mb-3">-->
+<!--                    <div class="p-2 rounded-full border border-mainColor text-mainColor">-->
+<!--                      <IconBrandX size="14"/>-->
+<!--                    </div>-->
+<!--                    <p>-->
+<!--                      Saubolmed-->
+<!--                    </p>-->
+<!--                  </div>-->
+                  <a href="https://www.instagram.com/saubolmed?igsh=dHZyMDZxeWR2Znp4" class="flex items-center gap-3 mb-3">
                     <div class="p-2 rounded-full border border-mainColor text-mainColor">
                       <IconBrandInstagram size="14"/>
                     </div>
                     <p>
                       Saubolmed
                     </p>
-                  </div>
-                  <div class="flex items-center gap-3">
-                    <div class="p-2 rounded-full border border-mainColor text-mainColor">
-                      <IconBrandTiktok size="14"/>
-                    </div>
-                    <p>
-                      Saubolmed
-                    </p>
-                  </div>
+                  </a>
+<!--                  <div class="flex items-center gap-3">-->
+<!--                    <div class="p-2 rounded-full border border-mainColor text-mainColor">-->
+<!--                      <IconBrandTiktok size="14"/>-->
+<!--                    </div>-->
+<!--                    <p>-->
+<!--                      Saubolmed-->
+<!--                    </p>-->
+<!--                  </div>-->
                 </div>
               </div>
             </div>

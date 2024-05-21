@@ -85,22 +85,16 @@ import {
           <div>
             <a
                 class="block text-sm lg:text-base opacity-75 mb-2 !text-black"
-                href="tel:+87777777777"
+                href="tel:+77756860022"
             >
-              +8 (777) 777-77-77
+              +8 (775) 686-00-22
             </a>
             <a
                 class="block text-sm lg:text-base opacity-75 mb-2 !text-black"
-                href="mailto:saubolmed@gmail.com"
+                href="mailto:info@saubol.kz"
             >
-              Saubolmed@gmail.com
+              info@saubol.kz
             </a>
-            <NuxtLink
-                class="block text-sm lg:text-base opacity-75 mb-2 !text-black"
-                href="/"
-            >
-              Контакты
-            </NuxtLink>
           </div>
         </div>
         <div class="w-full lg:w-1/4 bg-white bg-opacity-10 rounded-lg">
@@ -153,16 +147,16 @@ import {
           </NuxtLink>
         </div>
         <div class="flex gap-4">
-          <a href="#">
-            <IconBrandLinkedin class="w-9 h-9 p-2 border border-mainColor rounded-full text-mainColor"/>
-          </a>
-          <a href="#">
+<!--          <a href="#">-->
+<!--            <IconBrandLinkedin class="w-9 h-9 p-2 border border-mainColor rounded-full text-mainColor"/>-->
+<!--          </a>-->
+          <a href="https://www.facebook.com/profile.php?id=100080161426914&mibextid=LQQJ4d">
             <IconBrandFacebook class="w-9 h-9 p-2 border border-mainColor rounded-full text-mainColor"/>
           </a>
-          <a href="#">
-            <IconBrandTwitter class="w-9 h-9 p-2 border border-mainColor rounded-full text-mainColor"/>
-          </a>
-          <a href="#">
+<!--          <a href="#">-->
+<!--            <IconBrandTwitter class="w-9 h-9 p-2 border border-mainColor rounded-full text-mainColor"/>-->
+<!--          </a>-->
+          <a href="https://www.instagram.com/saubolmed?igsh=dHZyMDZxeWR2Znp4">
             <IconBrandInstagram class="w-9 h-9 p-2 border border-mainColor rounded-full text-mainColor"/>
           </a>
         </div>

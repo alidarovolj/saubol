@@ -14,7 +14,7 @@ onMounted(async () => {
     <div class="flex h-full">
       <AdminSidebar class="hidden lg:block w-[260px] min-w-[260px] h-screen"/>
       <AdminMobSiderbar class="block lg:hidden" />
-      <div class="relative pt-10 overflow-y-auto w-full px-5 mt-10 lg:mt-0">
+      <div class="relative py-10 overflow-y-auto w-full px-5 mt-10 lg:mt-0">
         <div class="relative z-30">
           <slot/>
         </div>

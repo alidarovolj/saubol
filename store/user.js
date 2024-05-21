@@ -12,16 +12,14 @@ export const useUserStore = defineStore('user', () => {
     const resultLogout = ref(null);
     const resultImage = ref(null);
     const resultUpdate = ref(null);
-    const notify = (type, text) => {
-        const toast = useNuxtApp().$toast;
-        type ? toast.success(text) : toast.error(text);
-    };
+    const resultRemove = ref(null);
 
     return {
         result,
         resultLogout,
         resultImage,
         resultUpdate,
+        resultRemove,
         async getProfile() {
             const {data} = await useFetch(`/auth/me`, {
                 method: 'GET',
@@ -90,6 +88,22 @@ export const useUserStore = defineStore('user', () => {
                 resultUpdate.value = data.value
             } else {
                 resultUpdate.value = false
+            }
+        },
+        async removeUser(id) {
+            const {data} = await useFetch(`/admin/users/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    accept: "application/json",
+                    authorization: `Bearer ${adminToken.value}`,
+                },
+                baseURL: runtimeConfig.public.API_LINK,
+                lazy: true,
+            })
+            if (data.value) {
+                resultRemove.value = data.value
+            } else {
+                resultRemove.value = false
             }
         }
     }

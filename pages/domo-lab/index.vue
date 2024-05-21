@@ -5,13 +5,6 @@ import {useAnalyzisesStore} from "~/store/analyzises.js";
 const analyzises = useAnalyzisesStore()
 const {result} = storeToRefs(analyzises)
 
-const pickedAnalyzis = ref(null)
-
-const setChange = (item) => {
-  pickedAnalyzis.value = item
-  changeAnalyze.showModal()
-}
-
 onMounted(async () => {
   await nextTick()
   await analyzises.analyzisesList()
@@ -20,9 +13,16 @@ onMounted(async () => {
 
 <template>
   <div class="w-full">
-    <h1 class="text-4xl font-semibold mb-5">
-      Анализы
-    </h1>
+    <div class="mb-5 flex items-center justify-between">
+      <h1 class="text-4xl font-semibold">
+        Анализы
+      </h1>
+      <NuxtLink
+          to="/domo-lab/create"
+          class="bg-mainColor text-white px-4 py-2 rounded-lg">
+        Добавить анализ
+      </NuxtLink>
+    </div>
     <div v-if="result">
       <table class="table table-xs lg:table-sm z-2 mb-3">
         <thead class="font-bold text-xs uppercase">
@@ -83,13 +83,13 @@ onMounted(async () => {
                   class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-max"
               >
                 <div class="flex gap-2">
-                  <button
-                      onclick="change_status.showModal()"
-                      class="bg-buyerMenuBg px-1 py-1 rounded-lg block"
-                  >
-                    <IconCheck v-if="!item.enabled" class="cursor-pointer" :size="18"/>
-                    <IconX v-else class="cursor-pointer"/>
-                  </button>
+<!--                  <button-->
+<!--                      onclick="change_status.showModal()"-->
+<!--                      class="bg-buyerMenuBg px-1 py-1 rounded-lg block"-->
+<!--                  >-->
+<!--                    <IconCheck v-if="!item.enabled" class="cursor-pointer" :size="18"/>-->
+<!--                    <IconX v-else class="cursor-pointer"/>-->
+<!--                  </button>-->
                   <NuxtLink
                       :to="`/domo-lab/edit/${item.id}`"
                       class="bg-buyerMenuBg px-1 py-1 rounded-lg block w-max"
@@ -118,5 +118,4 @@ onMounted(async () => {
       </div>
     </div>
   </div>
-  <ChangeAnalyze :pickedItem="pickedAnalyzis"/>
 </template>

@@ -27,7 +27,7 @@ onMounted(async () => {
           <th class="border-r">Пользователь</th>
           <th class="border-r">Дата создания</th>
           <th class="border-r">Статус</th>
-          <th>Действия</th>
+<!--          <th>Действия</th>-->
         </tr>
         </thead>
         <tbody class="text-xs">
@@ -52,38 +52,40 @@ onMounted(async () => {
             </p>
           </td>
           <td class="border-r">
-            <p
-                v-if="item.status === 'pending'"
-                class="mb-1 bg-yellow-200 w-max px-4 py-1 rounded-md">
-              Ожидается
+            <p class="mb-1 bg-yellow-200 w-max px-4 py-1 rounded-md">
+              {{ item.status }}
             </p>
           </td>
-          <td>
-            <div class="dropdown dark:text-black">
-              <div tabindex="0" class="bg-gray-200 p-1 rounded-md m-1">
-                <IconDots class="cursor-pointer" :size="18"/>
-              </div>
-              <div
-                  tabindex="0"
-                  class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-max"
-              >
-                <div class="flex gap-2">
-                  <button
-                      v-if="resultOrders.status === 'pending'"
-                      @click="() => (pickedOrder = item)"
-                      onclick="change_status.showModal()"
-                      class="bg-buyerMenuBg px-1 py-1 rounded-lg block"
-                  >
-                    <IconCheck v-if="!item.enabled" class="cursor-pointer" :size="18"/>
-                    <IconX v-else class="cursor-pointer"/>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </td>
+<!--          <td>-->
+<!--            <div class="dropdown dark:text-black">-->
+<!--              <div tabindex="0" class="bg-gray-200 p-1 rounded-md m-1">-->
+<!--                <IconDots class="cursor-pointer" :size="18"/>-->
+<!--              </div>-->
+<!--              <div-->
+<!--                  tabindex="0"-->
+<!--                  class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-max"-->
+<!--              >-->
+<!--                <div class="flex gap-2">-->
+<!--                  <button-->
+<!--                      v-if="resultOrders.status === 'pending'"-->
+<!--                      @click="() => (pickedOrder = item)"-->
+<!--                      onclick="change_status.showModal()"-->
+<!--                      class="bg-buyerMenuBg px-1 py-1 rounded-lg block"-->
+<!--                  >-->
+<!--                    <IconCheck v-if="!item.enabled" class="cursor-pointer" :size="18"/>-->
+<!--                    <IconX v-else class="cursor-pointer"/>-->
+<!--                  </button>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </td>-->
         </tr>
         </tbody>
       </table>
+      <Pagination
+          :pages-data="resultOrders.meta"
+          @first-link="admin.adminOrders"
+      />
     </div>
     <div v-else>
       <div v-for="(item, index) of 10" :key="index" class="flex justify-between mb-5">

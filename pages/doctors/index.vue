@@ -22,9 +22,7 @@ onMounted(async () => {
     <h1 class="text-4xl font-semibold mb-5">
       Доктора
     </h1>
-    <div
-        v-if="resultDoctors"
-        class="overflow-x-auto lg:overflow-hidden">
+    <div v-if="resultDoctors">
       <table class="table table-xs lg:table-sm z-2">
         <thead class="font-bold text-xs uppercase">
         <tr class="border-t">
@@ -108,6 +106,10 @@ onMounted(async () => {
         </tr>
         </tbody>
       </table>
+
+      <Pagination
+          :pages-data="resultDoctors.meta"
+          @first-link="admin.adminDoctors"/>
     </div>
     <div v-else>
       <div v-for="(item, index) of 10" :key="index" class="flex justify-between mb-5">

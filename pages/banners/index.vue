@@ -1,5 +1,4 @@
 <script setup>
-import {IconDots, IconCheck, IconX} from "@tabler/icons-vue"
 import {useBannersStore} from "~/store/banners.js";
 
 const banners = useBannersStore()
@@ -36,7 +35,7 @@ onMounted(async () => {
           <th class="border-r">Картинка</th>
           <th class="border-r">Текст</th>
           <th class="border-r">Дата создания</th>
-          <th>Действия</th>
+<!--          <th>Действия</th>-->
         </tr>
         </thead>
         <tbody class="text-xs">
@@ -64,29 +63,29 @@ onMounted(async () => {
               {{ item.created_at }}
             </p>
           </td>
-          <td>
-            <div class="dropdown dark:text-black">
-              <div tabindex="0" class="bg-gray-200 p-1 rounded-md m-1">
-                <IconDots class="cursor-pointer" :size="18"/>
-              </div>
-              <div
-                  tabindex="0"
-                  class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-max"
-              >
-                <!--                <div class="flex gap-2">-->
-                <!--                  <button-->
-                <!--                      v-if="banners.status === 'pending'"-->
-                <!--                      @click="() => (pickerBanner = item)"-->
-                <!--                      onclick="change_status.showModal()"-->
-                <!--                      class="bg-buyerMenuBg px-1 py-1 rounded-lg block"-->
-                <!--                  >-->
-                <!--                    <IconCheck v-if="!item.enabled" class="cursor-pointer" :size="18"/>-->
-                <!--                    <IconX v-else class="cursor-pointer"/>-->
-                <!--                  </button>-->
-                <!--                </div>-->
-              </div>
-            </div>
-          </td>
+<!--          <td>-->
+<!--            <div class="dropdown dark:text-black">-->
+<!--              <div tabindex="0" class="bg-gray-200 p-1 rounded-md m-1">-->
+<!--                <IconDots class="cursor-pointer" :size="18"/>-->
+<!--              </div>-->
+<!--              <div-->
+<!--                  tabindex="0"-->
+<!--                  class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-max"-->
+<!--              >-->
+<!--                <div class="flex gap-2">-->
+<!--                  <button-->
+<!--                      v-if="banners.status === 'pending'"-->
+<!--                      @click="() => (pickerBanner = item)"-->
+<!--                      onclick="change_status.showModal()"-->
+<!--                      class="bg-buyerMenuBg px-1 py-1 rounded-lg block"-->
+<!--                  >-->
+<!--                    <IconCheck v-if="!item.enabled" class="cursor-pointer" :size="18"/>-->
+<!--                    <IconX v-else class="cursor-pointer"/>-->
+<!--                  </button>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </td>-->
         </tr>
         </tbody>
       </table>
@@ -101,5 +100,5 @@ onMounted(async () => {
       </div>
     </div>
   </div>
-  <CreateBanner />
+  <CreateBanner/>
 </template>

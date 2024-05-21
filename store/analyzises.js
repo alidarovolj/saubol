@@ -1,6 +1,6 @@
 import {defineStore} from "pinia";
 import {useAuthStore} from "~/store/auth.js";
-import axios from "@/utils/axios.js";
+import createInstance from '~/utils/axios.js'
 
 export const useAnalyzisesStore = defineStore('analyzises', () => {
     const runtimeConfig = useRuntimeConfig();
@@ -9,22 +9,26 @@ export const useAnalyzisesStore = defineStore('analyzises', () => {
     auth.initCookieAdminToken()
     const {adminToken} = storeToRefs(auth)
 
+    const axiosInstance = createInstance(adminToken.value, runtimeConfig.public.API_LINK);
+
     const result = ref(null);
     const resultChange = ref(null);
     const resultDetail = ref(null);
+    const resultCreate = ref(null);
     const router = useRouter()
 
     return {
         result,
         resultChange,
         resultDetail,
+        resultCreate,
         async analyzisesList(param) {
             const params = !param ? {...router.currentRoute.value.query} : {
                 ...router.currentRoute.value.query,
                 ...param
             }
 
-            let response = await axios.get(`/domo-lab`, { params })
+            let response = await axiosInstance.get(`/domo-lab`, { params })
 
             if (response.data) {
                 result.value = response.data
@@ -33,7 +37,7 @@ export const useAnalyzisesStore = defineStore('analyzises', () => {
             }
         },
         async analyziseDetail(id) {
-            let response = await axios.get(`/domo-lab/${id}`)
+            let response = await axiosInstance.get(`/domo-lab/${id}`)
 
             if (response.data) {
                 resultDetail.value = response.data
@@ -56,6 +60,23 @@ export const useAnalyzisesStore = defineStore('analyzises', () => {
                 resultChange.value = data.value
             } else {
                 resultChange.value = false
+            }
+        },
+        async createAnalyzis(form) {
+            const {data} = await useFetch(`/admin/domo-lab/`, {
+                method: 'POST',
+                headers: {
+                    accept: "application/json",
+                    authorization: `Bearer ${adminToken.value}`,
+                },
+                body: JSON.stringify(form),
+                baseURL: runtimeConfig.public.API_LINK,
+                lazy: true,
+            })
+            if (data.value) {
+                resultCreate.value = data.value
+            } else {
+                resultCreate.value = false
             }
         },
     }

@@ -1,12 +1,17 @@
 import {defineStore} from "pinia";
 import {useAuthStore} from "~/store/auth.js";
+import createInstance from "~/utils/axios.js";
 
 export const useAdminStore = defineStore('admin', () => {
     const runtimeConfig = useRuntimeConfig();
 
+    const router = useRouter()
+
     const auth = useAuthStore()
     auth.initCookieAdminToken()
     const {adminToken} = storeToRefs(auth)
+
+    const axiosInstance = createInstance(adminToken.value, runtimeConfig.public.API_LINK);
 
     const resultOrders = ref(null);
     const resultAdmins = ref(null);
@@ -15,10 +20,8 @@ export const useAdminStore = defineStore('admin', () => {
     const resultNurses = ref(null);
     const resultServices = ref(null);
     const resultVerification = ref(null);
-    const notify = (type, text) => {
-        const toast = useNuxtApp().$toast;
-        type ? toast.success(text) : toast.error(text);
-    };
+    const resultLaborants = ref(null);
+    const resultInventory = ref(null);
 
     return {
         resultOrders,
@@ -28,17 +31,16 @@ export const useAdminStore = defineStore('admin', () => {
         resultNurses,
         resultServices,
         resultVerification,
-        async adminOrders() {
-            const {data} = await useFetch(`/admin/orders`, {
-                method: 'GET',
-                headers: {
-                    accept: "application/json",
-                    authorization: `Bearer ${adminToken.value}`,
-                },
-                baseURL: runtimeConfig.public.API_LINK,
-                lazy: true,
-            })
-            if (data.value) {
+        resultLaborants,
+        resultInventory,
+        async adminOrders(param) {
+            const params = !param ? {...router.currentRoute.value.query} : {
+                ...router.currentRoute.value.query,
+                ...param
+            }
+
+            let response = await axiosInstance.get(`/admin/orders`, { params })
+            if (response.data) {
                 const formatDate = (dateString) => {
                     const date = new Date(dateString);
                     const day = String(date.getDate()).padStart(2, '0');
@@ -47,10 +49,10 @@ export const useAdminStore = defineStore('admin', () => {
 
                     return `${day}.${month}.${year}`;
                 }
-                for (let i = 0; i < data.value.data.length; i++) {
-                    data.value.data[i].created_at = formatDate(data.value.data[i].created_at);
+                for (let i = 0; i < response.data.data.length; i++) {
+                    response.data.data[i].created_at = formatDate(response.data.data[i].created_at);
                 }
-                resultOrders.value = data.value
+                resultOrders.value = response.data
             } else {
                 resultOrders.value = false
             }
@@ -72,68 +74,90 @@ export const useAdminStore = defineStore('admin', () => {
                 resultVerification.value = false
             }
         },
-        async adminAdmins() {
-            const {data} = await useFetch(`/admin/admins`, {
-                method: 'GET',
-                headers: {
-                    accept: "application/json",
-                    authorization: `Bearer ${adminToken.value}`,
-                },
-                baseURL: runtimeConfig.public.API_LINK,
-                lazy: true,
-            })
-            if (data.value) {
-                resultAdmins.value = data.value
+        async adminAdmins(param) {
+            const params = !param ? {...router.currentRoute.value.query} : {
+                ...router.currentRoute.value.query,
+                ...param
+            }
+
+            let response = await axiosInstance.get(`/admin/admins`, { params })
+
+            if (response.data) {
+                resultAdmins.value = response.data
             } else {
                 resultAdmins.value = false
             }
         },
-        async adminUsers() {
-            const {data} = await useFetch(`/admin/users`, {
-                method: 'GET',
-                headers: {
-                    accept: "application/json",
-                    authorization: `Bearer ${adminToken.value}`,
-                },
-                baseURL: runtimeConfig.public.API_LINK,
-                lazy: true,
-            })
-            if (data.value) {
-                resultUsers.value = data.value
+        async adminUsers(param) {
+
+            const params = !param ? {...router.currentRoute.value.query} : {
+                ...router.currentRoute.value.query,
+                ...param
+            }
+
+            let response = await axiosInstance.get(`/admin/users`, { params })
+
+            if (response.data) {
+                resultUsers.value = response.data
             } else {
                 resultUsers.value = false
             }
         },
-        async adminDoctors() {
-            const {data} = await useFetch(`/admin/doctors`, {
-                method: 'GET',
-                headers: {
-                    accept: "application/json",
-                    authorization: `Bearer ${adminToken.value}`,
-                },
-                baseURL: runtimeConfig.public.API_LINK,
-                lazy: true,
-            })
-            if (data.value) {
-                resultDoctors.value = data.value
+        async adminDoctors(param) {
+
+            const params = !param ? {...router.currentRoute.value.query} : {
+                ...router.currentRoute.value.query,
+                ...param
+            }
+
+            let response = await axiosInstance.get(`/admin/doctors`, { params })
+
+            if (response.data) {
+                resultDoctors.value = response.data
             } else {
                 resultDoctors.value = false
             }
         },
-        async adminNurses() {
-            const {data} = await useFetch(`/admin/nurses`, {
-                method: 'GET',
-                headers: {
-                    accept: "application/json",
-                    authorization: `Bearer ${adminToken.value}`,
-                },
-                baseURL: runtimeConfig.public.API_LINK,
-                lazy: true,
-            })
-            if (data.value) {
-                resultNurses.value = data.value
+        async adminNurses(param) {
+            const params = !param ? {...router.currentRoute.value.query} : {
+                ...router.currentRoute.value.query,
+                ...param
+            }
+
+            let response = await axiosInstance.get(`/admin/nurses`, { params })
+
+            if (response.data) {
+                resultNurses.value = response.data
             } else {
                 resultNurses.value = false
+            }
+        },
+        async adminLaborants(param) {
+            const params = !param ? {...router.currentRoute.value.query} : {
+                ...router.currentRoute.value.query,
+                ...param
+            }
+
+            let response = await axiosInstance.get(`/admin/laborants`, { params })
+
+            if (response.data) {
+                resultLaborants.value = response.data
+            } else {
+                resultLaborants.value = false
+            }
+        },
+        async adminInventory(param) {
+            const params = !param ? {...router.currentRoute.value.query} : {
+                ...router.currentRoute.value.query,
+                ...param
+            }
+
+            let response = await axiosInstance.get(`/goods`, { params })
+
+            if (response.data) {
+                resultInventory.value = response.data
+            } else {
+                resultInventory.value = false
             }
         },
         async adminServices() {

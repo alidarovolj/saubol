@@ -2,39 +2,47 @@
 import {IconDots, IconCheck, IconX} from "@tabler/icons-vue"
 
 const admin = useAdminStore()
-const {resultNurses} = storeToRefs(admin)
+const {resultInventory} = storeToRefs(admin)
 
-const pickedAdmin = ref(null)
+const pickedItem = ref(null)
 
 onMounted(async () => {
   await nextTick()
-  await admin.adminNurses()
+  await admin.adminInventory()
 })
 </script>
 
 <template>
   <div class="w-full">
-    <h1 class="text-4xl font-semibold mb-5">
-      Мед-сестры
-    </h1>
+    <div class="mb-5 flex items-center justify-between">
+      <h1 class="text-4xl font-semibold">
+        Инвентарь
+      </h1>
+      <NuxtLink
+          to="/inventory/create"
+          class="bg-mainColor text-white px-4 py-2 rounded-lg">
+        Добавить инвентарь
+      </NuxtLink>
+    </div>
     <div
-        v-if="resultNurses"
+        v-if="resultInventory"
         class="overflow-x-auto lg:overflow-hidden">
       <table class="table table-xs lg:table-sm z-2">
         <thead class="font-bold text-xs uppercase">
         <tr class="border-t">
           <th class="border-r">ID</th>
+          <th class="border-r">Артикль</th>
+          <th class="border-r">Картинка</th>
           <th class="border-r">Имя</th>
-          <th class="border-r">ИИН</th>
-          <th class="border-r">Email</th>
-          <th class="border-r">Телефон</th>
+          <th class="border-r">Описание</th>
+          <th class="border-r">Цена</th>
           <th>Действия</th>
         </tr>
         </thead>
         <tbody class="text-xs">
         <tr
             :class="{ 'bg-cardBg': index % 2 === 1 }"
-            v-for="(item, index) of resultNurses.data"
+            v-for="(item, index) of resultInventory.data"
             :key="index"
         >
           <td class="border-r">
@@ -44,22 +52,28 @@ onMounted(async () => {
           </td>
           <td class="border-r">
             <p class="mb-1 font-semibold">
+              {{ item.article }}
+            </p>
+          </td>
+          <td class="border-r">
+            <img
+                class="h-10 w-auto mx-auto"
+                :src="item.img"
+                alt="">
+          </td>
+          <td class="border-r">
+            <p class="mb-1">
               {{ item.name }}
             </p>
           </td>
           <td class="border-r">
             <p class="mb-1">
-              {{ item.iin }}
+              {{ item.description }}
             </p>
           </td>
           <td class="border-r">
             <p class="mb-1">
-              {{ item.email }}
-            </p>
-          </td>
-          <td class="border-r">
-            <p class="mb-1">
-              {{ item.phone_number }}
+              {{ item.price }}
             </p>
           </td>
           <td>
@@ -87,8 +101,8 @@ onMounted(async () => {
         </tbody>
       </table>
       <Pagination
-          :pages-data="resultNurses.meta"
-          @first-link="admin.adminNurses"
+          :pages-data="resultInventory.meta"
+          @first-link="admin.adminInventory"
       />
     </div>
     <div v-else>

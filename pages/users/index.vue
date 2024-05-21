@@ -1,10 +1,10 @@
 <script setup>
-import {IconDots, IconCheck, IconX} from "@tabler/icons-vue"
+import {IconDots, IconTrash} from "@tabler/icons-vue"
 
 const admin = useAdminStore()
 const {resultUsers} = storeToRefs(admin)
 
-const pickedAdmin = ref(null)
+const pickedItem = ref(null)
 
 onMounted(async () => {
   await nextTick()
@@ -65,11 +65,12 @@ onMounted(async () => {
               >
                 <div class="flex gap-2">
                   <button
-                      onclick="change_status.showModal()"
+                      onclick="remove_user.showModal()"
+                      @click="pickedItem = item"
                       class="bg-buyerMenuBg px-1 py-1 rounded-lg block"
                   >
-                    <IconCheck v-if="!item.enabled" class="cursor-pointer" :size="18"/>
-                    <IconX v-else class="cursor-pointer"/>
+                    <IconTrash class="cursor-pointer" :size="18"/>
+<!--                    <IconX v-else class="cursor-pointer"/>-->
                   </button>
                 </div>
               </div>
@@ -78,6 +79,9 @@ onMounted(async () => {
         </tr>
         </tbody>
       </table>
+      <Pagination
+          :pages-data="resultUsers.meta"
+          @first-link="admin.adminUsers"/>
     </div>
     <div v-else>
       <div v-for="(item, index) of 10" :key="index" class="flex justify-between mb-5">
@@ -89,4 +93,5 @@ onMounted(async () => {
       </div>
     </div>
   </div>
+  <RemoveUser :picked-item="pickedItem" />
 </template>

@@ -34,6 +34,14 @@ const links = [
     link: "/nurses"
   },
   {
+    title: "Лаборанты",
+    link: "/laborants"
+  },
+  {
+    title: "Инвентарь",
+    link: "/inventory"
+  },
+  {
     title: "Заказы",
     link: "/orders"
   },

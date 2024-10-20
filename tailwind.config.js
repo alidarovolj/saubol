@@ -16,7 +16,7 @@ export default {
     theme: {
         extend: {
             colors: {
-                mainColor: "#FE2D39",
+                mainColor: "#FD586B",
                 bColor: "#9A9BA4",
                 regText: "#02051C",
                 secColor: "#F7FAFF"

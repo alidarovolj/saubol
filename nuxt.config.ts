@@ -16,7 +16,6 @@ export default defineNuxtConfig({
     plugins: [
         "~/plugins/vue3-toastify.ts",
         {src: '~/plugins/maps.ts', mode: 'client'},
-        '~/plugins/maska.ts',
     ],
     imports: {
         dirs: ["store", "composables", "composables/*/index.{ts,js,mjs,mts}", "composables/**",],

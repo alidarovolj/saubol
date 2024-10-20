@@ -1,24 +1,24 @@
 <script setup>
-import {useAddressesStore} from "~/store/addresses.js";
-import {useVuelidate} from "@vuelidate/core";
-import {required} from "@vuelidate/validators";
-import {useNursesStore} from "~/store/nurses.js";
-import {IconMinus, IconPlus} from "@tabler/icons-vue";
+import { useAddressesStore } from "~/store/addresses.js";
+import { useVuelidate } from "@vuelidate/core";
+import { required } from "@vuelidate/validators";
+import { useNursesStore } from "~/store/nurses.js";
+import { IconMinus, IconPlus } from "@tabler/icons-vue";
 
-const addresses = useAddressesStore()
+const addresses = useAddressesStore();
 
-const user = useUserStore()
+const user = useUserStore();
 
-const cart = useCartStore()
+const cart = useCartStore();
 
-const inventory = useInventoryStore()
+const inventory = useInventoryStore();
 
 const props = defineProps({
   service: Object,
-  required: true
-})
+  required: true,
+});
 
-const loading = ref(false)
+const loading = ref(false);
 
 const notify = (type, text) => {
   const toast = useNuxtApp().$toast;
@@ -30,21 +30,24 @@ const form = ref({
   good_id: null,
   days_quantity: 1,
   price: null,
-  address_id: null
-})
+  address_id: null,
+});
 
-const v$ = useVuelidate({
-  date: {required},
-  days_quantity: {required},
-  good_id: {required},
-  price: {required},
-  address_id: {required}
-}, form);
+const v$ = useVuelidate(
+  {
+    date: { required },
+    days_quantity: { required },
+    good_id: { required },
+    price: { required },
+    address_id: { required },
+  },
+  form
+);
 
 onMounted(async () => {
-  form.value.price = props.service.price
-  form.value.good_id = props.service.id
-})
+  form.value.price = props.service.price;
+  form.value.good_id = props.service.id;
+});
 
 const sendForm = async () => {
   loading.value = true;
@@ -52,27 +55,27 @@ const sendForm = async () => {
 
   if (v$.value.$error) {
     loading.value = false;
-    notify(false, 'Заполните все поля')
+    notify(false, "Заполните все поля");
     return;
   }
 
-  await inventory.cartInventory(form.value)
+  await inventory.cartInventory(form.value);
   if (inventory.resultInventoryCart) {
-    await cart.cartList()
-    notify(true, 'Услуга успешно добавлена в корзину')
+    await cart.cartList();
+    notify(true, "Услуга успешно добавлена в корзину");
     loading.value = false;
   } else {
-    notify(false, 'Ошибка при добавлении услуги в корзину')
+    notify(false, "Ошибка при добавлении услуги в корзину");
     loading.value = false;
   }
-}
+};
 </script>
 
 <template>
   <div>
     <div
-        class="w-full bg-white rounded-lg p-5"
-        style="box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.05);"
+      class="w-full bg-white rounded-lg p-5"
+      style="box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.05)"
     >
       <div class="block mb-4">
         <p class="text-mainColor font-semibold text-base mb-2">
@@ -82,116 +85,117 @@ const sendForm = async () => {
           {{ props.service.category.name }}
         </p>
         <img
-            v-if="props.service.img"
-            class="rounded-md h-full w-1/2 mx-auto mb-3"
-            :src="props.service.img"
-            alt=""
-        >
+          v-if="props.service.img"
+          class="rounded-md h-full w-1/2 mx-auto mb-3"
+          :src="props.service.img"
+          alt=""
+        />
         <img
-            v-else
-            class="rounded-md h-full w-1/2 mx-auto mb-3"
-            src="@/assets/img/services/male_doctor.png"
-            alt=""
-        >
+          v-else
+          class="rounded-md h-full w-1/2 mx-auto mb-3"
+          src="@/assets/img/services/male_doctor.png"
+          alt=""
+        />
         <div class="block w-full">
           <div class="flex items-center justify-between mb-3">
-            <p class="text-sm mb-2">
-              Цена
-            </p>
-            <p class="px-7 py-3 bg-[#ffe7e7] rounded-md text-center w-max font-bold text-mainColor">
+            <p class="text-sm mb-2">Цена</p>
+            <p
+              class="px-7 py-3 bg-[#ffe7e7] rounded-md text-center w-max font-bold text-mainColor"
+            >
               <span>
                 {{ form.price }}
-              </span> ₸
+              </span>
+              ₸
             </p>
           </div>
         </div>
         <div class="flex items-center justify-between mb-3">
-          <p class="text-sm mb-2">
-            Количество дней
-          </p>
+          <p class="text-sm mb-2">Количество дней</p>
           <div class="flex gap-2">
             <div
-                v-if="form.days_quantity > 1"
-                class="bg-mainColor text-white p-1 rounded-md cursor-pointer">
-              <IconMinus @click="form.days_quantity = form.days_quantity - 1"/>
+              v-if="form.days_quantity > 1"
+              class="bg-mainColor text-white p-1 rounded-md cursor-pointer"
+            >
+              <IconMinus @click="form.days_quantity = form.days_quantity - 1" />
             </div>
             <input
-                v-model="form.days_quantity"
-                type="text"
-                class="bg-[#ffe7e7] rounded-md w-14 text-center"
-            >
+              v-model="form.days_quantity"
+              type="text"
+              class="bg-[#ffe7e7] rounded-md w-14 text-center"
+            />
             <div class="bg-mainColor text-white p-1 rounded-md cursor-pointer">
-              <IconPlus @click="form.days_quantity = form.days_quantity + 1"/>
+              <IconPlus @click="form.days_quantity = form.days_quantity + 1" />
             </div>
           </div>
         </div>
       </div>
       <div class="block mb-4">
-        <p class="mb-1 text-sm">
-          Дата
-        </p>
+        <p class="mb-1 text-sm">Дата</p>
         <input
-            v-model="form.date"
-            :class="[{'!border-red-500': v$.date.$error}]"
-            type="date"
-            class="px-3 py-3 border rounded-lg w-full">
+          v-model="form.date"
+          :class="[{ '!border-red-500': v$.date.$error }]"
+          type="date"
+          class="px-3 py-3 border rounded-lg w-full"
+        />
       </div>
-      <div
-          v-if="addresses.resultAddresses"
-          class="mb-4"
-      >
+      <div v-if="addresses.resultAddresses" class="mb-4">
         <p class="text-sm mb-3">
           Адресная книга <span class="text-red-500">*</span>
         </p>
-        <div class="block lg:flex justify-between gap-5 text-sm">
-          <div class="relative w-full lg:w-3/5 mb-2 lg:mb-0">
+        <div class="block md:flex justify-between gap-5 text-sm">
+          <div class="relative w-full md:w-3/5 mb-2 md:mb-0">
             <select
-                v-model="form.address_id"
-                :class="{'border-red-500': v$.address_id.$error}"
-                class="px-3 py-3 border rounded-lg w-full">
-              <option :value="null">
-                Выберите адрес
-              </option>
+              v-model="form.address_id"
+              :class="{ 'border-red-500': v$.address_id.$error }"
+              class="px-3 py-3 border rounded-lg w-full"
+            >
+              <option :value="null">Выберите адрес</option>
               <option
-                  v-for="(it, ind) of addresses.resultAddresses.data"
-                  :key="ind"
-                  :value="it.address.id">
+                v-for="(it, ind) of addresses.resultAddresses.data"
+                :key="ind"
+                :value="it.address.id"
+              >
                 {{ it.address.title }}
               </option>
             </select>
           </div>
           <button
-              onclick="create_address.showModal()"
-              class="border border-mainColor text-sm w-full lg:w-2/5 block rounded-lg text-mainColor py-2 lg:py-0">
+            onclick="create_address.showModal()"
+            class="border border-mainColor text-sm w-full md:w-2/5 block rounded-lg text-mainColor py-2 md:py-0"
+          >
             Добавить новый адрес
           </button>
         </div>
       </div>
       <div class="flex gap-3 border-t border-[#ffe7e7] pt-4 text-sm">
         <NuxtLink
-            :to="'/services/inventory/' + props.service.id"
-            class="block w-full py-3 rounded-lg text-mainColor bg-[#ffe7e7] text-center">
+          :to="'/services/inventory/' + props.service.id"
+          class="block w-full py-3 rounded-lg text-mainColor bg-[#ffe7e7] text-center"
+        >
           Подробнее
         </NuxtLink>
         <p
-            v-if="user.result && !loading"
-            @click="sendForm"
-            class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer">
+          v-if="user.result && !loading"
+          @click="sendForm"
+          class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer"
+        >
           Заказать услугу
         </p>
         <p
-            v-else-if="user.result && loading"
-            class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer">
+          v-else-if="user.result && loading"
+          class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer"
+        >
           <span class="spinner"></span>
         </p>
         <button
-            v-else
-            onclick="loginModal.showModal()"
-            class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer">
+          v-else
+          onclick="loginModal.showModal()"
+          class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer"
+        >
           Заказать услугу
         </button>
       </div>
     </div>
   </div>
-  <LoginModal v-if="!user.result"/>
+  <LoginModal v-if="!user.result" />
 </template>

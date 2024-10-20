@@ -7,7 +7,7 @@ export default {
       required: false,
     },
   },
-  emits: ['navigate'],
+  emits: ["navigate"],
   computed: {
     filterLinks() {
       const newArray = [...this.pagesData.links];
@@ -27,7 +27,7 @@ export default {
           newPage = currentPage - 1;
         } else if (item === ">" && currentPage !== lastPage) {
           newPage = currentPage + 1;
-        } else if (item !== "..." && item !== '<' && item !== '>') {
+        } else if (item !== "..." && item !== "<" && item !== ">") {
           newPage = item;
         }
 
@@ -45,22 +45,21 @@ export default {
       } catch (error) {
         console.error("Ошибка при навигации по маршруту:", error.response);
       }
-    }
+    },
   },
 };
 </script>
 
-
 <template>
-  <div class="flex items-center justify-between lg:justify-end  overflow-x-auto">
+  <div class="flex items-center justify-between md:justify-end overflow-x-auto">
     <p
-        v-for="(page, item) of filterLinks"
-        :key="item"
-        :class="{
+      v-for="(page, item) of filterLinks"
+      :key="item"
+      :class="{
         'bg-secondaryColor bg-[#3E46FF] text-white': page.active,
       }"
-        class="mx-2 lg:mx-1 text-black dark:bg-darkElBg px-2 lg:px-4 py-1 lg:py-2  rounded-full dark:text-darkText hover:bg-secondaryColor cursor-pointer"
-        @click="navigate(page.label)"
+      class="mx-2 md:mx-1 text-black dark:bg-darkElBg px-2 md:px-4 py-1 md:py-2 rounded-full dark:text-darkText hover:bg-secondaryColor cursor-pointer"
+      @click="navigate(page.label)"
     >
       {{ page.label }}
     </p>

@@ -5,78 +5,95 @@ import img3 from "@/assets/img/accordionBlock/3.png";
 import img4 from "@/assets/img/accordionBlock/4.png";
 import img5 from "@/assets/img/accordionBlock/5.png";
 
-const active = ref(0)
+const active = ref(0);
 
 const accordion = ref([
   {
     title: "Выбор типа услуги",
     text: "Выезд медицинского персонала или онлайн консультация, и заполните заявку на нашем сайте.",
-    image: img1
+    image: img1,
   },
   {
     title: "Выбор удобного времени",
     text: "Оставьте заявку на нашем сайте или позвоните нам, чтобы выбрать удобное для вас время для получения медицинских услуг.",
-    image: img2
+    image: img2,
   },
   {
     title: "Качественное обслуживание",
     text: "Наш специалист предоставит вам необходимые медицинские услуги у вас дома.",
-    image: img3
+    image: img3,
   },
   {
     title: "Все результаты в одном месте",
     text: "Все результаты обследований и консультаций будут доступны вам в личном кабинете на нашем сайте.",
-    image: img4
+    image: img4,
   },
   {
     title: "Автоматические рекомендации",
     text: "Все результаты обследований и консультаций будут доступны вам в личном кабинете на нашем сайте.",
-    image: img5
-  }
-])
+    image: img5,
+  },
+]);
 </script>
 
 <template>
   <div class="mb-20">
-    <div class="container mx-auto px-4 lg:px-0">
-      <div class="flex flex-col-reverse lg:flex-row justify-between gap-6">
-        <div class="w-full lg:w-1/2">
+    <div class="container mx-auto px-4 md:px-0">
+      <div class="flex flex-col md:flex-row justify-between gap-6">
+        <div class="w-full md:w-1/2 hidden md:block">
           <img
+            class="w-full h-full object-cover transition-all"
+            :src="accordion[active].image"
+            alt=""
+          />
+        </div>
+        <div class="w-full md:w-1/2">
+          <h2
+            class="text-xl md:text-3xl font-semibold mb-5 md:mb-10 text-center md:text-start"
+          >
+            Как это <span class="text-mainColor">работает с Saubol:</span>
+          </h2>
+          <div class="w-full md:w-1/2 block md:hidden mb-5 md:mb-0">
+            <img
               class="w-full h-full object-cover transition-all"
               :src="accordion[active].image"
               alt=""
-          />
-        </div>
-        <div class="w-full lg:w-1/2">
-          <h2 class="text-3xl font-semibold mb-10">
-            Как это <span class="text-mainColor">работает с Saubol:</span>
-          </h2>
+            />
+          </div>
           <div class="flex justify-between flex-col">
             <div
-                v-for="(item, index) of accordion"
-                :key="index"
-                @mouseover="active = index"
-                class="mb-11 flex gap-8 cursor-pointer"
+              v-for="(item, index) of accordion"
+              :key="index"
+              @mouseover="active = index"
+              class="mb-6 md:mb-11 flex gap-5 md:gap-8 cursor-pointer"
             >
-              <div class="w-10 min-w-10 h-10 min-h-10 relative">
+              <div
+                class="w-5 md:w-10 min-w-5 md:min-w-10 h-5 md:h-10 min-h-5 md:min-h-10 relative"
+              >
                 <div
-                    :class="{ '!bg-mainColor' : index === active }"
-                    class="w-10 min-w-10 h-10 min-h-10 rounded-full bg-[#F0F0F0] absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-all"></div>
+                  :class="{ '!bg-mainColor': index === active }"
+                  class="w-5 md:w-10 min-w-5 md:min-w-10 h-5 md:h-10 min-h-5 md:min-h-10 rounded-full bg-[#F0F0F0] absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-all"
+                ></div>
                 <div
-                    :class="{ '!bg-white' : index === active }"
-                    class="w-3 min-w-3 h-3 min-h-3 rounded-full bg-black absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-all"></div>
+                  :class="{ '!bg-white': index === active }"
+                  class="w-1 md:w-3 min-w-1 md:min-w-3 h-1 md:h-3 min-h-1 md:min-h-3 rounded-full bg-black absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-all"
+                ></div>
               </div>
               <div>
                 <p
-                    :class="{ 'text-[#F0F0F0]' : index !== active }"
-                    class="text-2xl font-semibold mb-5 transition-all">
-                <span
-                    :class="{ '!text-[#F0F0F0]' : index !== active }"
-                    class="text-mainColor transition-all">0{{ index + 1 }}</span> {{ item.title }}
+                  :class="{ 'text-[#F0F0F0]': index !== active }"
+                  class="text-sm md:text-2xl font-semibold mb-5 transition-all"
+                >
+                  <span
+                    :class="{ '!text-[#F0F0F0]': index !== active }"
+                    class="text-mainColor transition-all"
+                    >0{{ index + 1 }}</span
+                  >
+                  {{ item.title }}
                 </p>
-                <p
-                    v-if="index === active"
-                    class="text-xl">{{ item.text }}</p>
+                <p v-if="index === active" class="text-xs md:text-xl">
+                  {{ item.text }}
+                </p>
               </div>
             </div>
           </div>

@@ -1,19 +1,18 @@
 <script setup>
 import Doctor from "~/components/services/doctor.vue";
-import { useStaffStore } from "~/store/staff.js";
-import ServicesNavigation from "~/components/services/servicesNavigation.vue";
-import { useAddressesStore } from "~/store/addresses.js";
-import { useUserStore } from "~/store/user.js";
+import {useStaffStore} from "~/store/staff.js";
+import {useAddressesStore} from "~/store/addresses.js";
+import {useUserStore} from "~/store/user.js";
 
 const route = useRoute();
 const router = useRouter();
 const staff = useStaffStore();
-const { resultSearch, resultSpecs } = storeToRefs(staff);
+const {resultSearch, resultSpecs} = storeToRefs(staff);
 const addresses = useAddressesStore();
 const user = useUserStore();
 const auth = useAuthStore();
 auth.initCookieToken();
-const { token } = storeToRefs(auth);
+const {token} = storeToRefs(auth);
 
 const pending = ref(true);
 
@@ -42,13 +41,13 @@ const links = ref([
 
 const searchDoctors = async () => {
   const nonNullFilters = Object.entries(filters.value).reduce(
-    (acc, [key, value]) => {
-      if (value !== null) {
-        acc[key] = value;
-      }
-      return acc;
-    },
-    {}
+      (acc, [key, value]) => {
+        if (value !== null) {
+          acc[key] = value;
+        }
+        return acc;
+      },
+      {}
   );
 
   const queryParams = {
@@ -57,7 +56,7 @@ const searchDoctors = async () => {
     page: route.query.page || 1,
   };
 
-  await router.push({ query: { ...route.query, ...queryParams } });
+  await router.push({query: {...route.query, ...queryParams}});
   await staff.searchStaff(queryParams);
 };
 
@@ -65,13 +64,13 @@ onMounted(async () => {
   await nextTick();
 
   const nonNullQueries = Object.entries(route.query).reduce(
-    (acc, [key, value]) => {
-      if (value !== null) {
-        acc[key] = value;
-      }
-      return acc;
-    },
-    {}
+      (acc, [key, value]) => {
+        if (value !== null) {
+          acc[key] = value;
+        }
+        return acc;
+      },
+      {}
   );
 
   filters.value = {
@@ -99,18 +98,18 @@ useHead({
       content: route.fullPath,
     },
   ],
-  link: [{ rel: "canonical", href: "https://saubolmed.kz/" }],
+  link: [{rel: "canonical", href: "https://saubolmed.kz/"}],
 });
 </script>
 
 <template>
-  <div class="pt-0 md:pt-8">
+  <div class="pt-4 md:pt-8">
     <div class="container mx-auto px-4 md:px-0">
-      <Breadcrumbs :links="links" class="mb-5" />
+      <Breadcrumbs :links="links" class="mb-5"/>
       <!--      <ServicesNavigation/>-->
       <div
-        class="bg-white p-5 rounded-lg mb-8"
-        style="box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 10px 0px"
+          class="bg-white p-5 rounded-lg mb-8"
+          style="box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 10px 0px"
       >
         <h1 class="mb-2 text-mainColor text-2xl md:text-4xl font-semibold">
           Врач
@@ -119,21 +118,21 @@ useHead({
           Онлайн консультации и вызов врача: Медицинская помощь у вас дома
         </p>
         <form
-          @submit.prevent="searchDoctors"
-          class="block md:flex justify-between items-end"
+            class="block md:flex justify-between items-end"
+            @submit.prevent="searchDoctors"
         >
           <div class="w-full md:w-fourth mb-3 md:mb-0">
             <p class="text-sm mb-2">Специализация</p>
             <div class="relative">
               <select
-                class="px-3 py-3 border rounded-lg w-full"
-                v-model="filters['filters[specialization_id]']"
+                  v-model="filters['filters[specialization_id]']"
+                  class="px-3 py-3 border rounded-lg w-full"
               >
                 <option :value="null">Все</option>
                 <option
-                  v-for="(item, index) of resultSpecs"
-                  :key="index"
-                  :value="item.id"
+                    v-for="(item, index) of resultSpecs"
+                    :key="index"
+                    :value="item.id"
                 >
                   {{ item.name }}
                 </option>
@@ -144,9 +143,9 @@ useHead({
             <p class="text-sm mb-2">Дата</p>
             <div class="relative">
               <input
-                v-model="filters['filters[schedule.day]']"
-                class="px-3 py-3 border rounded-lg w-full"
-                type="date"
+                  v-model="filters['filters[schedule.day]']"
+                  class="px-3 py-3 border rounded-lg w-full"
+                  type="date"
               />
             </div>
           </div>
@@ -167,21 +166,21 @@ useHead({
             <div class="relative flex h-[50px] gap-3">
               <div class="flex items-center gap-2">
                 <input
-                  v-model="filters['filters[is_female]']"
-                  :value="true"
-                  name="sex"
-                  class="px-3 py-3 border rounded-lg w-full"
-                  type="radio"
+                    v-model="filters['filters[is_female]']"
+                    :value="true"
+                    class="px-3 py-3 border rounded-lg w-full"
+                    name="sex"
+                    type="radio"
                 />
                 <p>Женский</p>
               </div>
               <div class="flex items-center gap-2">
                 <input
-                  v-model="filters['filters[is_female]']"
-                  :value="false"
-                  name="sex"
-                  class="px-3 py-3 border rounded-lg w-full"
-                  type="radio"
+                    v-model="filters['filters[is_female]']"
+                    :value="false"
+                    class="px-3 py-3 border rounded-lg w-full"
+                    name="sex"
+                    type="radio"
                 />
                 <p>Мужской</p>
               </div>
@@ -189,8 +188,8 @@ useHead({
           </div>
           <div class="w-full md:w-fourth">
             <button
-              type="submit"
-              class="py-[14px] bg-mainColor text-white rounded-lg w-full cursor-pointer"
+                class="py-[14px] bg-mainColor text-white rounded-lg w-full cursor-pointer"
+                type="submit"
             >
               Применить фильтр
             </button>
@@ -199,15 +198,15 @@ useHead({
       </div>
       <div v-if="!pending">
         <div
-          v-if="resultSearch.data.length > 0"
-          class="flex justify-between flex-wrap"
+            v-if="resultSearch.data.length > 0"
+            class="flex justify-between flex-wrap"
         >
           <div
-            class="w-full md:w-half mb-5"
-            v-for="(doctor, index) in resultSearch.data"
-            :key="index"
+              v-for="(doctor, index) in resultSearch.data"
+              :key="index"
+              class="w-full md:w-half mb-5"
           >
-            <Doctor :doctor="doctor" />
+            <Doctor :doctor="doctor"/>
           </div>
         </div>
         <div v-else class="text-center mb-8">
@@ -215,8 +214,8 @@ useHead({
         </div>
         <div>
           <Pagination
-            :meta="resultSearch.meta"
-            @navigate="
+              :meta="resultSearch.meta"
+              @navigate="
               staff.getStaff({
                 perPage: route.query.perPage,
                 page: route.query.page,
@@ -227,13 +226,11 @@ useHead({
       </div>
       <div v-else class="flex justify-between flex-wrap">
         <div
-          class="skeleton w-full md:w-half h-[400px] mb-5"
-          v-for="(doctor, index) in 6"
-          :key="index"
+            v-for="(doctor, index) in 6"
+            :key="index"
+            class="skeleton w-full md:w-half h-[400px] mb-5"
         ></div>
       </div>
     </div>
   </div>
-  <LoginModal v-if="!user.result" />
-  <CreateAddress />
 </template>

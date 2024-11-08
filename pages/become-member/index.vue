@@ -1,14 +1,14 @@
 <script setup>
-import { IconX, IconMinus, IconPlus } from "@tabler/icons-vue";
-import { useJobsStore } from "~/store/jobs.js";
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
+import {IconMinus, IconPlus, IconX} from "@tabler/icons-vue";
+import {useJobsStore} from "~/store/jobs.js";
+import {useVuelidate} from "@vuelidate/core";
+import {required} from "@vuelidate/validators";
 
 const jobs = useJobsStore();
-const { result } = storeToRefs(jobs);
+const {result} = storeToRefs(jobs);
 
 const staff = useStaffStore();
-const { resultSpecs } = storeToRefs(staff);
+const {resultSpecs} = storeToRefs(staff);
 
 const runtimeConfig = useRuntimeConfig();
 
@@ -81,38 +81,38 @@ const form = ref({
 });
 
 const v$ = useVuelidate(
-  {
-    name: { required },
-    phone_number: { required },
-    email: { required },
-    role_id: { required },
-    iin: { required },
-    specialization_id: { required },
-    specialization_details: {
-      $each: {
-        $validator: { required },
+    {
+      name: {required},
+      phone_number: {required},
+      email: {required},
+      role_id: {required},
+      iin: {required},
+      specialization_id: {required},
+      specialization_details: {
+        $each: {
+          $validator: {required},
+        },
+      },
+      diplomas: {
+        $each: {
+          $validator: {required},
+        },
+      },
+      certificates: {
+        $each: {
+          $validator: {required},
+        },
+      },
+      experience: {required},
+      job_places: {
+        $each: {
+          id: {required},
+          start: {required},
+          end: {required},
+        },
       },
     },
-    diplomas: {
-      $each: {
-        $validator: { required },
-      },
-    },
-    certificates: {
-      $each: {
-        $validator: { required },
-      },
-    },
-    experience: { required },
-    job_places: {
-      $each: {
-        id: { required },
-        start: { required },
-        end: { required },
-      },
-    },
-  },
-  form
+    form
 );
 
 function generateTimes(duration) {
@@ -122,17 +122,17 @@ function generateTimes(duration) {
 
   while (hours < 24) {
     const start = `${hours.toString().padStart(2, "0")}:${minutes
-      .toString()
-      .padStart(2, "0")}`;
+        .toString()
+        .padStart(2, "0")}`;
     minutes += duration;
     if (minutes >= 60) {
       hours += 1;
       minutes = 0;
     }
     const end = `${hours.toString().padStart(2, "0")}:${minutes
-      .toString()
-      .padStart(2, "0")}`;
-    times.push({ start, end });
+        .toString()
+        .padStart(2, "0")}`;
+    times.push({start, end});
   }
 
   return times;
@@ -143,7 +143,7 @@ const periods = ref([]);
 const addDay = (val) => {
   if (isWeekdayNumberIncluded(val.value)) {
     form.value.schedule.days = form.value.schedule.days.filter(
-      (day) => day.weekday_number !== val.value
+        (day) => day.weekday_number !== val.value
     );
   } else {
     form.value.schedule.days.push({
@@ -217,14 +217,14 @@ const isWeekdayNumberIncluded = (val) => {
 
 const getDay = (weekday_number) => {
   return form.value.schedule.days.find(
-    (day) => day.weekday_number === weekday_number
+      (day) => day.weekday_number === weekday_number
   );
 };
 
 const setServices = (val) => {
   if (form.value.service_ids.includes(val)) {
     form.value.service_ids = form.value.service_ids.filter(
-      (item) => item !== val
+        (item) => item !== val
     );
   } else {
     form.value.service_ids.push(val);
@@ -247,7 +247,7 @@ const sendForm = async () => {
     };
   });
 
-  const { data, error } = await useFetch("/staff/", {
+  const {data, error} = await useFetch("/staff/", {
     method: "POST",
     baseURL: runtimeConfig.public.API_LINK,
     body: JSON.stringify(form.value),
@@ -275,23 +275,23 @@ onMounted(async () => {
 const route = useRoute();
 
 watch(
-  () => form.value.schedule.duration,
-  () => {
-    times.value = [];
-    periods.value = [];
-    periods.value = [...generateTimes(form.value.schedule.duration)];
-    form.value.schedule.days = [];
-  }
+    () => form.value.schedule.duration,
+    () => {
+      times.value = [];
+      periods.value = [];
+      periods.value = [...generateTimes(form.value.schedule.duration)];
+      form.value.schedule.days = [];
+    }
 );
 
 watch(
-  () => form.value.role_id,
-  () => {
-    times.value = [];
-    periods.value = [];
-    periods.value = [...generateTimes(form.value.schedule.duration)];
-    form.value.schedule.days = [];
-  }
+    () => form.value.role_id,
+    () => {
+      times.value = [];
+      periods.value = [];
+      periods.value = [...generateTimes(form.value.schedule.duration)];
+      form.value.schedule.days = [];
+    }
 );
 
 useHead({
@@ -306,34 +306,34 @@ useHead({
       content: route.fullPath,
     },
   ],
-  link: [{ rel: "canonical", href: "https://saubolmed.kz/" }],
+  link: [{rel: "canonical", href: "https://saubolmed.kz/"}],
 });
 </script>
 
 <template>
-  <div class="pt-0 md:pt-8">
+  <div class="pt-4 md:pt-8">
     <div class="container mx-auto px-4 md:px-0">
-      <Breadcrumbs :links="links" />
+      <Breadcrumbs :links="links"/>
       <h1 class="text-4xl md:text-6xl font-semibold text-mainColor mb-7">
         Заявка на регистрацию
       </h1>
       <div v-if="!pending">
         <div class="flex gap-5">
-          <form @submit.prevent="sendForm" class="w-full md:w-3/4">
+          <form class="w-full md:w-3/4" @submit.prevent="sendForm">
             <div
-              style="box-shadow: 0px 4px 20px 0px #0000001a"
-              class="bg-white rounded-lg py-5 px-4 flex flex-wrap justify-between mb-5"
+                class="bg-white rounded-lg py-5 px-4 flex flex-wrap justify-between mb-5"
+                style="box-shadow: 0px 4px 20px 0px #0000001a"
             >
               <div class="w-full md:w-half mb-5">
                 <p class="text-sm mb-2">
                   ФИО <span class="text-red-500">*</span>
                 </p>
                 <input
-                  v-model="form.name"
-                  :class="{ 'border-red-500': v$.name.$error }"
-                  type="text"
-                  class="p-3 border w-full rounded-lg"
-                  placeholder="Введите ФИО"
+                    v-model="form.name"
+                    :class="{ 'border-red-500': v$.name.$error }"
+                    class="p-3 border w-full rounded-lg"
+                    placeholder="Введите ФИО"
+                    type="text"
                 />
                 <p v-if="v$.name.$error" class="text-red-500 text-xs">
                   Пожалуйста заполните данное поле
@@ -344,11 +344,11 @@ useHead({
                   ИИН <span class="text-red-500">*</span>
                 </p>
                 <input
-                  v-model="form.iin"
-                  :class="{ 'border-red-500': v$.iin.$error }"
-                  type="text"
-                  class="p-3 border w-full rounded-lg"
-                  placeholder="Введите ИИН"
+                    v-model="form.iin"
+                    :class="{ 'border-red-500': v$.iin.$error }"
+                    class="p-3 border w-full rounded-lg"
+                    placeholder="Введите ИИН"
+                    type="text"
                 />
                 <p v-if="v$.iin.$error" class="text-red-500 text-xs">
                   Пожалуйста заполните данное поле
@@ -359,13 +359,13 @@ useHead({
                   Телефон <span class="text-red-500">*</span>
                 </p>
                 <input
-                  v-model="form.phone_number"
-                  data-maska="+7 (###) ###-##-##"
-                  v-maska
-                  :class="{ 'border-red-500': v$.phone_number.$error }"
-                  type="text"
-                  class="p-3 border w-full rounded-lg"
-                  placeholder="Введите телефон"
+                    v-model="form.phone_number"
+                    v-maska
+                    :class="{ 'border-red-500': v$.phone_number.$error }"
+                    class="p-3 border w-full rounded-lg"
+                    data-maska="+7 (###) ###-##-##"
+                    placeholder="Введите телефон"
+                    type="text"
                 />
                 <p v-if="v$.phone_number.$error" class="text-red-500 text-xs">
                   Пожалуйста заполните данное поле
@@ -376,11 +376,11 @@ useHead({
                   Email <span class="text-red-500">*</span>
                 </p>
                 <input
-                  v-model="form.email"
-                  :class="{ 'border-red-500': v$.email.$error }"
-                  type="text"
-                  class="p-3 border w-full rounded-lg"
-                  placeholder="Введите email"
+                    v-model="form.email"
+                    :class="{ 'border-red-500': v$.email.$error }"
+                    class="p-3 border w-full rounded-lg"
+                    placeholder="Введите email"
+                    type="text"
                 />
                 <p v-if="v$.email.$error" class="text-red-500 text-xs">
                   Пожалуйста заполните данное поле
@@ -393,23 +393,23 @@ useHead({
                 <div class="flex">
                   <div class="w-full md:w-1/4 flex gap-3">
                     <input
-                      value="2"
-                      v-model="form.role_id"
-                      :class="{ 'border border-red-500': v$.role_id.$error }"
-                      type="radio"
-                      name="role"
-                      class="w-6 h-6"
+                        v-model="form.role_id"
+                        :class="{ 'border border-red-500': v$.role_id.$error }"
+                        class="w-6 h-6"
+                        name="role"
+                        type="radio"
+                        value="2"
                     />
                     <p>Врач</p>
                   </div>
                   <div class="w-full md:w-1/4 flex gap-3">
                     <input
-                      v-model="form.role_id"
-                      :class="{ 'border border-red-500': v$.role_id.$error }"
-                      value="3"
-                      type="radio"
-                      name="role"
-                      class="w-6 h-6"
+                        v-model="form.role_id"
+                        :class="{ 'border border-red-500': v$.role_id.$error }"
+                        class="w-6 h-6"
+                        name="role"
+                        type="radio"
+                        value="3"
                     />
                     <p>Медсестра</p>
                   </div>
@@ -425,21 +425,21 @@ useHead({
                 <div class="flex">
                   <div class="w-full md:w-1/4 flex gap-3">
                     <input
-                      @change="setServices(1)"
-                      :class="{ 'border border-red-500': v$.role_id.$error }"
-                      type="checkbox"
-                      name="services"
-                      class="w-6 h-6"
+                        :class="{ 'border border-red-500': v$.role_id.$error }"
+                        class="w-6 h-6"
+                        name="services"
+                        type="checkbox"
+                        @change="setServices(1)"
                     />
                     <p>Консультация</p>
                   </div>
                   <div class="w-full md:w-1/4 flex gap-3">
                     <input
-                      @change="setServices(2)"
-                      :class="{ 'border border-red-500': v$.role_id.$error }"
-                      type="checkbox"
-                      name="services"
-                      class="w-6 h-6"
+                        :class="{ 'border border-red-500': v$.role_id.$error }"
+                        class="w-6 h-6"
+                        name="services"
+                        type="checkbox"
+                        @change="setServices(2)"
                     />
                     <p>Выезд на дом</p>
                   </div>
@@ -454,10 +454,10 @@ useHead({
                     График работы <span class="text-red-500">*</span>
                   </p>
                   <select
-                    v-model="form.schedule.duration"
-                    class="p-3 border w-max rounded-lg"
-                    name=""
-                    id=""
+                      id=""
+                      v-model="form.schedule.duration"
+                      class="p-3 border w-max rounded-lg"
+                      name=""
                   >
                     <option :value="15">15 мин</option>
                     <option :value="30">30 мин</option>
@@ -469,16 +469,16 @@ useHead({
                 </p>
                 <div class="flex flex-col md:flex-row gap-3 mb-5">
                   <div
-                    v-for="(day, index) of days"
-                    :key="index"
-                    @click="addDay(day)"
-                    :class="{
+                      v-for="(day, index) of days"
+                      :key="index"
+                      :class="{
                       'bg-mainColor text-white': form.schedule.days.some(
                         (scheduleDay) =>
                           scheduleDay.weekday_number === day.value
                       ),
                     }"
-                    class="w-full py-3 border border-[#ECECEC] rounded text-center cursor-pointer transition-all"
+                      class="w-full py-3 border border-[#ECECEC] rounded text-center cursor-pointer transition-all"
+                      @click="addDay(day)"
                   >
                     {{ day.title }}
                   </div>
@@ -488,16 +488,16 @@ useHead({
                 </p>
                 <div class="flex flex-wrap gap-1 md:gap-2">
                   <p
-                    v-for="(item, index) of periods"
-                    :key="index"
-                    @click="times.push(item)"
-                    :class="{
+                      v-for="(item, index) of periods"
+                      :key="index"
+                      :class="{
                       'bg-mainColor text-white': times.some(
                         (time) =>
                           time.start === item.start && time.end === item.end
                       ),
                     }"
-                    class="cursor-pointer w-third md:w-fifth transition-all border border-[#ECECEC] rounded text-center py-2 bg-[#F6F6F7] text-[#9A9BA4]"
+                      class="cursor-pointer w-third md:w-fifth transition-all border border-[#ECECEC] rounded text-center py-2 bg-[#F6F6F7] text-[#9A9BA4]"
+                      @click="times.push(item)"
                   >
                     {{ item.start }} - {{ item.end }}
                   </p>
@@ -508,23 +508,23 @@ useHead({
                   Специализация <span class="text-red-500">*</span>
                 </p>
                 <select
-                  v-model="form.specialization_id"
-                  :class="{ 'border-red-500': v$.specialization_id.$error }"
-                  type="text"
-                  class="p-3 border w-full rounded-lg"
+                    v-model="form.specialization_id"
+                    :class="{ 'border-red-500': v$.specialization_id.$error }"
+                    class="p-3 border w-full rounded-lg"
+                    type="text"
                 >
                   <option :value="null">Выберите специализацию</option>
                   <option
-                    v-for="(it, ind) of resultSpecs"
-                    :key="ind"
-                    :value="it.id"
+                      v-for="(it, ind) of resultSpecs"
+                      :key="ind"
+                      :value="it.id"
                   >
                     {{ it.name }}
                   </option>
                 </select>
                 <p
-                  v-if="v$.specialization_id.$error"
-                  class="text-red-500 text-xs"
+                    v-if="v$.specialization_id.$error"
+                    class="text-red-500 text-xs"
                 >
                   Пожалуйста заполните данное поле
                 </p>
@@ -535,34 +535,34 @@ useHead({
                     Детали специализации <span class="text-red-500">*</span>
                   </p>
                   <div
-                    @click="addSpecDetail"
-                    class="bg-mainColor text-white py-2 md:py-1 p-1 rounded-md cursor-pointer flex justify-center"
+                      class="bg-mainColor text-white py-2 md:py-1 p-1 rounded-md cursor-pointer flex justify-center"
+                      @click="addSpecDetail"
                   >
-                    <IconPlus />
+                    <IconPlus/>
                   </div>
                 </div>
                 <div
-                  v-for="(item, index) of form.specialization_details"
-                  :key="index"
-                  :class="{
+                    v-for="(item, index) of form.specialization_details"
+                    :key="index"
+                    :class="{
                     'mb-3': form.specialization_details.length - 1 !== index,
                   }"
-                  class="block md:flex gap-3 items-center"
+                    class="block md:flex gap-3 items-center"
                 >
                   <div class="w-full mb-3 md:mb-0">
                     <input
-                      type="text"
-                      v-model="form.specialization_details[index]"
-                      class="p-3 border w-full rounded-lg"
-                      placeholder="Введите деталь"
+                        v-model="form.specialization_details[index]"
+                        class="p-3 border w-full rounded-lg"
+                        placeholder="Введите деталь"
+                        type="text"
                     />
                   </div>
                 </div>
               </div>
             </div>
             <div
-              style="box-shadow: 0px 4px 20px 0px #0000001a"
-              class="bg-white rounded-lg py-5 px-4 mb-5"
+                class="bg-white rounded-lg py-5 px-4 mb-5"
+                style="box-shadow: 0px 4px 20px 0px #0000001a"
             >
               <div class="block md:flex gap-5 mb-6">
                 <div class="w-full md:w-1/2 mb-8 md:mb-0">
@@ -571,25 +571,25 @@ useHead({
                   </div>
                   <div v-if="diplomaFiles.length > 0">
                     <div
-                      v-for="(item, index) of diplomaFiles"
-                      :key="index"
-                      class="flex justify-between"
+                        v-for="(item, index) of diplomaFiles"
+                        :key="index"
+                        class="flex justify-between"
                     >
                       <div
-                        class="w-full bg-[#ffe7e7] rounded-md px-3 py-2 flex justify-between items-center gap-3"
+                          class="w-full bg-[#ffe7e7] rounded-md px-3 py-2 flex justify-between items-center gap-3"
                       >
                         <img
-                          class="w-max"
-                          src="@/assets/img/attachment.png"
-                          alt=""
+                            alt=""
+                            class="w-max"
+                            src="@/assets/img/attachment.png"
                         />
                         <div class="w-full flex justify-between text-xs">
                           <p>{{ item.name }}</p>
                           <p class="text-[#9A9BA4]">{{ item.size }} KB</p>
                         </div>
                         <IconX
-                          class="text-[#9A9BA4] cursor-pointer"
-                          size="24"
+                            class="text-[#9A9BA4] cursor-pointer"
+                            size="24"
                         />
                       </div>
                     </div>
@@ -598,10 +598,10 @@ useHead({
                     В данный момент файлов нет
                   </p>
                   <input
-                    ref="fileInput"
-                    class="mt-5"
-                    @change="importLocal"
-                    type="file"
+                      ref="fileInput"
+                      class="mt-5"
+                      type="file"
+                      @change="importLocal"
                   />
                 </div>
                 <div class="w-full md:w-1/2 mb-8 md:mb-0">
@@ -610,25 +610,25 @@ useHead({
                   </div>
                   <div v-if="sertificateFiles.length > 0">
                     <div
-                      v-for="(item, index) of sertificateFiles"
-                      :key="index"
-                      class="flex justify-between"
+                        v-for="(item, index) of sertificateFiles"
+                        :key="index"
+                        class="flex justify-between"
                     >
                       <div
-                        class="w-full bg-[#ffe7e7] rounded-md px-3 py-2 flex justify-between items-center gap-3"
+                          class="w-full bg-[#ffe7e7] rounded-md px-3 py-2 flex justify-between items-center gap-3"
                       >
                         <img
-                          class="w-max"
-                          src="@/assets/img/attachment.png"
-                          alt=""
+                            alt=""
+                            class="w-max"
+                            src="@/assets/img/attachment.png"
                         />
                         <div class="w-full flex justify-between text-xs">
                           <p>{{ item.name }}</p>
                           <p class="text-[#9A9BA4]">{{ item.size }} KB</p>
                         </div>
                         <IconX
-                          class="text-[#9A9BA4] cursor-pointer"
-                          size="24"
+                            class="text-[#9A9BA4] cursor-pointer"
+                            size="24"
                         />
                       </div>
                     </div>
@@ -637,10 +637,10 @@ useHead({
                     В данный момент файлов нет
                   </p>
                   <input
-                    ref="fileInputSert"
-                    class="mt-5"
-                    @change="importLocalSert"
-                    type="file"
+                      ref="fileInputSert"
+                      class="mt-5"
+                      type="file"
+                      @change="importLocalSert"
                   />
                 </div>
               </div>
@@ -648,20 +648,20 @@ useHead({
                 <p>Стаж работы (лет) <span class="text-red-500">*</span></p>
                 <div class="flex gap-2">
                   <div
-                    class="bg-mainColor text-white p-1 rounded-md cursor-pointer"
+                      class="bg-mainColor text-white p-1 rounded-md cursor-pointer"
                   >
-                    <IconMinus @click="form.experience = form.experience - 1" />
+                    <IconMinus @click="form.experience = form.experience - 1"/>
                   </div>
                   <input
-                    v-model="form.experience"
-                    :class="{ 'border-red-500': v$.experience.$error }"
-                    type="text"
-                    class="bg-[#ffe7e7] rounded-md w-14 text-center"
+                      v-model="form.experience"
+                      :class="{ 'border-red-500': v$.experience.$error }"
+                      class="bg-[#ffe7e7] rounded-md w-14 text-center"
+                      type="text"
                   />
                   <div
-                    class="bg-mainColor text-white p-1 rounded-md cursor-pointer"
+                      class="bg-mainColor text-white p-1 rounded-md cursor-pointer"
                   >
-                    <IconPlus @click="form.experience = form.experience + 1" />
+                    <IconPlus @click="form.experience = form.experience + 1"/>
                   </div>
                 </div>
                 <p v-if="v$.experience.$error" class="text-red-500 text-xs">
@@ -671,35 +671,35 @@ useHead({
               <div class="mb-6">
                 <div class="flex items-center justify-end mb-5">
                   <div
-                    @click="addJobPlace"
-                    class="cursor-pointer flex justify-center gap-3"
+                      class="cursor-pointer flex justify-center gap-3"
+                      @click="addJobPlace"
                   >
                     <p class="text-mainColor">Добавить место работы</p>
                     <IconPlus
-                      class="bg-mainColor text-white py-2 md:py-1 p-1 rounded-md"
+                        class="bg-mainColor text-white py-2 md:py-1 p-1 rounded-md"
                     />
                   </div>
                 </div>
                 <div
-                  v-for="(item, index) of form.job_places"
-                  :key="index"
-                  :class="{ 'mb-3': form.job_places.length - 1 !== index }"
-                  class="block md:flex gap-3 items-end"
+                    v-for="(item, index) of form.job_places"
+                    :key="index"
+                    :class="{ 'mb-3': form.job_places.length - 1 !== index }"
+                    class="block md:flex gap-3 items-end"
                 >
                   <div class="w-full md:w-1/2 mb-3 md:mb-0">
                     <p class="mb-2">
                       Место работы <span class="text-red-500">*</span>
                     </p>
                     <select
-                      v-model="item.id"
-                      type="text"
-                      class="p-3 border w-full rounded-lg"
+                        v-model="item.id"
+                        class="p-3 border w-full rounded-lg"
+                        type="text"
                     >
                       <option :value="null">Выберите место работы</option>
                       <option
-                        v-for="(it, ind) of result"
-                        :key="ind"
-                        :value="it.id"
+                          v-for="(it, ind) of result"
+                          :key="ind"
+                          :value="it.id"
                       >
                         {{ it.full_name }}
                       </option>
@@ -711,9 +711,9 @@ useHead({
                         Старт работы <span class="text-red-500">*</span>
                       </p>
                       <input
-                        v-model="item.start"
-                        type="date"
-                        class="p-3 border w-full rounded-lg"
+                          v-model="item.start"
+                          class="p-3 border w-full rounded-lg"
+                          type="date"
                       />
                     </div>
                     <div class="w-1/2">
@@ -721,9 +721,9 @@ useHead({
                         Конец работы <span class="text-red-500">*</span>
                       </p>
                       <input
-                        v-model="item.end"
-                        type="date"
-                        class="p-3 border w-full rounded-lg"
+                          v-model="item.end"
+                          class="p-3 border w-full rounded-lg"
+                          type="date"
                       />
                     </div>
                   </div>
@@ -732,8 +732,8 @@ useHead({
             </div>
             <div class="flex justify-end">
               <button
-                type="submit"
-                class="bg-mainColor text-white px-10 py-2 rounded-lg"
+                  class="bg-mainColor text-white px-10 py-2 rounded-lg"
+                  type="submit"
               >
                 Отправить заявку
               </button>
@@ -741,7 +741,7 @@ useHead({
           </form>
         </div>
       </div>
-      <Spinner v-else />
+      <Spinner v-else/>
     </div>
   </div>
 </template>

@@ -1,5 +1,5 @@
 <script setup>
-import {IconChevronRight, IconChevronLeft} from "@tabler/icons-vue";
+import {IconChevronLeft, IconChevronRight} from "@tabler/icons-vue";
 
 let now = ref(new Date());
 let month = ref(now.value.getMonth());
@@ -71,8 +71,8 @@ const dayLabels = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
       </p>
     </div>
     <div
-        style="box-shadow: 0px 3px 10px 0px #0000000D;"
-        class="flex flex-col items-center space-y-4 bg-white rounded-b-lg">
+        class="flex flex-col items-center space-y-4 bg-white rounded-b-lg"
+        style="box-shadow: 0px 3px 10px 0px #0000000D;">
       <div class="px-4 py-5">
         <div class="flex justify-between items-center w-full mb-4">
           <p class="font-bold">
@@ -80,13 +80,13 @@ const dayLabels = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
           </p>
           <div class="flex gap-4">
             <button
-                @click="decrementMonth"
-                class="p-2 bg-[#ffe7e7] text-mainColor rounded hover:bg-mainColor hover:text-white transition-all">
+                class="p-2 bg-[#ffe7e7] text-mainColor rounded hover:bg-mainColor hover:text-white transition-all"
+                @click="decrementMonth">
               <IconChevronLeft size="15"/>
             </button>
             <button
-                @click="incrementMonth"
-                class="p-2 bg-[#ffe7e7] text-mainColor rounded hover:bg-mainColor hover:text-white transition-all">
+                class="p-2 bg-[#ffe7e7] text-mainColor rounded hover:bg-mainColor hover:text-white transition-all"
+                @click="incrementMonth">
               <IconChevronRight size="15"/>
             </button>
           </div>

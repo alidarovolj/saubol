@@ -1,4 +1,14 @@
 export default defineNuxtConfig({
+    app: {
+        head: {
+            script: [
+                {
+                    src: 'https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=e268fdb2-5eca-4323-a0ff-3adc629bca82&suggest_apikey=75f2fd93-46b6-4fa7-9641-ee54cab6970c&mode=debug&load=package.full&onload=mscDistance.Ymaps.ready&ns=ymaps',
+                    async: true,
+                }
+            ],
+        },
+    },
     ssr: true,
     devtools: {
         enabled: false
@@ -15,7 +25,6 @@ export default defineNuxtConfig({
     ],
     plugins: [
         "~/plugins/vue3-toastify.ts",
-        {src: '~/plugins/maps.ts', mode: 'client'},
     ],
     imports: {
         dirs: ["store", "composables", "composables/*/index.{ts,js,mjs,mts}", "composables/**",],

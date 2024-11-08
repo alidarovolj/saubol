@@ -74,84 +74,72 @@ watch(() => props.numPhone, (val) => {
 </script>
 
 <template>
-  <dialog
-      id="verificationModal"
-      class="modal">
-    <div class="modal-box">
-      <form method="dialog">
-        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-          ✕
-        </button>
-      </form>
-      <h3
-          v-if="result === null || result === false"
-          class="font-bold text-xl mb-5">
-        Отправить письмо
-      </h3>
-      <h3
-          v-else
-          class="font-bold text-xl mb-5">
-        Верификация номера
-      </h3>
-      <form
-          v-if="result === null || result === false"
-          @submit.prevent="localVerification"
-          action=""
-      >
-        <button
-            type="submit"
-            class="btn bg-mainColor text-white w-full mt-5">
-          Отправить СМС
-        </button>
-      </form>
-      <form
-          v-else
-          @submit.prevent="setVerificationCode"
-          action="">
-        <div class="flex flex-col gap-3">
-          <div class="flex flex-col gap-1">
-            <label
-                for="email"
-                class="text-[#9A9BA4]"
-            >
-              Код верификации
-            </label>
-            <input
-                v-model="valCode.code"
-                placeholder="Введите код"
-                type="text"
-                id="email"
-                class="w-full py-3 px-3 border rounded-xl"
-            />
-          </div>
-        </div>
-        <p
-            class="text-sm text-gray-400 mt-2"
-            v-if="time_left > 0">
-          Отправить код повторно можно будет через {{ time_left }} секунд
-        </p>
-        <p
-            class="text-sm text-mainColor mt-2 cursor-pointer"
-            v-else
-            @click="localVerification"
-        >
-          Отправить код повторно
-        </p>
-        <button
-            v-if="loading === false"
-            type="submit"
-            class="btn bg-mainColor text-white w-full mt-5">
-          Верифицировать
-        </button>
-        <div
-            v-else
-            class="btn bg-mainColor text-white w-full mt-5">
-          <span class="spinner"></span>
-        </div>
-      </form>
-    </div>
-    <form method="dialog" class="modal-backdrop">
-      <button>close</button>
+  <div>
+    <h3
+        v-if="result === null || result === false"
+        class="font-bold text-xl mb-5">
+      Отправить письмо
+    </h3>
+    <h3
+        v-else
+        class="font-bold text-xl mb-5">
+      Верификация номера
+    </h3>
+    <form
+        v-if="result === null || result === false"
+        action=""
+        @submit.prevent="localVerification"
+    >
+      <button
+          class="btn bg-mainColor text-white w-full mt-5"
+          type="submit">
+        Отправить СМС
+      </button>
     </form>
-  </dialog>
+    <form
+        v-else
+        action=""
+        @submit.prevent="setVerificationCode">
+      <div class="flex flex-col gap-3">
+        <div class="flex flex-col gap-1">
+          <label
+              class="text-[#9A9BA4]"
+              for="email"
+          >
+            Код верификации
+          </label>
+          <input
+              id="email"
+              v-model="valCode.code"
+              class="w-full py-3 px-3 border rounded-xl"
+              placeholder="Введите код"
+              type="text"
+          />
+        </div>
+      </div>
+      <p
+          v-if="time_left > 0"
+          class="text-sm text-gray-400 mt-2">
+        Отправить код повторно можно будет через {{ time_left }} секунд
+      </p>
+      <p
+          v-else
+          class="text-sm text-mainColor mt-2 cursor-pointer"
+          @click="localVerification"
+      >
+        Отправить код повторно
+      </p>
+      <button
+          v-if="loading === false"
+          class="btn bg-mainColor text-white w-full mt-5"
+          type="submit">
+        Верифицировать
+      </button>
+      <div
+          v-else
+          class="btn bg-mainColor text-white w-full mt-5">
+        <span class="spinner"></span>
+      </div>
+    </form>
+  </div>
 </template>

@@ -1,10 +1,8 @@
 <script setup>
-import { IconArrowRight, IconChevronRight } from "@tabler/icons-vue";
-import { useNewsStore } from "~/store/news.js";
-import { useBannersStore } from "~/store/banners.js";
+import {useBannersStore} from "~/store/banners.js";
 
 const banners = useBannersStore();
-const { result } = storeToRefs(banners);
+const {result} = storeToRefs(banners);
 
 const settings = {
   itemsToShow: 1,
@@ -35,30 +33,30 @@ onMounted(async () => {
         <div class="block">
           <client-only>
             <my-carousel-carousel
-              :breakpoints="breakpoints"
-              :itemsToShow="settings.itemsToShow"
-              class="mt-9 py-0"
+                :breakpoints="breakpoints"
+                :itemsToShow="settings.itemsToShow"
+                class="mt-9 py-0"
             >
               <my-carousel-slide
-                v-for="(item, index) in result"
-                :key="index"
-                class=""
+                  v-for="(item, index) in result"
+                  :key="index"
+                  class=""
               >
                 <div class="relative w-full h-20 md:h-96">
                   <img
-                    :src="item.img"
-                    alt=""
-                    class="w-full h-full object-contain rounded-lg my-auto"
+                      :src="item.img"
+                      alt=""
+                      class="w-full h-full object-contain rounded-lg my-auto"
                   />
                   <p
-                    class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-sm md:text-2xl font-bold text-white"
+                      class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-sm md:text-2xl font-bold text-white"
                   >
                     {{ item.text }}
                   </p>
                 </div>
               </my-carousel-slide>
               <template #addons>
-                <my-carousel-navigation />
+                <my-carousel-navigation/>
               </template>
             </my-carousel-carousel>
           </client-only>

@@ -45,6 +45,7 @@ const links = computed(() => props.meta.links.map(link => {
           :key="index"
           :class="{ 'border-mainColor border px-1 rounded' : link.active }">
         <NuxtLink
+            v-if="link.url"
             :to="{
         path: route.path,
         query: {
@@ -53,14 +54,13 @@ const links = computed(() => props.meta.links.map(link => {
             page: link.label
         }
     }"
-            v-if="link.url"
             @click="() => emit('navigate', link.url)"
         >
           <span v-html="link.label"></span>
         </NuxtLink>
         <button
-            :disabled="!link.url"
-            v-else>
+            v-else
+            :disabled="!link.url">
           <span v-html="link.label"></span>
         </button>
       </li>

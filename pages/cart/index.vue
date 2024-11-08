@@ -1,5 +1,5 @@
 <script setup>
-import { IconTrash } from "@tabler/icons-vue";
+import {IconTrash} from "@tabler/icons-vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -8,7 +8,7 @@ const cart = useCartStore();
 
 const auth = useAuthStore();
 auth.initCookieToken();
-const { token } = storeToRefs(auth);
+const {token} = storeToRefs(auth);
 
 const loading = ref(false);
 
@@ -105,42 +105,42 @@ useHead({
       content: route.fullPath,
     },
   ],
-  link: [{ rel: "canonical", href: "https://saubolmed.kz/" }],
+  link: [{rel: "canonical", href: "https://saubolmed.kz/"}],
 });
 </script>
 
 <template>
-  <div class="pt-0 md:pt-8">
+  <div class="pt-4 md:pt-8">
     <div class="container mx-auto px-4 md:px-0">
-      <Breadcrumbs :links="links" class="mb-7" />
+      <Breadcrumbs :links="links" class="mb-7"/>
       <h1 class="text-lg md:text-2xl mb-7">Корзина</h1>
       <div class="block md:flex items-start justify-between gap-5">
         <div
-          style="box-shadow: 0px 3px 10px 0px #0000000d"
-          class="w-full md:w-3/4 bg-none md:bg-white p-0 md:p-5 rounded-lg mb-5 md:mb-0"
+            class="w-full md:w-3/4 bg-none md:bg-white p-0 md:p-5 rounded-lg mb-5 md:mb-0"
+            style="box-shadow: 0px 3px 10px 0px #0000000d"
         >
           <div v-if="cart.result">
             <div v-if="cart.result.count > 0">
               <div
-                v-if="cart.result.doctor_order.length > 0"
-                class="mb-10 border-b border-[#ffe7e7] pb-5"
-                :class="{ 'mb-10': cart.result.nurse_order.length > 0 }"
+                  v-if="cart.result.doctor_order.length > 0"
+                  :class="{ 'mb-10': cart.result.nurse_order.length > 0 }"
+                  class="mb-10 border-b border-[#ffe7e7] pb-5"
               >
                 <h2 class="text-mainColor font-semibold text-xl mb-5">Врачи</h2>
                 <div
-                  v-for="(item, index) of cart.result.doctor_order"
-                  :key="index"
-                  :class="{
+                    v-for="(item, index) of cart.result.doctor_order"
+                    :key="index"
+                    :class="{
                     'mb-10': index !== cart.result.doctor_order.length - 1,
                   }"
-                  class="bg-white md:bg-none px-3 md:px-0 py-5 md:py-0 rounded-lg"
+                    class="bg-white md:bg-none px-3 md:px-0 py-5 md:py-0 rounded-lg"
                 >
                   <div class="flex items-center justify-between mb-2">
                     <div class="flex items-center gap-3">
                       <img
-                        class="w-12 h-12"
-                        src="@/assets/img/services/female_doctor.png"
-                        alt=""
+                          alt=""
+                          class="w-12 h-12"
+                          src="@/assets/img/services/female_doctor.png"
                       />
                       <p class="w-max text-mainColor font-semibold">
                         {{ item.staff.name }}
@@ -148,18 +148,18 @@ useHead({
                     </div>
                     <div class="flex items-center gap-3">
                       <IconTrash
-                        @click="removeOrderLocal(item.id, 'doctor_order')"
-                        class="text-red-500 cursor-pointer"
+                          class="text-red-500 cursor-pointer"
+                          @click="removeOrderLocal(item.id, 'doctor_order')"
                       />
                     </div>
                   </div>
                   <div class="block md:hidden">
                     <div
-                      class="flex items-center justify-between mb-3 pb-1 border-b border-[#F6F6F7]"
+                        class="flex items-center justify-between mb-3 pb-1 border-b border-[#F6F6F7]"
                     >
                       <p class="w-max text-sm font-semibold">Цена:</p>
                       <p
-                        class="text-sm bg-[#ffe7e7] text-mainColor px-8 py-2 rounded-md"
+                          class="text-sm bg-[#ffe7e7] text-mainColor px-8 py-2 rounded-md"
                       >
                         {{ item.price }} тнг.
                       </p>
@@ -184,7 +184,7 @@ useHead({
                     </div>
                   </div>
                   <div
-                    class="hidden md:flex justify-between mb-1 font-semibold"
+                      class="hidden md:flex justify-between mb-1 font-semibold"
                   >
                     <div class="w-1/4">
                       <p class="text-xs">Адрес:</p>
@@ -200,7 +200,7 @@ useHead({
                     </div>
                   </div>
                   <div
-                    class="hidden md:flex justify-between bg-[#ffe7e7] p-3 rounded-lg"
+                      class="hidden md:flex justify-between bg-[#ffe7e7] p-3 rounded-lg"
                   >
                     <div class="w-1/4">
                       <p class="text-sm">{{ item.address.title }}</p>
@@ -220,43 +220,43 @@ useHead({
                 </div>
               </div>
               <div
-                v-if="cart.result.nurse_order.length > 0"
-                class="mb-10 border-b border-[#ffe7e7] pb-5"
-                :class="{ 'mb-10': cart.result.detox_order.length > 0 }"
+                  v-if="cart.result.nurse_order.length > 0"
+                  :class="{ 'mb-10': cart.result.detox_order.length > 0 }"
+                  class="mb-10 border-b border-[#ffe7e7] pb-5"
               >
                 <h2 class="text-mainColor font-semibold text-xl mb-5">
                   Мед-услуги
                 </h2>
                 <div
-                  v-for="(item, index) of cart.result.nurse_order"
-                  :key="index"
-                  :class="{
+                    v-for="(item, index) of cart.result.nurse_order"
+                    :key="index"
+                    :class="{
                     'mb-10': index !== cart.result.nurse_order.length - 1,
                   }"
-                  class="bg-white md:bg-none px-3 md:px-0 py-5 md:py-0 rounded-lg"
+                    class="bg-white md:bg-none px-3 md:px-0 py-5 md:py-0 rounded-lg"
                 >
                   <div class="flex items-center justify-between mb-2">
                     <div class="flex items-center gap-3">
                       <img
-                        class="w-12 h-12"
-                        src="@/assets/img/services/female_doctor.png"
-                        alt=""
+                          alt=""
+                          class="w-12 h-12"
+                          src="@/assets/img/services/female_doctor.png"
                       />
                       <p class="w-max text-mainColor font-semibold">
                         {{ item.service.name }}
                       </p>
                     </div>
                     <div class="flex items-center gap-3">
-                      <IconTrash class="text-red-500 cursor-pointer" />
+                      <IconTrash class="text-red-500 cursor-pointer"/>
                     </div>
                   </div>
                   <div class="block md:hidden">
                     <div
-                      class="flex items-center justify-between mb-3 pb-1 border-b border-[#F6F6F7]"
+                        class="flex items-center justify-between mb-3 pb-1 border-b border-[#F6F6F7]"
                     >
                       <p class="w-max text-sm font-semibold">Цена:</p>
                       <p
-                        class="text-sm bg-[#ffe7e7] text-mainColor px-8 py-2 rounded-md"
+                          class="text-sm bg-[#ffe7e7] text-mainColor px-8 py-2 rounded-md"
                       >
                         {{ item.price }} тнг.
                       </p>
@@ -281,7 +281,7 @@ useHead({
                     </div>
                   </div>
                   <div
-                    class="hidden md:flex justify-between mb-1 font-semibold"
+                      class="hidden md:flex justify-between mb-1 font-semibold"
                   >
                     <div class="w-1/4">
                       <p class="text-xs">Адрес:</p>
@@ -297,7 +297,7 @@ useHead({
                     </div>
                   </div>
                   <div
-                    class="hidden md:flex justify-between bg-[#ffe7e7] p-3 rounded-lg"
+                      class="hidden md:flex justify-between bg-[#ffe7e7] p-3 rounded-lg"
                   >
                     <div class="w-1/4">
                       <p class="text-sm">{{ item.address.title }}</p>
@@ -317,43 +317,43 @@ useHead({
                 </div>
               </div>
               <div
-                v-if="cart.result.detox_order.length > 0"
-                class="mb-0 border-b border-[#ffe7e7] pb-5"
-                :class="{ 'mb-10': cart.result.analyze_order.length > 0 }"
+                  v-if="cart.result.detox_order.length > 0"
+                  :class="{ 'mb-10': cart.result.analyze_order.length > 0 }"
+                  class="mb-0 border-b border-[#ffe7e7] pb-5"
               >
                 <h2 class="text-mainColor font-semibold text-xl mb-5">
                   Услуги детокс
                 </h2>
                 <div
-                  v-for="(item, index) of cart.result.detox_order"
-                  :key="index"
-                  :class="{
+                    v-for="(item, index) of cart.result.detox_order"
+                    :key="index"
+                    :class="{
                     'mb-10': index !== cart.result.detox_order.length - 1,
                   }"
-                  class="bg-white md:bg-none px-3 md:px-0 py-5 md:py-0 rounded-lg"
+                    class="bg-white md:bg-none px-3 md:px-0 py-5 md:py-0 rounded-lg"
                 >
                   <div class="flex items-center justify-between mb-2">
                     <div class="flex items-center gap-3">
                       <img
-                        class="w-12 h-12"
-                        src="@/assets/img/services/female_doctor.png"
-                        alt=""
+                          alt=""
+                          class="w-12 h-12"
+                          src="@/assets/img/services/female_doctor.png"
                       />
                       <p class="w-max text-mainColor font-semibold">
                         {{ item.service.name }}
                       </p>
                     </div>
                     <div class="flex items-center gap-3">
-                      <IconTrash class="text-red-500 cursor-pointer" />
+                      <IconTrash class="text-red-500 cursor-pointer"/>
                     </div>
                   </div>
                   <div class="block md:hidden">
                     <div
-                      class="flex items-center justify-between mb-3 pb-1 border-b border-[#F6F6F7]"
+                        class="flex items-center justify-between mb-3 pb-1 border-b border-[#F6F6F7]"
                     >
                       <p class="w-max text-sm font-semibold">Цена:</p>
                       <p
-                        class="text-sm bg-[#ffe7e7] text-mainColor px-8 py-2 rounded-md"
+                          class="text-sm bg-[#ffe7e7] text-mainColor px-8 py-2 rounded-md"
                       >
                         {{ item.price }} тнг.
                       </p>
@@ -378,7 +378,7 @@ useHead({
                     </div>
                   </div>
                   <div
-                    class="hidden md:flex justify-between mb-1 font-semibold"
+                      class="hidden md:flex justify-between mb-1 font-semibold"
                   >
                     <div class="w-1/4">
                       <p class="text-xs">Адрес:</p>
@@ -394,7 +394,7 @@ useHead({
                     </div>
                   </div>
                   <div
-                    class="hidden md:flex justify-between bg-[#ffe7e7] p-3 rounded-lg"
+                      class="hidden md:flex justify-between bg-[#ffe7e7] p-3 rounded-lg"
                   >
                     <div class="w-1/4">
                       <p class="text-sm">{{ item.address.title }}</p>
@@ -418,19 +418,19 @@ useHead({
                   Анализы
                 </h2>
                 <div
-                  v-for="(item, index) of cart.result.analyze_order"
-                  :key="index"
-                  :class="{
+                    v-for="(item, index) of cart.result.analyze_order"
+                    :key="index"
+                    :class="{
                     'mb-10': index !== cart.result.analyze_order.length - 1,
                   }"
-                  class="bg-white md:bg-none px-3 md:px-0 py-5 md:py-0 rounded-lg"
+                    class="bg-white md:bg-none px-3 md:px-0 py-5 md:py-0 rounded-lg"
                 >
                   <div class="flex items-center justify-between mb-2">
                     <div class="flex items-center gap-3">
                       <img
-                        class="w-12 h-12"
-                        src="@/assets/img/services/female_doctor.png"
-                        alt=""
+                          alt=""
+                          class="w-12 h-12"
+                          src="@/assets/img/services/female_doctor.png"
                       />
                       <div>
                         <p class="w-max text-mainColor font-semibold">
@@ -440,8 +440,8 @@ useHead({
                           <p class="font-semibold">Анализы:</p>
                           <div>
                             <p
-                              v-for="(it, ind) of item.analysis"
-                              class="w-max text-black"
+                                v-for="(it, ind) of item.analysis"
+                                class="w-max text-black"
                             >
                               {{ it }}
                             </p>
@@ -450,16 +450,16 @@ useHead({
                       </div>
                     </div>
                     <div class="flex items-center gap-3">
-                      <IconTrash class="text-red-500 cursor-pointer" />
+                      <IconTrash class="text-red-500 cursor-pointer"/>
                     </div>
                   </div>
                   <div class="block md:hidden">
                     <div
-                      class="flex items-center justify-between mb-3 pb-1 border-b border-[#F6F6F7]"
+                        class="flex items-center justify-between mb-3 pb-1 border-b border-[#F6F6F7]"
                     >
                       <p class="w-max text-sm font-semibold">Цена:</p>
                       <p
-                        class="text-sm bg-[#ffe7e7] text-mainColor px-8 py-2 rounded-md"
+                          class="text-sm bg-[#ffe7e7] text-mainColor px-8 py-2 rounded-md"
                       >
                         {{ item.price }} тнг.
                       </p>
@@ -484,7 +484,7 @@ useHead({
                     </div>
                   </div>
                   <div
-                    class="hidden md:flex justify-between mb-1 font-semibold"
+                      class="hidden md:flex justify-between mb-1 font-semibold"
                   >
                     <div class="w-1/4">
                       <p class="text-xs">Адрес:</p>
@@ -500,7 +500,7 @@ useHead({
                     </div>
                   </div>
                   <div
-                    class="hidden md:flex justify-between bg-[#ffe7e7] p-3 rounded-lg"
+                      class="hidden md:flex justify-between bg-[#ffe7e7] p-3 rounded-lg"
                   >
                     <div class="w-1/4">
                       <p class="text-sm">{{ item.address.title }}</p>
@@ -527,20 +527,20 @@ useHead({
             </div>
           </div>
           <div v-else>
-            <Spinner />
+            <Spinner/>
           </div>
         </div>
         <div
-          style="box-shadow: 0px 3px 10px 0px #0000000d"
-          class="w-full md:w-1/4 p-5 bg-white rounded-lg h-max"
+            class="w-full md:w-1/4 p-5 bg-white rounded-lg h-max"
+            style="box-shadow: 0px 3px 10px 0px #0000000d"
         >
           <div v-if="cart.result">
             <div
-              class="flex items-center justify-between mb-5 pb-5 border-b border-[#F6F6F7] w-full"
+                class="flex items-center justify-between mb-5 pb-5 border-b border-[#F6F6F7] w-full"
             >
               <p class="w-max text-sm">Общее количество услуг:</p>
               <p
-                class="text-sm bg-[#ffe7e7] text-mainColor px-8 py-2 rounded-md"
+                  class="text-sm bg-[#ffe7e7] text-mainColor px-8 py-2 rounded-md"
               >
                 {{ cart.result.count }} шт.
               </p>
@@ -552,22 +552,22 @@ useHead({
               </p>
             </div>
             <p
-              v-if="cart.result.count > 0"
-              @click="clearBasketLocal"
-              class="bg-red-500 cursor-pointer text-white py-2 rounded-lg text-center mb-3"
+                v-if="cart.result.count > 0"
+                class="bg-red-500 cursor-pointer text-white py-2 rounded-lg text-center mb-3"
+                @click="clearBasketLocal"
             >
               Очистить корзину
             </p>
             <p
-              v-if="cart.result.count > 0"
-              @click="sendForm"
-              class="bg-mainColor cursor-pointer text-white py-2 rounded-lg text-center"
+                v-if="cart.result.count > 0"
+                class="bg-mainColor cursor-pointer text-white py-2 rounded-lg text-center"
+                @click="sendForm"
             >
               Оплатить
             </p>
           </div>
           <div v-else>
-            <Spinner />
+            <Spinner/>
           </div>
         </div>
       </div>

@@ -1,20 +1,11 @@
 <script setup>
-import {
-  IconStethoscope,
-  IconNurse,
-  IconVaccine,
-  IconMicroscope,
-  IconSearch,
-} from "@tabler/icons-vue";
-import jsonData from "@/assets/json/data.json";
-import Doctor from "~/components/services/doctor.vue";
-import { useStaffStore } from "~/store/staff.js";
-import { useDomoLabStore } from "~/store/domoLab.js";
+import {IconSearch,} from "@tabler/icons-vue";
+import {useDomoLabStore} from "~/store/domoLab.js";
 
 const route = useRoute();
 const router = useRouter();
 const lab = useDomoLabStore();
-const { result, resultCategories } = storeToRefs(lab);
+const {result, resultCategories} = storeToRefs(lab);
 
 const pending = ref(true);
 
@@ -47,13 +38,13 @@ const searchTests = async (val) => {
   }
 
   const nonNullFilters = Object.entries(filters.value).reduce(
-    (acc, [key, value]) => {
-      if (value !== null) {
-        acc[key] = value;
-      }
-      return acc;
-    },
-    {}
+      (acc, [key, value]) => {
+        if (value !== null) {
+          acc[key] = value;
+        }
+        return acc;
+      },
+      {}
   );
 
   const queryParams = {
@@ -62,7 +53,7 @@ const searchTests = async (val) => {
     page: route.query.page || 1,
   };
 
-  await router.push({ query: { ...route.query, ...queryParams } });
+  await router.push({query: {...route.query, ...queryParams}});
   await lab.listDomolab(queryParams);
 };
 
@@ -79,7 +70,7 @@ onMounted(async () => {
     searchValue.value = route.query["fields[name]"];
   }
 
-  await router.push({ query: queries });
+  await router.push({query: queries});
   await lab.listDomolabCategories();
   await searchTests();
 
@@ -98,7 +89,7 @@ useHead({
       content: route.fullPath,
     },
   ],
-  link: [{ rel: "canonical", href: "https://saubolmed.kz/" }],
+  link: [{rel: "canonical", href: "https://saubolmed.kz/"}],
 });
 
 watch(route.query, async (newVal) => {
@@ -113,13 +104,13 @@ watch(route.query, async (newVal) => {
 </script>
 
 <template>
-  <div class="pt-0 md:pt-8">
+  <div class="pt-4 md:pt-8">
     <div class="container mx-auto px-4 md:px-0">
-      <Breadcrumbs :links="links" class="mb-5" />
+      <Breadcrumbs :links="links" class="mb-5"/>
       <!--      <ServicesNavigation />-->
       <div
-        class="bg-white p-5 rounded-lg my-8"
-        style="box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 10px 0px"
+          class="bg-white p-5 rounded-lg my-8"
+          style="box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 10px 0px"
       >
         <h1 class="mb-5 text-mainColor text-2xl md:text-4xl font-semibold">
           Сдача анализов
@@ -128,24 +119,24 @@ watch(route.query, async (newVal) => {
           <div class="w-full mb-3 md:mb-0">
             <p class="text-sm">Поиск анализа</p>
             <div class="relative w-full">
-              <IconSearch class="absolute top-3 left-3 text-mainColor" />
+              <IconSearch class="absolute top-3 left-3 text-mainColor"/>
               <input
-                v-model="searchValue"
-                placeholder="Введите название анализа"
-                class="pl-10 px-3 py-3 border rounded-lg w-full"
-                type="text"
+                  v-model="searchValue"
+                  class="pl-10 px-3 py-3 border rounded-lg w-full"
+                  placeholder="Введите название анализа"
+                  type="text"
               />
             </div>
           </div>
           <button
-            @click="
+              class="w-full md:w-max rounded !text-white bg-mainColor py-3 px-20"
+              @click="
               lab.listDomolab({
                 perPage: route.query.perPage,
                 page: route.query.page,
                 'fields[name]': searchValue,
               })
             "
-            class="w-full md:w-max rounded !text-white bg-mainColor py-3 px-20"
           >
             Найти
           </button>
@@ -153,26 +144,26 @@ watch(route.query, async (newVal) => {
       </div>
       <div v-if="!pending" class="block md:flex items-start gap-4">
         <div
-          style="box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.05)"
-          class="w-full md:w-1/4 bg-white py-5 px-3 rounded-lg mb-5 md:mb-0"
+            class="w-full md:w-1/4 bg-white py-5 px-3 rounded-lg mb-5 md:mb-0"
+            style="box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.05)"
         >
           <h2 class="text-lg md:text-3xl mb-5 text-mainColor">Категории</h2>
           <div
-            @click="searchTests(null)"
-            class="block py-2 px-3 text-sm md:text-base rounded-lg cursor-pointer"
-            :class="{ 'bg-[#fe2c3945]': !filters['fields[category.name]'] }"
+              :class="{ 'bg-[#fe2c3945]': !filters['fields[category.name]'] }"
+              class="block py-2 px-3 text-sm md:text-base rounded-lg cursor-pointer"
+              @click="searchTests(null)"
           >
             Все
           </div>
           <div
-            @click="searchTests(category.name)"
-            v-for="(category, index) in resultCategories"
-            class="cursor-pointer block py-2 px-3 text-sm md:text-base rounded-lg"
-            :class="{
+              v-for="(category, index) in resultCategories"
+              :key="index"
+              :class="{
               'bg-[#fe2c3945]':
                 category.name === filters['fields[category.name]'],
             }"
-            :key="index"
+              class="cursor-pointer block py-2 px-3 text-sm md:text-base rounded-lg"
+              @click="searchTests(category.name)"
           >
             {{ category.name }}
           </div>
@@ -180,15 +171,15 @@ watch(route.query, async (newVal) => {
         <div class="w-full md:w-3/4 flex flex-col gap-2">
           <div v-if="result.data.length > 0" class="w-full">
             <div
-              class="w-full mb-5"
-              v-for="(service, index) in result.data"
-              :key="index"
+                v-for="(service, index) in result.data"
+                :key="index"
+                class="w-full mb-5"
             >
-              <TestCard :service="service" />
+              <TestCard :service="service"/>
             </div>
             <Pagination
-              :meta="result.meta"
-              @navigate="
+                :meta="result.meta"
+                @navigate="
                 async () => {
                   const newQuery = {
                     ...route.query,
@@ -201,9 +192,9 @@ watch(route.query, async (newVal) => {
             />
           </div>
           <div
-            v-else
-            style="box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.05)"
-            class="bg-white p-5 rounded-lg w-full text-center"
+              v-else
+              class="bg-white p-5 rounded-lg w-full text-center"
+              style="box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.05)"
           >
             <p class="text-red-500 font-semibold">Ничего не найдено</p>
           </div>
@@ -211,9 +202,9 @@ watch(route.query, async (newVal) => {
       </div>
       <div v-else class="flex justify-between flex-wrap">
         <div
-          class="skeleton w-full md:w-half h-[400px] mb-5"
-          v-for="(doctor, index) in 6"
-          :key="index"
+            v-for="(doctor, index) in 6"
+            :key="index"
+            class="skeleton w-full md:w-half h-[400px] mb-5"
         ></div>
       </div>
     </div>

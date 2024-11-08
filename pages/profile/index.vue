@@ -3,7 +3,7 @@ const layout = ref("profile");
 const route = useRoute();
 
 const user = useUserStore();
-const { result } = storeToRefs(user);
+const {result} = storeToRefs(user);
 
 const links = ref([
   {
@@ -33,21 +33,20 @@ useHead({
       content: route.fullPath,
     },
   ],
-  link: [{ rel: "canonical", href: "https://saubolmed.kz/" }],
+  link: [{rel: "canonical", href: "https://saubolmed.kz/"}],
 });
 </script>
 
 <template>
   <div class="mt-8">
     <div class="container mx-auto px-4 md:px-0">
-      <Breadcrumbs class="mb-4" :links="links" />
+      <Breadcrumbs :links="links" class="mb-4"/>
       <NuxtLayout :name="layout">
-        <NuxtLoadingIndicator color="#3E46FF" />
+        <NuxtLoadingIndicator color="#3E46FF"/>
         <DelayHydration>
           <div></div>
         </DelayHydration>
       </NuxtLayout>
     </div>
   </div>
-  <SetImage />
 </template>

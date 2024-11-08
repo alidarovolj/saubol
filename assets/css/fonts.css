@@ -2,10 +2,10 @@
     font-family: 'Aktiv Grotesk Corp';
     src: url('../fonts/AktivGroteskCorp-Medium.eot');
     src: local('../fonts/AktivGroteskCorp-Medium'),
-        url('../fonts/AktivGroteskCorp-Medium.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/AktivGroteskCorp-Medium.woff2') format('woff2'),
-        url('../fonts/AktivGroteskCorp-Medium.woff') format('woff'),
-        url('../fonts/AktivGroteskCorp-Medium.ttf') format('truetype');
+    url('../fonts/AktivGroteskCorp-Medium.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/AktivGroteskCorp-Medium.woff2') format('woff2'),
+    url('../fonts/AktivGroteskCorp-Medium.woff') format('woff'),
+    url('../fonts/AktivGroteskCorp-Medium.ttf') format('truetype');
     font-weight: 500;
     font-style: normal;
 }
@@ -14,10 +14,10 @@
     font-family: 'Aktiv Grotesk Corp';
     src: url('../fonts/AktivGroteskCorp-Bold.eot');
     src: local('../fonts/AktivGroteskCorp-Bold'),
-        url('../fonts/AktivGroteskCorp-Bold.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/AktivGroteskCorp-Bold.woff2') format('woff2'),
-        url('../fonts/AktivGroteskCorp-Bold.woff') format('woff'),
-        url('../fonts/AktivGroteskCorp-Bold.ttf') format('truetype');
+    url('../fonts/AktivGroteskCorp-Bold.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/AktivGroteskCorp-Bold.woff2') format('woff2'),
+    url('../fonts/AktivGroteskCorp-Bold.woff') format('woff'),
+    url('../fonts/AktivGroteskCorp-Bold.ttf') format('truetype');
     font-weight: bold;
     font-style: normal;
 }
@@ -26,10 +26,10 @@
     font-family: 'Aktiv Grotesk Corp';
     src: url('../fonts/AktivGroteskCorp-Italic.eot');
     src: local('../fonts/AktivGroteskCorp-Italic'),
-        url('../fonts/AktivGroteskCorp-Italic.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/AktivGroteskCorp-Italic.woff2') format('woff2'),
-        url('../fonts/AktivGroteskCorp-Italic.woff') format('woff'),
-        url('../fonts/AktivGroteskCorp-Italic.ttf') format('truetype');
+    url('../fonts/AktivGroteskCorp-Italic.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/AktivGroteskCorp-Italic.woff2') format('woff2'),
+    url('../fonts/AktivGroteskCorp-Italic.woff') format('woff'),
+    url('../fonts/AktivGroteskCorp-Italic.ttf') format('truetype');
     font-weight: normal;
     font-style: italic;
 }
@@ -38,10 +38,10 @@
     font-family: 'Aktiv Grotesk Corp';
     src: url('../fonts/AktivGroteskCorp-LightItalic.eot');
     src: local('../fonts/AktivGroteskCorp-LightItalic'),
-        url('../fonts/AktivGroteskCorp-LightItalic.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/AktivGroteskCorp-LightItalic.woff2') format('woff2'),
-        url('../fonts/AktivGroteskCorp-LightItalic.woff') format('woff'),
-        url('../fonts/AktivGroteskCorp-LightItalic.ttf') format('truetype');
+    url('../fonts/AktivGroteskCorp-LightItalic.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/AktivGroteskCorp-LightItalic.woff2') format('woff2'),
+    url('../fonts/AktivGroteskCorp-LightItalic.woff') format('woff'),
+    url('../fonts/AktivGroteskCorp-LightItalic.ttf') format('truetype');
     font-weight: 300;
     font-style: italic;
 }
@@ -50,10 +50,10 @@
     font-family: 'Aktiv Grotesk Corp';
     src: url('../fonts/AktivGroteskCorp-MediumItalic.eot');
     src: local('../fonts/AktivGroteskCorp-MediumItalic'),
-        url('../fonts/AktivGroteskCorp-MediumItalic.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/AktivGroteskCorp-MediumItalic.woff2') format('woff2'),
-        url('../fonts/AktivGroteskCorp-MediumItalic.woff') format('woff'),
-        url('../fonts/AktivGroteskCorp-MediumItalic.ttf') format('truetype');
+    url('../fonts/AktivGroteskCorp-MediumItalic.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/AktivGroteskCorp-MediumItalic.woff2') format('woff2'),
+    url('../fonts/AktivGroteskCorp-MediumItalic.woff') format('woff'),
+    url('../fonts/AktivGroteskCorp-MediumItalic.ttf') format('truetype');
     font-weight: 500;
     font-style: italic;
 }
@@ -62,10 +62,10 @@
     font-family: 'Aktiv Grotesk Corp';
     src: url('../fonts/AktivGroteskCorp-Light.eot');
     src: local('../fonts/AktivGroteskCorp-Light'),
-        url('../fonts/AktivGroteskCorp-Light.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/AktivGroteskCorp-Light.woff2') format('woff2'),
-        url('../fonts/AktivGroteskCorp-Light.woff') format('woff'),
-        url('../fonts/AktivGroteskCorp-Light.ttf') format('truetype');
+    url('../fonts/AktivGroteskCorp-Light.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/AktivGroteskCorp-Light.woff2') format('woff2'),
+    url('../fonts/AktivGroteskCorp-Light.woff') format('woff'),
+    url('../fonts/AktivGroteskCorp-Light.ttf') format('truetype');
     font-weight: 300;
     font-style: normal;
 }
@@ -74,10 +74,10 @@
     font-family: 'Aktiv Grotesk Corp';
     src: url('../fonts/AktivGroteskCorp-Regular.eot');
     src: local('../fonts/AktivGroteskCorp-Regular'),
-        url('../fonts/AktivGroteskCorp-Regular.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/AktivGroteskCorp-Regular.woff2') format('woff2'),
-        url('../fonts/AktivGroteskCorp-Regular.woff') format('woff'),
-        url('../fonts/AktivGroteskCorp-Regular.ttf') format('truetype');
+    url('../fonts/AktivGroteskCorp-Regular.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/AktivGroteskCorp-Regular.woff2') format('woff2'),
+    url('../fonts/AktivGroteskCorp-Regular.woff') format('woff'),
+    url('../fonts/AktivGroteskCorp-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -86,10 +86,10 @@
     font-family: 'Aktiv Grotesk Corp';
     src: url('../fonts/AktivGroteskCorp-BoldItalic.eot');
     src: local('../fonts/AktivGroteskCorp-BoldItalic'),
-        url('../fonts/AktivGroteskCorp-BoldItalic.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/AktivGroteskCorp-BoldItalic.woff2') format('woff2'),
-        url('../fonts/AktivGroteskCorp-BoldItalic.woff') format('woff'),
-        url('../fonts/AktivGroteskCorp-BoldItalic.ttf') format('truetype');
+    url('../fonts/AktivGroteskCorp-BoldItalic.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/AktivGroteskCorp-BoldItalic.woff2') format('woff2'),
+    url('../fonts/AktivGroteskCorp-BoldItalic.woff') format('woff'),
+    url('../fonts/AktivGroteskCorp-BoldItalic.ttf') format('truetype');
     font-weight: bold;
     font-style: italic;
 }
@@ -102,6 +102,7 @@
     font-weight: 100;
     src: url('../fonts/lato-v24-latin_latin-ext-100.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
+
 /* lato-100italic - latin_latin-ext */
 @font-face {
     font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
@@ -110,6 +111,7 @@
     font-weight: 100;
     src: url('../fonts/lato-v24-latin_latin-ext-100italic.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
+
 /* lato-300 - latin_latin-ext */
 @font-face {
     font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
@@ -118,6 +120,7 @@
     font-weight: 300;
     src: url('../fonts/lato-v24-latin_latin-ext-300.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
+
 /* lato-300italic - latin_latin-ext */
 @font-face {
     font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
@@ -126,6 +129,7 @@
     font-weight: 300;
     src: url('../fonts/lato-v24-latin_latin-ext-300italic.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
+
 /* lato-regular - latin_latin-ext */
 @font-face {
     font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
@@ -134,6 +138,7 @@
     font-weight: 400;
     src: url('../fonts/lato-v24-latin_latin-ext-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
+
 /* lato-italic - latin_latin-ext */
 @font-face {
     font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
@@ -142,6 +147,7 @@
     font-weight: 400;
     src: url('../fonts/lato-v24-latin_latin-ext-italic.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
+
 /* lato-700 - latin_latin-ext */
 @font-face {
     font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
@@ -150,6 +156,7 @@
     font-weight: 700;
     src: url('../fonts/lato-v24-latin_latin-ext-700.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
+
 /* lato-700italic - latin_latin-ext */
 @font-face {
     font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
@@ -158,6 +165,7 @@
     font-weight: 700;
     src: url('../fonts/lato-v24-latin_latin-ext-700italic.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
+
 /* lato-900 - latin_latin-ext */
 @font-face {
     font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
@@ -166,6 +174,7 @@
     font-weight: 900;
     src: url('../fonts/lato-v24-latin_latin-ext-900.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
+
 /* lato-900italic - latin_latin-ext */
 @font-face {
     font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */

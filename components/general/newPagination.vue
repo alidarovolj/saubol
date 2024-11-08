@@ -53,13 +53,13 @@ export default {
 <template>
   <div class="flex items-center justify-between md:justify-end overflow-x-auto">
     <p
-      v-for="(page, item) of filterLinks"
-      :key="item"
-      :class="{
+        v-for="(page, item) of filterLinks"
+        :key="item"
+        :class="{
         'bg-secondaryColor bg-[#3E46FF] text-white': page.active,
       }"
-      class="mx-2 md:mx-1 text-black dark:bg-darkElBg px-2 md:px-4 py-1 md:py-2 rounded-full dark:text-darkText hover:bg-secondaryColor cursor-pointer"
-      @click="navigate(page.label)"
+        class="mx-2 md:mx-1 text-black dark:bg-darkElBg px-2 md:px-4 py-1 md:py-2 rounded-full dark:text-darkText hover:bg-secondaryColor cursor-pointer"
+        @click="navigate(page.label)"
     >
       {{ page.label }}
     </p>

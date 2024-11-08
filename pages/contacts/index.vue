@@ -12,10 +12,10 @@ const links = [
 </script>
 
 <template>
-  <div class="pt-0 md:pt-8">
+  <div class="pt-4 md:pt-8">
     <div class="container mx-auto px-4 md:px-0 mb-14">
-      <Breadcrumbs :links="links" />
+      <Breadcrumbs :links="links"/>
     </div>
-    <ContactsBlock />
+    <ContactsBlock/>
   </div>
 </template>

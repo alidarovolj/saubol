@@ -1,21 +1,12 @@
 <script setup>
-import {
-  IconHeartRateMonitor,
-  IconVaccine,
-  IconVaccineBottle,
-  IconBandage,
-  IconFirstAidKit,
-  IconEmergencyBed,
-} from "@tabler/icons-vue";
-import { useNursesStore } from "~/store/nurses.js";
-import { useAddressesStore } from "~/store/addresses.js";
-import { useDetoxStore } from "~/store/detox.js";
+import {useAddressesStore} from "~/store/addresses.js";
+import {useDetoxStore} from "~/store/detox.js";
 import DetoxCard from "~/components/services/detoxCard.vue";
 
 const route = useRoute();
 const router = useRouter();
 const detox = useDetoxStore();
-const { result } = storeToRefs(detox);
+const {result} = storeToRefs(detox);
 const addresses = useAddressesStore();
 
 const pending = ref(true);
@@ -46,13 +37,13 @@ const searchDetox = async (val) => {
     filters.value["filters[category.id]"] = null;
   }
   const nonNullFilters = Object.entries(filters.value).reduce(
-    (acc, [key, value]) => {
-      if (value !== null) {
-        acc[key] = value;
-      }
-      return acc;
-    },
-    {}
+      (acc, [key, value]) => {
+        if (value !== null) {
+          acc[key] = value;
+        }
+        return acc;
+      },
+      {}
   );
 
   const queryParams = {
@@ -61,7 +52,7 @@ const searchDetox = async (val) => {
     page: route.query.page || 1,
   };
 
-  await router.push({ query: { ...route.query, ...queryParams } });
+  await router.push({query: {...route.query, ...queryParams}});
   await detox.getDetoxList(queryParams);
 };
 
@@ -69,13 +60,13 @@ onMounted(async () => {
   await nextTick();
 
   const nonNullQueries = Object.entries(route.query).reduce(
-    (acc, [key, value]) => {
-      if (value !== null) {
-        acc[key] = value;
-      }
-      return acc;
-    },
-    {}
+      (acc, [key, value]) => {
+        if (value !== null) {
+          acc[key] = value;
+        }
+        return acc;
+      },
+      {}
   );
 
   filters.value = {
@@ -99,17 +90,17 @@ useHead({
       content: route.fullPath,
     },
   ],
-  link: [{ rel: "canonical", href: "https://saubolmed.kz/" }],
+  link: [{rel: "canonical", href: "https://saubolmed.kz/"}],
 });
 </script>
 
 <template>
-  <div class="pt-0 md:pt-8">
+  <div class="pt-4 md:pt-8">
     <div class="container mx-auto px-4 md:px-0">
-      <Breadcrumbs :links="links" class="mb-5" />
+      <Breadcrumbs :links="links" class="mb-5"/>
       <div
-        class="bg-white p-5 rounded-lg mb-8"
-        style="box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 10px 0px"
+          class="bg-white p-5 rounded-lg mb-8"
+          style="box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 10px 0px"
       >
         <h1 class="mb-2 text-mainColor text-2xl md:text-4xl font-semibold">
           Процедуры детокс
@@ -165,19 +156,19 @@ useHead({
       <div v-if="!pending">
         <div class="flex justify-between flex-wrap">
           <div
-            class="w-full md:w-half mb-5"
-            v-for="(service, index) in result.data"
-            :key="index"
+              v-for="(service, index) in result.data"
+              :key="index"
+              class="w-full md:w-half mb-5"
           >
-            <DetoxCard :service="service" />
+            <DetoxCard :service="service"/>
           </div>
         </div>
       </div>
       <div v-else class="flex justify-between flex-wrap">
         <div
-          class="skeleton w-full md:w-half h-[400px] mb-5"
-          v-for="(doctor, index) in 6"
-          :key="index"
+            v-for="(doctor, index) in 6"
+            :key="index"
+            class="skeleton w-full md:w-half h-[400px] mb-5"
         ></div>
       </div>
     </div>

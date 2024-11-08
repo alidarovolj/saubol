@@ -11,7 +11,7 @@ export const useStaffStore = defineStore('staff', () => {
     const resultOrderDoc = ref(null);
     const auth = useAuthStore();
     auth.initCookieToken()
-    const { token } = storeToRefs(auth)
+    const {token} = storeToRefs(auth)
     const notify = (type, text) => {
         const toast = useNuxtApp().$toast;
         type ? toast.success(text) : toast.error(text);

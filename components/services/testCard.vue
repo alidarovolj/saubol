@@ -1,16 +1,12 @@
 <script setup>
-import {
-  IconClipboardPlus,
-  IconCopy,
-  IconCalendarCheck,
-  IconPlus,
-} from "@tabler/icons-vue";
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import { useDomoLabStore } from "~/store/domoLab.js";
+import {IconCalendarCheck, IconClipboardPlus, IconCopy, IconPlus,} from "@tabler/icons-vue";
+import {useVuelidate} from "@vuelidate/core";
+import {required} from "@vuelidate/validators";
+import {useDomoLabStore} from "~/store/domoLab.js";
 
 const user = useUserStore();
 const cart = useCartStore();
+const modals = useModalsStore();
 
 const test = useDomoLabStore();
 
@@ -39,13 +35,13 @@ const form = ref({
 });
 
 const v$ = useVuelidate(
-  {
-    date: { required },
-    start_time: { required },
-    end_time: { required },
-    address_id: { required },
-  },
-  form.value
+    {
+      date: {required},
+      start_time: {required},
+      end_time: {required},
+      address_id: {required},
+    },
+    form.value
 );
 
 const setTime = (index) => {
@@ -74,20 +70,13 @@ const sendForm = async () => {
 };
 
 const loading = ref(false);
-
-// const setTest = async () => {
-//   await nextTick()
-//   let pickTest = props.service
-//   pickedTest.value = pickTest
-//   await cartTest.showModal()
-// }
 </script>
 
 <template>
   <div>
     <div
-      class="w-full bg-white rounded-lg p-5"
-      style="box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.05)"
+        class="w-full bg-white rounded-lg p-5"
+        style="box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.05)"
     >
       <div class="flex items-center gap-5">
         <div class="block w-full">
@@ -103,31 +92,31 @@ const loading = ref(false);
                 {{ props.service.category.name }}
               </p>
               <div class="mb-3 text-mainColor flex items-center gap-2">
-                <IconCalendarCheck size="20" />
+                <IconCalendarCheck size="20"/>
                 <p class="text-sm">
                   до {{ props.service.execution_period }} рабочих дней
                 </p>
               </div>
               <div class="flex gap-3">
                 <div
-                  v-if="props.service.quantity"
-                  class="flex items-center bg-[#EFD7B2] text-xs gap-1 p-1 rounded"
+                    v-if="props.service.quantity"
+                    class="flex items-center bg-[#EFD7B2] text-xs gap-1 p-1 rounded"
                 >
-                  <IconCopy size="14" />
+                  <IconCopy size="14"/>
                   <p>{{ props.service.quantity }} анализов</p>
                 </div>
                 <div
-                  v-if="props.service.has_transcript"
-                  class="flex items-center bg-[#CAEFB2] text-xs gap-1 p-1 rounded"
+                    v-if="props.service.has_transcript"
+                    class="flex items-center bg-[#CAEFB2] text-xs gap-1 p-1 rounded"
                 >
-                  <IconClipboardPlus size="14" />
+                  <IconClipboardPlus size="14"/>
                   <p>Расшифровка</p>
                 </div>
                 <div
-                  v-if="props.service.palling"
-                  class="flex items-center bg-[#ff9393] text-xs gap-1 p-1 rounded"
+                    v-if="props.service.palling"
+                    class="flex items-center bg-[#ff9393] text-xs gap-1 p-1 rounded"
                 >
-                  <IconPlus size="14" />
+                  <IconPlus size="14"/>
                   <p>
                     {{ props.service.palling }}
                   </p>
@@ -135,7 +124,7 @@ const loading = ref(false);
               </div>
             </div>
             <p
-              class="px-7 py-2 bg-[#ffe7e7] rounded-md text-center w-max font-bold text-mainColor mb-2"
+                class="px-7 py-2 bg-[#ffe7e7] rounded-md text-center w-max font-bold text-mainColor mb-2"
             >
               <span>
                 {{ props.service.price }}
@@ -150,14 +139,14 @@ const loading = ref(false);
                 <div class="flex gap-2 w-full md:w-1/2">
                   <!--            :class="{ 'bg-gray-200 cursor-not-allowed' : props.doctor.free_time[0].length === 0 }"-->
                   <div
-                    v-for="(it, ind) of props.service.dates"
-                    :key="ind"
-                    @click="setDay(ind)"
-                    :class="[
+                      v-for="(it, ind) of props.service.dates"
+                      :key="ind"
+                      :class="[
                       { 'bg-mainColor text-white': pickedDay === ind },
                       { 'border-red-500': v$.date.$error },
                     ]"
-                    class="cursor-pointer transition-all py-1 px-3 border w-max rounded text-sm text-center"
+                      class="cursor-pointer transition-all py-1 px-3 border w-max rounded text-sm text-center"
+                      @click="setDay(ind)"
                   >
                     <p class="text-xs">{{ it.day_number }}</p>
                     <p>{{ it.day_of_week }}</p>
@@ -167,17 +156,17 @@ const loading = ref(false);
               <div class="w-full md:w-2/5">
                 <p class="mb-1">Время</p>
                 <select
-                  class="px-3 py-3 border rounded-lg w-full"
-                  :class="{ 'border-red-500': v$.start_time.$error }"
-                  name=""
-                  id=""
+                    id=""
+                    :class="{ 'border-red-500': v$.start_time.$error }"
+                    class="px-3 py-3 border rounded-lg w-full"
+                    name=""
                 >
                   <option :value="null">Выберите время</option>
                   <option
-                    v-for="(it, ind) of props.service.times"
-                    :key="ind"
-                    @click="setTime(ind)"
-                    value=""
+                      v-for="(it, ind) of props.service.times"
+                      :key="ind"
+                      value=""
+                      @click="setTime(ind)"
                   >
                     {{ it }}
                   </option>
@@ -191,23 +180,23 @@ const loading = ref(false);
               <div class="block md:flex justify-between gap-5">
                 <div class="relative w-full md:w-3/5 mb-2 md:mb-0">
                   <select
-                    v-model="form.address_id"
-                    :class="{ 'border-red-500': v$.address_id.$error }"
-                    class="px-3 py-3 border rounded-lg w-full"
+                      v-model="form.address_id"
+                      :class="{ 'border-red-500': v$.address_id.$error }"
+                      class="px-3 py-3 border rounded-lg w-full"
                   >
                     <option :value="null">Выберите адрес</option>
                     <option
-                      v-for="(it, ind) of addresses.resultAddresses.data"
-                      :key="ind"
-                      :value="it.address.id"
+                        v-for="(it, ind) of addresses.resultAddresses.data"
+                        :key="ind"
+                        :value="it.address.id"
                     >
                       {{ it.address.title }}
                     </option>
                   </select>
                 </div>
                 <button
-                  onclick="create_address.showModal()"
-                  class="border border-mainColor text-sm w-full md:w-2/5 block rounded-lg text-mainColor py-2 md:py-0"
+                    class="border border-mainColor text-sm w-full md:w-2/5 block rounded-lg text-mainColor py-2 md:py-0"
+                    @click="modals.showModal('createAddress')"
                 >
                   Добавить новый адрес
                 </button>
@@ -217,29 +206,29 @@ const loading = ref(false);
           <div class="flex flex-col md:flex-row justify-between text-sm gap-2">
             <div class="w-full md:w-1/2">
               <p
-                v-if="user.result && !loading"
-                @click="sendForm"
-                class="w-full py-2 rounded-lg text-white bg-mainColor text-center cursor-pointer"
+                  v-if="user.result && !loading"
+                  class="w-full py-2 rounded-lg text-white bg-mainColor text-center cursor-pointer"
+                  @click="sendForm"
               >
                 В корзину
               </p>
               <p
-                v-else-if="user.result && loading"
-                class="w-full py-2 rounded-lg text-white bg-mainColor text-center cursor-pointer"
+                  v-else-if="user.result && loading"
+                  class="w-full py-2 rounded-lg text-white bg-mainColor text-center cursor-pointer"
               >
                 <span class="spinner"></span>
               </p>
               <button
-                v-else
-                onclick="loginModal.showModal()"
-                class="w-full py-2 rounded-lg text-white bg-mainColor text-center cursor-pointer"
+                  v-else
+                  class="w-full py-2 rounded-lg text-white bg-mainColor text-center cursor-pointer"
+                  @click="modals.showModal('loginModal')"
               >
                 В корзину
               </button>
             </div>
             <NuxtLink
-              :to="`/services/tests/${props.service.id}`"
-              class="w-full md:w-1/2 py-2 rounded-lg text-mainColor bg-[#ffe7e7] text-center cursor-pointer"
+                :to="`/services/tests/${props.service.id}`"
+                class="w-full md:w-1/2 py-2 rounded-lg text-mainColor bg-[#ffe7e7] text-center cursor-pointer"
             >
               Подробнее
             </NuxtLink>
@@ -248,6 +237,4 @@ const loading = ref(false);
       </div>
     </div>
   </div>
-  <LoginModal v-if="!user.result" />
-  <CartTest :test="pickedTest" />
 </template>

@@ -1,20 +1,18 @@
 <script setup>
-import { IconMapPin, IconSearch } from "@tabler/icons-vue";
-import { useDomoLabStore } from "~/store/domoLab.js";
-import { useAddressesStore } from "~/store/addresses.js";
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import { useUserStore } from "~/store/user.js";
+import {IconSearch} from "@tabler/icons-vue";
+import {useDomoLabStore} from "~/store/domoLab.js";
+import {useAddressesStore} from "~/store/addresses.js";
+import {useUserStore} from "~/store/user.js";
 
 const lab = useDomoLabStore();
-const { result } = storeToRefs(lab);
+const {result} = storeToRefs(lab);
 
 const user = useUserStore();
 
 const loading = ref(false);
 
 const addresses = useAddressesStore();
-const { resultAddresses } = storeToRefs(addresses);
+const {resultAddresses} = storeToRefs(addresses);
 
 const pending = ref(true);
 
@@ -30,9 +28,9 @@ const notify = (type, text) => {
       <div class="w-full rounded-2xl">
         <div class="relative rounded-2xl px-4 md:px-20">
           <img
-            class="w-full h-full object-cover absolute left-0 top-0 rounded-2xl"
-            src="~/assets/img/mainPage/lab/bg.png"
-            alt=""
+              alt=""
+              class="w-full h-full object-cover absolute left-0 top-0 rounded-2xl"
+              src="~/assets/img/mainPage/lab/bg.png"
           />
           <!--          <div class="setBg absolute left-0 top-0 w-full h-full rounded-2xl"></div>-->
           <div class="relative z-20 rounded-2xl">
@@ -43,12 +41,12 @@ const notify = (type, text) => {
             <div class="block md:flex items-end gap-4">
               <div class="w-full mb-3 md:mb-0">
                 <div class="relative w-full">
-                  <IconSearch class="absolute top-3 left-3 text-mainColor" />
+                  <IconSearch class="absolute top-3 left-3 text-mainColor"/>
                   <input
-                    placeholder="Введите название анализов"
-                    v-model="searchValue"
-                    class="pl-10 px-3 py-3 border rounded-lg w-full"
-                    type="text"
+                      v-model="searchValue"
+                      class="pl-10 px-3 py-3 border rounded-lg w-full"
+                      placeholder="Введите название анализов"
+                      type="text"
                   />
                   <!--                  <div class="absolute left-0 top-full bg-white rounded-lg w-full">-->
                   <!--                    <NuxtLink-->
@@ -61,8 +59,8 @@ const notify = (type, text) => {
                 </div>
               </div>
               <NuxtLink
-                :to="'/services/tests?fields[name]=' + searchValue"
-                class="w-full md:w-max rounded text-white bg-mainColor py-3 px-20"
+                  :to="'/services/tests?fields[name]=' + searchValue"
+                  class="w-full md:w-max rounded text-white bg-mainColor py-3 px-20"
               >
                 Найти
               </NuxtLink>
@@ -82,17 +80,15 @@ const notify = (type, text) => {
       </div>
     </div>
   </div>
-  <CreateAddress />
-  <LoginModal />
 </template>
 
 <style scoped>
 .setBg {
   border-radius: 15px;
   background: linear-gradient(
-    90deg,
-    #fff -26.72%,
-    rgba(25, 107, 247, 0) 181.78%
+      90deg,
+      #fff -26.72%,
+      rgba(25, 107, 247, 0) 181.78%
   );
 }
 </style>

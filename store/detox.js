@@ -6,7 +6,7 @@ export const useDetoxStore = defineStore('detox', () => {
     const resultDetoxCart = ref(null);
     const auth = useAuthStore();
     auth.initCookieToken()
-    const { token } = storeToRefs(auth)
+    const {token} = storeToRefs(auth)
 
     const daysOfWeek = ["ВС", "ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ"];
 

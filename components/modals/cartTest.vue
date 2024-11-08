@@ -1,11 +1,12 @@
 <script setup>
-import { IconMapPin, IconCopy, IconClipboardPlus } from "@tabler/icons-vue";
-import { useUserStore } from "~/store/user.js";
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import { useCartStore } from "~/store/cart.js";
+import {IconClipboardPlus, IconCopy, IconMapPin} from "@tabler/icons-vue";
+import {useUserStore} from "~/store/user.js";
+import {useVuelidate} from "@vuelidate/core";
+import {required} from "@vuelidate/validators";
+import {useCartStore} from "~/store/cart.js";
 
 const user = useUserStore();
+const modals = useModalsStore();
 
 const addresses = useAddressesStore();
 
@@ -55,14 +56,14 @@ const form = ref({
 });
 
 const v$ = useVuelidate(
-  {
-    address_id: { required },
-    analysis_ids: { required },
-    date: { required },
-    start_time: { required },
-    end_time: { required },
-  },
-  form
+    {
+      address_id: {required},
+      analysis_ids: {required},
+      date: {required},
+      start_time: {required},
+      end_time: {required},
+    },
+    form
 );
 
 const setTime = (index) => {
@@ -70,7 +71,7 @@ const setTime = (index) => {
     if (it === index.target.value) {
       form.value.start_time = times.value[ind];
       form.value.end_time =
-        ind === times.value.length - 1 ? times.value[0] : times.value[ind + 1];
+          ind === times.value.length - 1 ? times.value[0] : times.value[ind + 1];
     }
   });
 };
@@ -114,162 +115,139 @@ onMounted(async () => {
 });
 
 watch(
-  () => props.test,
-  (newService) => {
-    pickedTest.value = newService;
-    form.value.analysis_ids.push(props.test.id);
-  }
+    () => props.test,
+    (newService) => {
+      pickedTest.value = newService;
+      form.value.analysis_ids.push(props.test.id);
+    }
 );
 </script>
 
 <template>
-  <dialog id="cartTest" class="modal">
-    <div class="modal-box">
-      <form method="dialog">
-        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-          ✕
-        </button>
-      </form>
-      <h3 class="font-bold text-xl mb-5">Зказать услугу</h3>
-      <div
+  <div>
+    <h3 class="font-bold text-xl mb-5">Зказать услугу</h3>
+    <div
         class="w-full bg-white flex items-center justify-center text-regText p-4 md:p-0"
-      >
-        <div v-if="pickedTest" class="w-full">
-          <div class="block md:flex items-start justify-between w-full mb-6">
-            <div>
-              <p class="text-black font-bold mb-2">
-                {{ pickedTest.name }}
-              </p>
-              <p class="text-sm mb-3">
-                {{ pickedTest.category.name }}
-              </p>
-              <div class="flex gap-3">
-                <div
+    >
+      <div v-if="pickedTest" class="w-full">
+        <div class="block md:flex items-start justify-between w-full mb-6">
+          <div>
+            <p class="text-black font-bold mb-2">
+              {{ pickedTest.name }}
+            </p>
+            <p class="text-sm mb-3">
+              {{ pickedTest.category.name }}
+            </p>
+            <div class="flex gap-3">
+              <div
                   class="flex items-center bg-[#EFD7B2] text-xs gap-1 p-1 rounded"
-                >
-                  <IconCopy size="14" />
-                  <p>5 анализов</p>
-                </div>
-                <div
+              >
+                <IconCopy size="14"/>
+                <p>5 анализов</p>
+              </div>
+              <div
                   class="flex items-center bg-[#CAEFB2] text-xs gap-1 p-1 rounded"
-                >
-                  <IconClipboardPlus size="14" />
-                  <p>Расшифровка</p>
-                </div>
+              >
+                <IconClipboardPlus size="14"/>
+                <p>Расшифровка</p>
               </div>
             </div>
-            <div class="flex flex-col justify-between text-sm">
-              <p
+          </div>
+          <div class="flex flex-col justify-between text-sm">
+            <p
                 class="px-7 py-2 bg-[#ffe7e7] rounded-md text-center w-max font-bold text-mainColor mb-2"
-              >
+            >
                 <span>
                   {{ pickedTest.price }}
                 </span>
-                ₸
-              </p>
-            </div>
-          </div>
-          <div v-if="addresses.resultAddresses" class="mb-3">
-            <p class="text-sm mb-3">
-              Адресная книга <span class="text-red-500">*</span>
+              ₸
             </p>
-            <div class="block">
-              <div class="relative w-full mb-2 md:mb-3">
-                <IconMapPin
+          </div>
+        </div>
+        <div v-if="addresses.resultAddresses" class="mb-3">
+          <p class="text-sm mb-3">
+            Адресная книга <span class="text-red-500">*</span>
+          </p>
+          <div class="block">
+            <div class="relative w-full mb-2 md:mb-3">
+              <IconMapPin
                   class="absolute left-3 top-1/2 -translate-y-1/2"
                   size="24"
-                />
-                <select
+              />
+              <select
                   v-model="form.address_id"
                   :class="{ 'border-red-500': v$.address_id.$error }"
                   class="px-3 py-3 border rounded-lg w-full pl-10"
-                >
-                  <option :value="null">Выберите адрес</option>
-                  <option
+              >
+                <option :value="null">Выберите адрес</option>
+                <option
                     v-for="(it, ind) of addresses.resultAddresses.data"
                     :key="ind"
                     :value="it.address.id"
-                  >
-                    {{ it.address.title }}
-                  </option>
-                </select>
-              </div>
+                >
+                  {{ it.address.title }}
+                </option>
+              </select>
             </div>
           </div>
-          <div class="block mb-3">
-            <div class="w-full mb-3">
-              <p class="text-sm md:text-base mb-1">Дни приема:</p>
-              <div class="flex justify-between">
-                <div
+        </div>
+        <div class="block mb-3">
+          <div class="w-full mb-3">
+            <p class="text-sm md:text-base mb-1">Дни приема:</p>
+            <div class="flex justify-between">
+              <div
                   v-for="(it, ind) of dates"
                   :key="ind"
-                  @click="setDay(ind)"
                   :class="[
                     { 'bg-mainColor text-white': pickedDay === ind },
                     { 'border-red-500': v$.date.$error },
                   ]"
                   class="cursor-pointer transition-all py-1 px-3 border w-max rounded text-sm md:text-base text-center"
-                >
-                  <p class="text-xs">{{ it.day_number }}</p>
-                  <p>{{ it.day_of_week }}</p>
-                </div>
+                  @click="setDay(ind)"
+              >
+                <p class="text-xs">{{ it.day_number }}</p>
+                <p>{{ it.day_of_week }}</p>
               </div>
             </div>
-            <div class="w-full">
-              <p class="mb-1">Время</p>
-              <select
-                @change="setTime"
-                class="px-3 py-3 border rounded-lg w-full"
-                :class="{ 'border-red-500': v$.start_time.$error }"
-                name=""
-                id=""
-              >
-                <option :value="null">Выберите время</option>
-                <option v-for="(it, ind) of times" :key="ind" :value="it">
-                  {{ it }}
-                </option>
-              </select>
-            </div>
           </div>
-          <!--          <div class="flex flex-wrap justify-between">-->
-          <!--            <label-->
-          <!--                class="w-half flex items-center mb-4"-->
-          <!--                for="">-->
-          <!--              <input-->
-          <!--                  type="radio"-->
-          <!--                  name="lab"-->
-          <!--                  class="w-6 h-6 mr-2">-->
-          <!--              <p>-->
-          <!--                Вариант 1-->
-          <!--              </p>-->
-          <!--            </label>-->
-          <!--          </div>-->
-          <p
+          <div class="w-full">
+            <p class="mb-1">Время</p>
+            <select
+                id=""
+                :class="{ 'border-red-500': v$.start_time.$error }"
+                class="px-3 py-3 border rounded-lg w-full"
+                name=""
+                @change="setTime"
+            >
+              <option :value="null">Выберите время</option>
+              <option v-for="(it, ind) of times" :key="ind" :value="it">
+                {{ it }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <p
             v-if="user.result && !loading"
-            @click="sendForm"
             class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer"
-          >
-            Заказать услугу
-          </p>
-          <p
+            @click="sendForm"
+        >
+          Заказать услугу
+        </p>
+        <p
             v-else-if="user.result && loading"
             class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer"
-          >
-            <span class="spinner"></span>
-          </p>
-          <button
+        >
+          <span class="spinner"></span>
+        </p>
+        <button
             v-else
-            onclick="loginModal.showModal()"
             class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer"
-          >
-            Заказать услугу
-          </button>
-        </div>
-        <Spinner v-else />
+            @click="modals.showModal('loginModal')"
+        >
+          Заказать услугу
+        </button>
       </div>
+      <Spinner v-else/>
     </div>
-    <form method="dialog" class="modal-backdrop">
-      <button>close</button>
-    </form>
-  </dialog>
+  </div>
 </template>

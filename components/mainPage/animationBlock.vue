@@ -1,29 +1,29 @@
 <template>
   <client-only>
     <div>
-      <div id="bound-two" class="scroll-bound" ref="boundRef">
+      <div id="bound-two" ref="boundRef" class="scroll-bound">
         <div class="content">
           <video
-            class="block md:hidden"
-            width="600"
-            muted
-            autoplay
-            preload
-            playsinline
-            ref="videoRef1"
+              ref="videoRef1"
+              autoplay
+              class="block md:hidden"
+              muted
+              playsinline
+              preload
+              width="600"
           >
-            <source src="@/assets/videos/mobVideo.mp4" type="video/mp4" />
+            <source src="@/assets/videos/mobVideo.mp4" type="video/mp4"/>
             <p>Your user agent does not support the HTML5 Video element.</p>
           </video>
           <video
-            class="hidden md:block"
-            width="600"
-            muted
-            preload
-            playsinline
-            ref="videoRef2"
+              ref="videoRef2"
+              class="hidden md:block"
+              muted
+              playsinline
+              preload
+              width="600"
           >
-            <source src="@/assets/videos/mainPage.mp4" type="video/mp4" />
+            <source src="@/assets/videos/mainPage.mp4" type="video/mp4"/>
             <p>Your user agent does not support the HTML5 Video element.</p>
           </video>
         </div>
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { ref, onMounted, onUnmounted } from "vue";
+import {onMounted, onUnmounted, ref} from "vue";
 
 export default {
   setup() {
@@ -58,18 +58,18 @@ export default {
           const scrollBoundBottom = scrollBoundTop + boundRect.height;
 
           if (
-            window.pageYOffset >= scrollBoundTop &&
-            window.pageYOffset < scrollBoundBottom
+              window.pageYOffset >= scrollBoundTop &&
+              window.pageYOffset < scrollBoundBottom
           ) {
             const rawPercentScrolled =
-              (window.pageYOffset - scrollBoundTop) /
-              (boundRect.height - window.innerHeight);
+                (window.pageYOffset - scrollBoundTop) /
+                (boundRect.height - window.innerHeight);
             const percentScrolled = Math.min(
-              Math.max(rawPercentScrolled, 0),
-              1
+                Math.max(rawPercentScrolled, 0),
+                1
             );
             videoRef.value.currentTime =
-              videoRef.value.duration * percentScrolled;
+                videoRef.value.duration * percentScrolled;
           }
         }
       });
@@ -112,6 +112,7 @@ export default {
 .scroll-bound {
   height: 500vh;
 }
+
 .scroll-bound .content {
   height: 100vh;
   width: 100%;
@@ -122,6 +123,7 @@ export default {
   justify-content: center;
   align-items: center;
 }
+
 .scroll-bound video {
   width: 80%;
 }

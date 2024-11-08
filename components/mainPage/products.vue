@@ -1,12 +1,12 @@
 <script setup>
-import { IconChevronRight } from "@tabler/icons-vue";
-import { useInventoryStore } from "~/store/inventory.js";
+import {IconChevronRight} from "@tabler/icons-vue";
+import {useInventoryStore} from "~/store/inventory.js";
 
 const pending = ref(true);
 const loading = ref(false);
 
 const inventory = useInventoryStore();
-const { result } = storeToRefs(inventory);
+const {result} = storeToRefs(inventory);
 
 const pickedCategory = ref(0);
 
@@ -26,32 +26,32 @@ onMounted(async () => {
             Аренда инвентаря
           </h2>
           <NuxtLink
-            to="/services/inventory"
-            class="flex items-center rounded-lg shadow py-2 px-3 bg-white text-mainColor text-sm"
+              class="flex items-center rounded-lg shadow py-2 px-3 bg-white text-mainColor text-sm"
+              to="/services/inventory"
           >
             <span>Посмотреть все товары</span>
-            <IconChevronRight class="text-mainColor" size="20" />
+            <IconChevronRight class="text-mainColor" size="20"/>
           </NuxtLink>
         </div>
         <div v-if="!pending" class="w-full">
           <div class="block md:flex gap-2 w-full">
             <div
-              v-for="(item, index) of result.data.slice(0, 4)"
-              :key="index"
-              class="w-full rounded-2xl bg-white p-3 mb-5 text-mainColor hover:text-white transition-all cursor-pointer"
-              style="box-shadow: 0px 2px 15px 0px rgba(0, 0, 0, 0.05)"
+                v-for="(item, index) of result.data.slice(0, 4)"
+                :key="index"
+                class="w-full rounded-2xl bg-white p-3 mb-5 text-mainColor hover:text-white transition-all cursor-pointer"
+                style="box-shadow: 0px 2px 15px 0px rgba(0, 0, 0, 0.05)"
             >
               <div class="flex flex-col justify-between h-full">
                 <p class="font-semibold mb-3 text-black text-sm">
                   {{ item.name }}
                 </p>
                 <div class="bg-white px-4 py-1 rounded-xl mr-4">
-                  <img class="w-full" :src="item.img" alt="" />
+                  <img :src="item.img" alt="" class="w-full"/>
                 </div>
                 <div class="font-medium">
                   <NuxtLink
-                    class="bg-[#ffe7e7] text-mainColor text-sm rounded-lg px-3 py-2 mt-3 w-full block text-center"
-                    to="/services"
+                      class="bg-[#ffe7e7] text-mainColor text-sm rounded-lg px-3 py-2 mt-3 w-full block text-center"
+                      to="/services"
                   >
                     Подробнее
                   </NuxtLink>

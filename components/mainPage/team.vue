@@ -1,5 +1,5 @@
 <script setup>
-import { IconSearch, IconX } from "@tabler/icons-vue";
+import {IconSearch, IconX} from "@tabler/icons-vue";
 import img1 from "~/assets/img/mainPage/team/1.png";
 import img2 from "~/assets/img/mainPage/team/2.png";
 import img3 from "~/assets/img/mainPage/team/3.png";
@@ -88,11 +88,11 @@ const team = ref([
       <div class="rounded-3xl p-0 md:p-10 relative z-10 bg-none md:bg-white">
         <div class="block md:flex items-center justify-between">
           <div
-            class="w-full md:w-[60%] text-start md:text-center text-mainColor"
+              class="w-full md:w-[60%] text-start md:text-center text-mainColor"
           >
             <h2 class="text-lg md:text-6xl font-semibold mb-3">Наша команда</h2>
             <p
-              class="text-sm md:text-2xl mb-4 md:mb-14 text-[#252525] md:text-mainColor"
+                class="text-sm md:text-2xl mb-4 md:mb-14 text-[#252525] md:text-mainColor"
             >
               Врачи, готовые помочь, заботиться и лечить. Мы здесь для вас!
             </p>
@@ -124,35 +124,35 @@ const team = ref([
               <p class="text-sm md:text-base">Поиск врача</p>
               <div class="relative w-full mb-5">
                 <input
-                  type="text"
-                  class="w-full py-3 px-12 border rounded-xl"
-                  placeholder="Поиск"
+                    class="w-full py-3 px-12 border rounded-xl"
+                    placeholder="Поиск"
+                    type="text"
                 />
                 <IconSearch
-                  class="absolute left-3 top-1/2 -translate-y-1/2 text-mainColor"
-                  size="24"
+                    class="absolute left-3 top-1/2 -translate-y-1/2 text-mainColor"
+                    size="24"
                 />
                 <IconX
-                  class="absolute right-3 top-1/2 -translate-y-1/2 text-mainColor"
-                  size="24"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 text-mainColor"
+                    size="24"
                 />
               </div>
               <div
-                style="
+                  class="overflow-y-auto p-5 rounded-3xl max-h-[400px] bg-white"
+                  style="
                   box-shadow: 2px 4px 15px 0px rgba(6, 85, 220, 0.15) inset;
                 "
-                class="overflow-y-auto p-5 rounded-3xl max-h-[400px] bg-white"
               >
                 <div
-                  v-for="(item, index) of team"
-                  :key="index"
-                  class="flex items-center pb-1 border-b border-mainColor text-xs md:text-base"
-                  :class="{ 'mb-5': team.length !== index + 1 }"
+                    v-for="(item, index) of team"
+                    :key="index"
+                    :class="{ 'mb-5': team.length !== index + 1 }"
+                    class="flex items-center pb-1 border-b border-mainColor text-xs md:text-base"
                 >
                   <img
-                    class="w-7 md:w-12 h-7 md:h-12 rounded-full mr-4"
-                    :src="item.img"
-                    alt=""
+                      :src="item.img"
+                      alt=""
+                      class="w-7 md:w-12 h-7 md:h-12 rounded-full mr-4"
                   />
                   <p>{{ item.name }} &nbsp;</p>
                   <p class="text-mainColor font-bold">
@@ -165,50 +165,50 @@ const team = ref([
         </div>
         <div class="text-mainColor mt-4 md:mt-0">
           <p
-            class="text-lg md:text-4xl font-medium mb-7 border-b border-mainColor md:border-none pb-2"
+              class="text-lg md:text-4xl font-medium mb-7 border-b border-mainColor md:border-none pb-2"
           >
             Сертификаты
           </p>
           <div class="flex items-center justify-between overflow-x-auto">
             <img
-              class="w-max mr-10 rounded-2xl"
-              src="~/assets/img/mainPage/certificates/1.png"
-              alt=""
+                alt=""
+                class="w-max mr-10 rounded-2xl"
+                src="~/assets/img/mainPage/certificates/1.png"
             />
             <img
-              class="w-max mr-10 rounded-2xl"
-              src="~/assets/img/mainPage/certificates/1.png"
-              alt=""
+                alt=""
+                class="w-max mr-10 rounded-2xl"
+                src="~/assets/img/mainPage/certificates/1.png"
             />
             <img
-              class="w-max mr-10 rounded-2xl"
-              src="~/assets/img/mainPage/certificates/1.png"
-              alt=""
+                alt=""
+                class="w-max mr-10 rounded-2xl"
+                src="~/assets/img/mainPage/certificates/1.png"
             />
             <img
-              class="w-max mr-10 rounded-2xl"
-              src="~/assets/img/mainPage/certificates/1.png"
-              alt=""
+                alt=""
+                class="w-max mr-10 rounded-2xl"
+                src="~/assets/img/mainPage/certificates/1.png"
             />
             <img
-              class="w-max mr-10 rounded-2xl"
-              src="~/assets/img/mainPage/certificates/1.png"
-              alt=""
+                alt=""
+                class="w-max mr-10 rounded-2xl"
+                src="~/assets/img/mainPage/certificates/1.png"
             />
             <img
-              class="w-max mr-10 rounded-2xl"
-              src="~/assets/img/mainPage/certificates/1.png"
-              alt=""
+                alt=""
+                class="w-max mr-10 rounded-2xl"
+                src="~/assets/img/mainPage/certificates/1.png"
             />
             <img
-              class="w-max mr-10 rounded-2xl"
-              src="~/assets/img/mainPage/certificates/1.png"
-              alt=""
+                alt=""
+                class="w-max mr-10 rounded-2xl"
+                src="~/assets/img/mainPage/certificates/1.png"
             />
             <img
-              class="w-max mr-10 rounded-2xl"
-              src="~/assets/img/mainPage/certificates/1.png"
-              alt=""
+                alt=""
+                class="w-max mr-10 rounded-2xl"
+                src="~/assets/img/mainPage/certificates/1.png"
             />
           </div>
         </div>

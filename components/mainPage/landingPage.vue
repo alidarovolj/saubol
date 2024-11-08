@@ -23,11 +23,11 @@ useHead({
 <template>
   <div>
     <Hero/>
-    <AnimationBlock />
-    <ServicesTypes />
-    <WayToHealth />
-    <FAQ />
-    <RegistrationForm />
-    <News />
+    <AnimationBlock/>
+    <ServicesTypes/>
+    <WayToHealth/>
+    <FAQ/>
+    <RegistrationForm/>
+    <News/>
   </div>
 </template>

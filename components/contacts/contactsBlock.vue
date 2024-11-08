@@ -4,18 +4,18 @@
   <div>
     <div class="relative w-full h-full py-14">
       <img
-        class="w-full h-full absolute left-0 top-0 object-cover"
-        src="@/assets/img/contacts/bg.png"
-        alt=""
+          alt=""
+          class="w-full h-full absolute left-0 top-0 object-cover"
+          src="@/assets/img/contacts/bg.png"
       />
       <div class="relative z-30 w-full">
         <div class="bg-white bg-opacity-80">
           <div class="container mx-auto px-4 md:px-0 py-8">
             <div class="flex items-center gap-2 mr-5 md:mr-0 mb-4">
               <img
-                class="w-auto h-7 md:h-12"
-                src="@/assets/img/logo.png"
-                alt=""
+                  alt=""
+                  class="w-auto h-7 md:h-12"
+                  src="@/assets/img/logo.png"
               />
               <p class="text-3xl font-bold text-black">Saubol</p>
             </div>
@@ -35,8 +35,8 @@
                   <p class="font-semibold mb-4">Телефоны:</p>
                   <p class="mb-3">
                     <a
-                      href="tel:+77756860022"
-                      class="text-mainColor font-semibold"
+                        class="text-mainColor font-semibold"
+                        href="tel:+77756860022"
                     >
                       +7 (775) 686-00-22
                     </a>
@@ -44,8 +44,8 @@
                   </p>
                   <p class="mb-3">
                     <a
-                      href="tel:+77472367503"
-                      class="text-mainColor font-semibold"
+                        class="text-mainColor font-semibold"
+                        href="tel:+77472367503"
                     >
                       +7 (747) 236-75-03
                     </a>
@@ -53,8 +53,8 @@
                   </p>
                   <p>
                     <a
-                      href="tel:+77756860022"
-                      class="text-mainColor font-semibold"
+                        class="text-mainColor font-semibold"
+                        href="tel:+77756860022"
                     >
                       +7 (775) 686-00-22
                     </a>
@@ -66,8 +66,8 @@
                   <p class="mb-3">
                     Основной адрес почты:
                     <a
-                      href="mailto:info@saubol.kz"
-                      class="text-mainColor font-semibold"
+                        class="text-mainColor font-semibold"
+                        href="mailto:info@saubol.kz"
                     >
                       info@saubol.kz
                     </a>
@@ -75,8 +75,8 @@
                   <p class="mb-3">
                     Поддержка:
                     <a
-                      href="mailto:support@saubol.kz"
-                      class="text-mainColor font-semibold"
+                        class="text-mainColor font-semibold"
+                        href="mailto:support@saubol.kz"
                     >
                       support@saubol.kz
                     </a>
@@ -84,8 +84,8 @@
                   <p>
                     Продажи:
                     <a
-                      href="mailto:sales@saubol.kz"
-                      class="text-mainColor font-semibold"
+                        class="text-mainColor font-semibold"
+                        href="mailto:sales@saubol.kz"
                     >
                       sales@saubol.kz
                     </a>
@@ -102,13 +102,13 @@
                   <!--                    </p>-->
                   <!--                  </div>-->
                   <a
-                    href="https://www.facebook.com/profile.php?id=100080161426914&mibextid=LQQJ4d"
-                    class="flex items-center gap-3 mb-3"
+                      class="flex items-center gap-3 mb-3"
+                      href="https://www.facebook.com/profile.php?id=100080161426914&mibextid=LQQJ4d"
                   >
                     <div
-                      class="p-2 rounded-full border border-mainColor text-mainColor"
+                        class="p-2 rounded-full border border-mainColor text-mainColor"
                     >
-                      <IconBrandFacebook size="14" />
+                      <IconBrandFacebook size="14"/>
                     </div>
                     <p>Saubolmed</p>
                   </a>
@@ -121,13 +121,13 @@
                   <!--                    </p>-->
                   <!--                  </div>-->
                   <a
-                    href="https://www.instagram.com/saubolmed?igsh=dHZyMDZxeWR2Znp4"
-                    class="flex items-center gap-3 mb-3"
+                      class="flex items-center gap-3 mb-3"
+                      href="https://www.instagram.com/saubolmed?igsh=dHZyMDZxeWR2Znp4"
                   >
                     <div
-                      class="p-2 rounded-full border border-mainColor text-mainColor"
+                        class="p-2 rounded-full border border-mainColor text-mainColor"
                     >
-                      <IconBrandInstagram size="14" />
+                      <IconBrandInstagram size="14"/>
                     </div>
                     <p>Saubolmed</p>
                   </a>
@@ -148,12 +148,4 @@
     </div>
   </div>
 </template>
-<script setup lang="ts">
-import {
-  IconBrandFacebook,
-  IconBrandInstagram,
-  IconBrandLinkedin,
-  IconBrandTiktok,
-  IconBrandX,
-} from "@tabler/icons-vue";
-</script>
+<script lang="ts" setup></script>

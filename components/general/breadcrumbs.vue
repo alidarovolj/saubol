@@ -12,8 +12,8 @@ watch(computedLinks, (newLinks, oldLinks) => {
     <ul>
       <li v-for="(item, index) of props.links" :key="index">
         <NuxtLink
-            class="uppercase text-xs text-inner_head dark:text-dText"
-            :to="item.link">
+            :to="item.link"
+            class="uppercase text-xs text-inner_head dark:text-dText">
           {{ item.title }}
         </NuxtLink>
       </li>

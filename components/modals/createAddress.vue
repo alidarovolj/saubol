@@ -30,8 +30,21 @@ const sendForm = async () => {
 <template>
   <form @submit.prevent="sendForm">
     <h3 class="font-bold text-xl mb-5">Добавление адреса</h3>
+    <div class="mb-3">
+      <label for="title" class="block text-sm font-medium text-gray-700">
+        Название
+      </label>
+      <input
+          v-model="form.title"
+          type="text"
+          name="title"
+          id="title"
+          placeholder="Название адреса"
+          class="w-full border border-[#E5E5E5] rounded-lg px-3 py-2"
+      />
+    </div>
     <client-only>
-      <YandexMap/>
+      <YandexMap @send_data="(data) => form.location = data" />
     </client-only>
     <div class="flex justify-end mt-5">
       <button

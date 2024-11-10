@@ -19,6 +19,7 @@ export default {
       required: true,
     },
   },
+  emits: ["send_data"],
   mounted() {
     this.initMap(ymaps);
   },

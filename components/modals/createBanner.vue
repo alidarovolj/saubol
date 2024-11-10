@@ -3,7 +3,6 @@ import {useUserStore} from "~/store/user.js";
 import {useVuelidate} from "@vuelidate/core";
 import {required} from "@vuelidate/validators";
 import {useAuthStore} from "~/store/auth.js";
-import {IconEye, IconEyeClosed} from "@tabler/icons-vue";
 import axios from 'axios';
 
 const runtimeConfig = useRuntimeConfig();
@@ -50,7 +49,10 @@ const sendForm = async () => {
       method: 'post',
       url: `${runtimeConfig.public.API_LINK}/admin/banners`,
       data: formData,
-      headers: { 'Content-Type': 'multipart/form-data' },
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${auth.adminToken}`
+      },
     });
 
     if (response.data) {

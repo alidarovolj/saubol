@@ -48,6 +48,7 @@ onMounted(async () => {
             {{ item.id }}
           </td>
           <td class="border-r">
+            {{ item.img }}
             <img
                 class="w-auto h-16 rounded-lg object-contain"
                 :src="item.img"
@@ -63,29 +64,6 @@ onMounted(async () => {
               {{ item.created_at }}
             </p>
           </td>
-<!--          <td>-->
-<!--            <div class="dropdown dark:text-black">-->
-<!--              <div tabindex="0" class="bg-gray-200 p-1 rounded-md m-1">-->
-<!--                <IconDots class="cursor-pointer" :size="18"/>-->
-<!--              </div>-->
-<!--              <div-->
-<!--                  tabindex="0"-->
-<!--                  class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-max"-->
-<!--              >-->
-<!--                <div class="flex gap-2">-->
-<!--                  <button-->
-<!--                      v-if="banners.status === 'pending'"-->
-<!--                      @click="() => (pickerBanner = item)"-->
-<!--                      onclick="change_status.showModal()"-->
-<!--                      class="bg-buyerMenuBg px-1 py-1 rounded-lg block"-->
-<!--                  >-->
-<!--                    <IconCheck v-if="!item.enabled" class="cursor-pointer" :size="18"/>-->
-<!--                    <IconX v-else class="cursor-pointer"/>-->
-<!--                  </button>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </td>-->
         </tr>
         </tbody>
       </table>

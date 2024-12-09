@@ -5,6 +5,7 @@ export const useNursesStore = defineStore('nurses', () => {
     const result = ref(null);
     const resultDetail = ref(null);
     const resultNurseCart = ref(null);
+    const router = useRouter()
     const auth = useAuthStore();
     auth.initCookieToken()
     const {token} = storeToRefs(auth)
@@ -19,10 +20,11 @@ export const useNursesStore = defineStore('nurses', () => {
         result,
         resultNurseCart,
         resultDetail,
-        async getNurses(queryParams = {}) {
-            const queryString = new URLSearchParams(queryParams).toString();
-            const {data} = await useFetch(`/nurse/services/?${queryString}`, {
+        async getNurses() {
+            // const queryString = new URLSearchParams(queryParams).toString();
+            const {data} = await useFetch(`/nurse/services`, {
                 method: 'GET',
+                params: router.currentRoute.value.query,
                 headers: {
                     accept: "application/json"
                 },

@@ -9,13 +9,12 @@ import {
 } from "@tabler/icons-vue";
 import {useNursesStore} from "~/store/nurses.js";
 import {useAddressesStore} from "~/store/addresses.js";
+import {nextTick} from "vue";
 
 const route = useRoute();
-const router = useRouter();
 const nurses = useNursesStore();
 const {result} = storeToRefs(nurses);
 const addresses = useAddressesStore();
-const user = useUserStore();
 
 const pending = ref(true);
 
@@ -34,57 +33,55 @@ const links = ref([
   },
 ]);
 
-const filters = ref({
-  "filters[category.id]": null,
-});
+const category_id = ref()
 
-const searchDoctors = async (val) => {
-  if (val) {
-    filters.value["filters[category.id]"] = val;
-  } else {
-    filters.value["filters[category.id]"] = null;
-  }
-  const nonNullFilters = Object.entries(filters.value).reduce(
-      (acc, [key, value]) => {
-        if (value !== null) {
-          acc[key] = value;
-        }
-        return acc;
-      },
-      {}
-  );
+const categories = ref([
+  {
+    id: '',
+    title: 'Все услуги',
+    icon: IconHeartRateMonitor
+  },
+  {
+    id: 1,
+    title: 'Уколы',
+    icon: IconVaccine
+  },
+  {
+    id: 2,
+    title: 'Капельницы',
+    icon: IconVaccineBottle
+  },
+  {
+    id: 3,
+    title: 'Перевязка',
+    icon: IconBandage
+  },
+  {
+    id: 4,
+    title: 'Пакеты процедур',
+    icon: IconFirstAidKit
+  },
+  {
+    id: 5,
+    title: 'Дополнительные услуги',
+    icon: IconEmergencyBed
+  },
+])
 
-  const queryParams = {
-    ...nonNullFilters,
-    perPage: route.query.perPage || 10,
-    page: route.query.page || 1,
-  };
-
-  await router.push({query: {...route.query, ...queryParams}});
-  await nurses.getNurses(queryParams);
-};
+watch(
+  () => route.query,
+  () => nurses.getNurses(),
+)
 
 onMounted(async () => {
-  await nextTick();
+  await nextTick()
 
-  const nonNullQueries = Object.entries(route.query).reduce(
-      (acc, [key, value]) => {
-        if (value !== null) {
-          acc[key] = value;
-        }
-        return acc;
-      },
-      {}
-  );
+  category_id.value = +route.query['filters[category.id]'] || ''
 
-  filters.value = {
-    ...filters.value,
-    ...nonNullQueries,
-  };
+  await nurses.getNurses()
   await addresses.listAddresses();
-  await searchDoctors();
   pending.value = false;
-});
+})
 
 useHead({
   title: "Мед-услуги | Услуги | SaubolMed",
@@ -106,10 +103,9 @@ useHead({
   <div class="pt-4 md:pt-8">
     <div class="container mx-auto px-4 md:px-0">
       <Breadcrumbs :links="links" class="mb-5"/>
-      <!--      <ServicesNavigation/>-->
       <div
-          class="bg-white p-5 rounded-lg mb-8"
-          style="box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 10px 0px"
+        class="bg-white p-5 rounded-lg mb-8"
+        style="box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 10px 0px"
       >
         <h1 class="mb-2 text-mainColor text-2xl md:text-4xl font-semibold">
           Мед-услуги
@@ -117,79 +113,30 @@ useHead({
         <p class="text-sm md:text-lg mb-5">
           Онлайн консультации и вызов врача: Медицинская помощь у вас дома
         </p>
-        <div
-            class="block md:flex justify-between items-end bg-[#ffe7e7] p-3 rounded-lg gap-2 text-sm"
-        >
-          <div
-              :class="{
-              'bg-mainColor text-white ':
-                filters['filters[category.id]'] === null,
-            }"
-              class="w-full md:w-1/6 flex items-center cursor-pointer transition-all py-3 rounded-lg text-center justify-center"
-              @click="searchDoctors(null)"
-          >
-            <IconHeartRateMonitor class="w-6 h-6 mr-2"/>
-            <p>Все услуги</p>
-          </div>
-          <div
-              :class="{
-              'bg-mainColor text-white ': filters['filters[category.id]'] === 1,
-            }"
-              class="w-full md:w-1/6 flex items-center cursor-pointer transition-all py-3 rounded-lg text-center justify-center"
-              @click="searchDoctors(1)"
-          >
-            <IconVaccine class="w-6 h-6 mr-2"/>
-            <p>Уколы</p>
-          </div>
-          <div
-              :class="{
-              'bg-mainColor text-white ': filters['filters[category.id]'] === 2,
-            }"
-              class="w-full md:w-1/6 flex items-center cursor-pointer transition-all py-3 rounded-lg text-center justify-center"
-              @click="searchDoctors(2)"
-          >
-            <IconVaccineBottle class="w-6 h-6 mr-2"/>
-            <p>Капельницы</p>
-          </div>
-          <div
-              :class="{
-              'bg-mainColor text-white ': filters['filters[category.id]'] === 3,
-            }"
-              class="w-full md:w-1/6 flex items-center cursor-pointer transition-all py-3 rounded-lg text-center justify-center"
-              @click="searchDoctors(3)"
-          >
-            <IconBandage class="w-6 h-6 mr-2"/>
-            <p>Перевязка</p>
-          </div>
-          <div
-              :class="{
-              'bg-mainColor text-white ': filters['filters[category.id]'] === 4,
-            }"
-              class="w-full md:w-1/6 flex items-center cursor-pointer transition-all py-3 rounded-lg text-center justify-center"
-              @click="searchDoctors(4)"
-          >
-            <IconFirstAidKit class="w-6 h-6 mr-2"/>
-            <p>Пакеты процедур</p>
-          </div>
-          <div
-              :class="{
-              'bg-mainColor text-white ': filters['filters[category.id]'] === 5,
-            }"
-              class="w-full md:w-1/6 flex items-center cursor-pointer transition-all py-3 rounded-lg text-center justify-center"
-              @click="searchDoctors(5)"
-          >
-            <IconEmergencyBed class="w-6 h-6 mr-2"/>
-            <p>Дополнительные услуги</p>
-          </div>
+        <div class="block md:flex justify-between items-end bg-[#ffe7e7] p-3 rounded-lg gap-2 text-sm">
+          <button
+            v-for="category in categories"
+            :key="category.id"
+            :class="{'bg-mainColor text-white ': category_id === category.id}"
+            class="w-full md:w-1/6 flex items-center cursor-pointer transition-all py-3 rounded-lg text-center justify-center"
+            @click="() => { navigateTo({
+            query:{
+              ...$route.query,
+              perPage: 10,
+              page:1,
+              'filters[category.id]': category.id || undefined
+            }}); category_id = category.id}">
+            <component :is="category.icon" class="w-6 h-6 mr-2"/>
+            <span>{{ category.title }}</span>
+          </button>
         </div>
       </div>
       <div v-if="!pending">
         <div class="flex justify-between flex-wrap">
           <div
-              v-for="(service, index) in result.data"
-              :key="index"
-              class="w-full md:w-half mb-5"
-          >
+            v-for="(service, index) in result.data"
+            :key="index"
+            class="w-full md:w-half mb-5">
             <MedService :service="service"/>
           </div>
         </div>
@@ -202,9 +149,9 @@ useHead({
       </div>
       <div v-else class="flex justify-between flex-wrap">
         <div
-            v-for="(doctor, index) in 6"
-            :key="index"
-            class="skeleton w-full md:w-half h-[400px] mb-5"
+          v-for="(_, index) in 6"
+          :key="index"
+          class="skeleton w-full md:w-half h-[400px] mb-5"
         ></div>
       </div>
     </div>

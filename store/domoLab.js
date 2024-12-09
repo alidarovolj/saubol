@@ -8,6 +8,8 @@ export const useDomoLabStore = defineStore('domolab', () => {
     auth.initCookieToken()
     const {token} = storeToRefs(auth)
 
+    const router = useRouter()
+
     const result = ref(null);
     const resultCreate = ref(null);
     const resultCategories = ref(null);
@@ -27,14 +29,15 @@ export const useDomoLabStore = defineStore('domolab', () => {
         resultCategories,
         resultDetail,
         resultTestCart,
-        async listDomolab(queryParams = {}) {
-            const queryString = new URLSearchParams(queryParams).toString();
-            const {data, error} = await useFetch(`/domo-lab?${queryString}`, {
+        async listDomolab() {
+            // const queryString = new URLSearchParams(queryParams).toString();
+            const {data, error} = await useFetch(`/domo-lab`, {
                 method: 'GET',
                 headers: {
                     accept: "application/json",
                     authorization: `Bearer ${token.value}`,
                 },
+                params: router.currentRoute.value.query,
                 baseURL: runtimeConfig.public.API_LINK,
                 lazy: true,
             })

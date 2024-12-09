@@ -83,6 +83,21 @@ onMounted(async () => {
   pending.value = false;
 })
 
+onBeforeRouteUpdate((to, from, next) => {
+
+ category_id.value = +to.query['filters[category.id]'] || ''
+
+ if (!Object.keys(to.query).length) {
+  return next({
+   query: {
+    perPage: 10,
+    page: 1,
+   }
+  })
+ }
+ next()
+})
+
 useHead({
   title: "Мед-услуги | Услуги | SaubolMed",
   meta: [

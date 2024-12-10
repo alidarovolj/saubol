@@ -6,30 +6,30 @@ import {
   IconHeartRateMonitor,
   IconVaccine,
   IconVaccineBottle,
-} from "@tabler/icons-vue";
-import {useNursesStore} from "~/store/nurses.js";
-import {useAddressesStore} from "~/store/addresses.js";
-import {nextTick} from "vue";
+} from '@tabler/icons-vue';
+import { useNursesStore } from '~/store/nurses.js';
+import { useAddressesStore } from '~/store/addresses.js';
+import { nextTick } from 'vue';
 
 const route = useRoute();
 const nurses = useNursesStore();
-const {result} = storeToRefs(nurses);
+const { result } = storeToRefs(nurses);
 const addresses = useAddressesStore();
 
 const pending = ref(true);
 
 const links = ref([
   {
-    title: "Главная",
-    link: "/",
+    title: 'Главная',
+    link: '/',
   },
   {
-    title: "Услуги",
-    link: "/services",
+    title: 'Услуги',
+    link: '/services',
   },
   {
-    title: "Мед-услуги",
-    link: "/services/med-services",
+    title: 'Мед-услуги',
+    link: '/services/med-services',
   },
 ]);
 
@@ -99,29 +99,30 @@ onBeforeRouteUpdate((to, from, next) => {
 })
 
 useHead({
-  title: "Мед-услуги | Услуги | SaubolMed",
+  title: 'Мед-услуги | Услуги | SaubolMed',
   meta: [
     {
-      property: "og:title",
-      content: "Мед-услуги | Услуги | SaubolMed",
+      property: 'og:title',
+      content: 'Мед-услуги | Услуги | SaubolMed',
     },
     {
-      property: "og:url",
+      property: 'og:url',
       content: route.fullPath,
     },
   ],
-  link: [{rel: "canonical", href: "https://saubolmed.kz/"}],
+  link: [{ rel: 'canonical', href: 'https://saubolmed.kz/' }],
 });
 </script>
 
 <template>
   <div class="pt-4 md:pt-8">
     <div class="container mx-auto px-4 md:px-0">
-      <Breadcrumbs :links="links" class="mb-5"/>
+      <Breadcrumbs
+        :links="links"
+        class="mb-5" />
       <div
         class="bg-white p-5 rounded-lg mb-8"
-        style="box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 10px 0px"
-      >
+        style="box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 10px 0px">
         <h1 class="mb-2 text-mainColor text-2xl md:text-4xl font-semibold">
           Мед-услуги
         </h1>
@@ -135,13 +136,15 @@ useHead({
             :class="{'bg-mainColor text-white ': category_id === category.id}"
             class="w-full md:w-1/6 flex items-center cursor-pointer transition-all py-3 rounded-lg text-center justify-center"
             @click="() => { navigateTo({
-            query:{
-              ...$route.query,
-              perPage: 10,
-              page:1,
-              'filters[category.id]': category.id || undefined
-            }}); category_id = category.id}">
-            <component :is="category.icon" class="w-6 h-6 mr-2"/>
+              query:{
+                ...$route.query,
+                perPage: 10,
+                page:1,
+                'filters[category.id]': category.id || undefined
+              }}); category_id = category.id}">
+            <component
+              :is="category.icon"
+              class="w-6 h-6 mr-2" />
             <span>{{ category.title }}</span>
           </button>
         </div>
@@ -152,7 +155,7 @@ useHead({
             v-for="(service, index) in result.data"
             :key="index"
             class="w-full md:w-half mb-5">
-            <MedService :service="service"/>
+            <MedService :service="service" />
           </div>
         </div>
         <!--        <div>-->
@@ -162,12 +165,13 @@ useHead({
         <!--          />-->
         <!--        </div>-->
       </div>
-      <div v-else class="flex justify-between flex-wrap">
+      <div
+        v-else
+        class="flex justify-between flex-wrap">
         <div
           v-for="(_, index) in 6"
           :key="index"
-          class="skeleton w-full md:w-half h-[400px] mb-5"
-        ></div>
+          class="skeleton w-full md:w-half h-[400px] mb-5"></div>
       </div>
     </div>
   </div>

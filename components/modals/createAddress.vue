@@ -1,12 +1,14 @@
 <script setup>
 import {useAddressesStore} from "~/store/addresses.js";
+import {useModalsStore} from "~/store/modals.js";
 
 const addresses = useAddressesStore();
 const {resultCreate} = storeToRefs(addresses);
+const modals = useModalsStore()
 
 const form = ref({
   title: null,
-  location: null,
+  location: [],
 });
 
 const notify = (type, text) => {
@@ -14,11 +16,15 @@ const notify = (type, text) => {
   type ? toast.success(text) : toast.error(text);
 };
 
+const onEmit = (val) => {
+  form.value.location = [val?.latitude, val?.longitude]
+}
+
 const sendForm = async () => {
   await nextTick();
   await addresses.createAddress(form.value);
   if (resultCreate !== false) {
-    create_address.close();
+    modals.modal.show = false
     notify(true, "Адрес успешно добавлен");
   } else {
     notify(false, "Произошла ошибка");
@@ -44,7 +50,7 @@ const sendForm = async () => {
       />
     </div>
     <client-only>
-      <YandexMap @send_data="(data) => form.location = data" />
+      <YandexMap @send_data="onEmit" />
     </client-only>
     <div class="flex justify-end mt-5">
       <button

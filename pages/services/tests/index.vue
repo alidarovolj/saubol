@@ -3,7 +3,6 @@ import {IconSearch} from "@tabler/icons-vue";
 import {useDomoLabStore} from "~/store/domoLab.js";
 
 const route = useRoute();
-const router = useRouter();
 const lab = useDomoLabStore();
 const {result, resultCategories} = storeToRefs(lab);
 

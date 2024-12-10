@@ -9,12 +9,6 @@ const inventory = useInventoryStore();
 const {result, resultCategories} = storeToRefs(inventory);
 const addresses = useAddressesStore();
 
-const pending = ref(true);
-
-const filters = ref({
-  "fields[category.name]": null,
-});
-
 const links = ref([
   {
     title: "Главная",
@@ -30,56 +24,43 @@ const links = ref([
   },
 ]);
 
-const searchInventory = async (val) => {
-  if (val) {
-    filters.value["fields[category.name]"] = val;
-  } else {
-    filters.value["fields[category.name]"] = null;
-  }
+const pending = ref(true);
 
-  const nonNullFilters = Object.entries(filters.value).reduce(
-      (acc, [key, value]) => {
-        if (value !== null) {
-          acc[key] = value;
-        }
-        return acc;
-      },
-      {}
-  );
+const category_name = ref()
+const searchKeyword = ref()
 
-  const queryParams = {
-    ...nonNullFilters,
-    perPage: route.query.perPage || 10,
-    page: route.query.page || 1,
-  };
-
-  await router.push({query: {...route.query, ...queryParams}});
-  await inventory.listInventory(queryParams);
-};
+watch(
+  () => route.query,
+  () => inventory.listInventory(),
+)
 
 onMounted(async () => {
   await nextTick();
 
-  const nonNullQueries = Object.entries(route.query).reduce(
-      (acc, [key, value]) => {
-        if (value !== null) {
-          acc[key] = value;
-        }
-        return acc;
-      },
-      {}
-  );
+  category_name.value = route.query['fields[category.name]'] || ''
+  searchKeyword.value = route.query['fields[name]'] || ''
 
-  filters.value = {
-    ...filters.value,
-    ...nonNullQueries,
-  };
-
-  await addresses.listAddresses();
   await inventory.listInventoryCategories();
-  await searchInventory();
+  await inventory.listInventory();
+
   pending.value = false;
 });
+
+onBeforeRouteUpdate((to, from, next) => {
+
+  category_name.value = to.query['fields[category.name]'] || ''
+  searchKeyword.value = to.query['fields[name]'] || ''
+
+  if (!Object.keys(to.query).length) {
+    return next({
+      query: {
+        perPage: 10,
+        page: 1,
+      }
+    })
+  }
+  next()
+})
 
 useHead({
   title: "Аренда инвентаря | Услуги | SaubolMed",
@@ -109,12 +90,21 @@ useHead({
         <h1 class="mb-5 text-mainColor text-2xl md:text-4xl font-semibold">
           Аренда инвентаря
         </h1>
-        <div class="block md:flex items-end gap-4">
+        <form
+          @submit.prevent="() => {navigateTo({
+           query: {
+            ...$route.query,
+            perPage:10,
+            page:1,
+            'fields[name]': searchKeyword || undefined
+          }})}"
+          class="block md:flex items-end gap-4">
           <div class="w-full mb-3 md:mb-0">
             <p class="text-sm">Поиск инвентаря</p>
             <div class="relative w-full">
               <IconSearch class="absolute top-3 left-3 text-mainColor"/>
               <input
+                v-model="searchKeyword"
                   class="pl-10 px-3 py-3 border rounded-lg w-full"
                   placeholder="Введите название анализов"
                   type="text"
@@ -122,11 +112,11 @@ useHead({
             </div>
           </div>
           <button
-              class="w-full md:w-max rounded text-white bg-mainColor py-3 px-20"
-          >
+              type="submit"
+              class="w-full md:w-max rounded text-white bg-mainColor py-3 px-20">
             Найти
           </button>
-        </div>
+        </form>
       </div>
       <div v-if="!pending" class="block md:flex items-start gap-4">
         <div
@@ -134,25 +124,33 @@ useHead({
             style="box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 10px 0px"
         >
           <h2 class="text-lg md:text-3xl mb-5 text-mainColor">Категории</h2>
-          <div
-              :class="{ 'bg-[#fe2c3945]': !filters['fields[category.name]'] }"
-              class="block py-2 px-3 text-sm md:text-base rounded-lg cursor-pointer"
-              @click="searchInventory(null)"
-          >
+          <button
+            :class="{'bg-[#fe2c3945]': !category_name }"
+              class="block w-full py-2 px-3 text-sm md:text-base rounded-lg cursor-pointer text-start"
+              @click="() => {navigateTo({
+               query: {
+                ...$route.query,
+                perPage:10,
+                page:1,
+                'fields[category.name]': undefined
+               }}); category_name = ''}">
             Все
-          </div>
-          <div
+          </button>
+          <button
               v-for="(category, index) in resultCategories"
               :key="index"
-              :class="{
-              'bg-[#fe2c3945]':
-                category.name === filters['fields[category.name]'],
-            }"
-              class="block py-2 px-3 text-sm md:text-base rounded-lg cursor-pointer"
-              @click="searchInventory(category.name)"
-          >
+              :class="{ 'bg-[#fe2c3945]': category.name === category_name }"
+              class="block w-full py-2 px-3 text-sm md:text-base rounded-lg cursor-pointer text-start"
+              @click="() => { navigateTo({
+                query:{
+                 ...$route.query,
+                 perPage:10,
+                 page:1,
+                 'fields[category.name]': category.name
+                }
+              }); category_name = category.name}">
             {{ category.name }}
-          </div>
+          </button>
         </div>
         <div class="w-full md:w-3/4">
           <div
@@ -185,7 +183,7 @@ useHead({
       </div>
       <div v-else class="flex justify-between flex-wrap">
         <div
-            v-for="(doctor, index) in 6"
+            v-for="(_, index) in 6"
             :key="index"
             class="skeleton w-full md:w-half h-[400px] mb-5"
         ></div>

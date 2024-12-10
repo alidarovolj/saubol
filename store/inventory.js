@@ -8,6 +8,8 @@ export const useInventoryStore = defineStore('inventory', () => {
     auth.initCookieToken()
     const {token} = storeToRefs(auth)
 
+    const router = useRouter()
+
     const result = ref(null);
     const resultCategories = ref(null);
     const resultDetail = ref(null);
@@ -23,10 +25,11 @@ export const useInventoryStore = defineStore('inventory', () => {
         resultCategories,
         resultDetail,
         resultInventoryCart,
-        async listInventory(queryParams = {}) {
-            const queryString = new URLSearchParams(queryParams).toString();
-            const {data, error} = await useFetch(`/goods?${queryString}`, {
+        async listInventory() {
+            // const queryString = new URLSearchParams(queryParams).toString();
+            const {data, error} = await useFetch(`/goods`, {
                 method: 'GET',
+                params: router.currentRoute.value.query,
                 headers: {
                     accept: "application/json",
                     authorization: `Bearer ${token.value}`,

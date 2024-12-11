@@ -1,33 +1,33 @@
 <script setup>
-import Hero from "~/components/mainPage/hero.vue";
-import WayToHealth from "~/components/mainPage/wayToHealth.vue";
+import Hero from '~/components/mainPage/hero.vue';
+import WayToHealth from '~/components/mainPage/wayToHealth.vue';
 
 const route = useRoute()
 
 useHead({
-  title: "Главная страница | SaubolMed",
+  title: 'Главная страница | SaubolMed',
   meta: [
     {
-      property: "og:title",
-      content: "Главная страница | SaubolMed",
+      property: 'og:title',
+      content: 'Главная страница | SaubolMed',
     },
     {
-      property: "og:url",
+      property: 'og:url',
       content: route.fullPath,
     },
   ],
-  link: [{rel: "canonical", href: "https://saubolmed.kz/"}],
+  link: [{ rel: 'canonical', href: 'https://saubolmed.kz/' }],
 });
 </script>
 
 <template>
   <div>
-    <Hero/>
-    <AnimationBlock/>
-    <ServicesTypes/>
-    <WayToHealth/>
-    <FAQ/>
-    <RegistrationForm/>
-    <News/>
+    <Hero />
+    <AnimationBlock />
+    <ServicesTypes />
+    <WayToHealth />
+    <FAQ />
+    <RegistrationForm />
+    <News />
   </div>
 </template>

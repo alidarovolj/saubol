@@ -45,7 +45,10 @@ export default [
         'api': 'readonly',
         'suffix': 'readonly',
         'storeToRefs': 'readonly',
-        'onBeforeRouteUpdate': 'readonly'
+        'onBeforeRouteUpdate': 'readonly',
+        'useAuthStore': 'readonly',
+        'useUserStore': 'readonly',
+        'useModalsStore': 'readonly'
       }
     }
   },

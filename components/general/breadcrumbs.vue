@@ -1,21 +1,24 @@
 <script setup>
-const props = defineProps(["links"])
-const computedLinks = computed(() => props.links);
-
-watch(computedLinks, (newLinks, oldLinks) => {
-  console.log('Links updated', newLinks);
-}, {deep: true});
+const props = defineProps(['links'])
 </script>
 
 <template>
   <div class="text-sm breadcrumbs dark:text-dText">
     <ul>
-      <li v-for="(item, index) of props.links" :key="index">
+      <li
+        v-for="(item, index) of props.links"
+        :key="index">
         <NuxtLink
-            :to="item.link"
-            class="uppercase text-xs text-inner_head dark:text-dText">
+          v-if="item.link"
+          :to="item.link"
+          class="uppercase text-xs text-inner_head dark:text-dText">
           {{ item.title }}
         </NuxtLink>
+        <span
+          v-else
+          class="uppercase text-xs text-inner_head text-mainColor">
+          {{item.title}}
+        </span>
       </li>
     </ul>
   </div>

@@ -1,22 +1,31 @@
 <script setup>
 
-import { IconEdit, IconMan, IconMathXDivideY, IconRuler3, IconScaleOutline, IconArrowLeft } from '@tabler/icons-vue';
+import { IconEdit, IconMan, IconMathXDivideY, IconRuler3, IconScaleOutline, IconArrowLeft, IconPhotoUp } from '@tabler/icons-vue';
 import Spinner from '~/components/general/spinner.vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+import { useUserStore } from '~/store/user.js';
 
-const route = useRoute();
 const router = useRouter();
+
+const notify = (type, text) => {
+ const toast = useNuxtApp().$toast;
+ type ? toast.success(text) : toast.error(text);
+};
 
 const user = useUserStore();
 const { result } = storeToRefs(user);
-const modals = useModalsStore()
 
 const loading = ref(false);
 
 const pending = ref(true);
 
 const editMode = ref(false);
+
+const isImageHovered = ref(false)
+const isImageUploaded = ref(true)
+
+const fileInput = ref(null);
 
 const form = ref({
  name: '',
@@ -53,6 +62,26 @@ const doneIMT = computed(() => {
  }
  return '';
 });
+
+const uploadImage = async () => {
+
+ isImageUploaded.value = false
+
+ if (fileInput.value && fileInput.value.files[0]) {
+
+  const file = fileInput.value.files[0];
+
+  const { error } = await user.setImage(file);
+
+  if(error.value ) notify(false, 'Ошибка загрузки фотографии')
+  else {
+   await user.getProfile()
+   notify(true, 'Фотография загружена')
+  }
+
+  isImageUploaded.value = true
+ }
+}
 
 const updateProfileLocal = async () => {
  loading.value = true;
@@ -96,25 +125,39 @@ onMounted(async () => {
           style="box-shadow: 0px 4px 20px 0px #0000001a">
           <div class="flex justify-between">
             <button
+              type="button"
               class="block lg:hidden"
               @click="router.push('/profile')">
               <IconArrowLeft :size="24" />
             </button>
-            <button
-              class="text-mainColor"
-              @click="modals.showModal('setImage')">
-              <IconEdit />
-            </button>
           </div>
-          <div class="mb-3">
+          <div
+            class="mb-3 bg-red-50 w-max mx-auto rounded-full relative"
+            @mouseover="isImageHovered = true"
+            @touchstart="isImageHovered = true"
+            @touchemove="isImageHovered = false"
+            @mouseleave="isImageHovered = false">
             <div
-              v-if="result.data.img"
-              class="relative h-full">
-              <img
-                :src="result.data.img"
-                alt=""
-                class="w-36 h-36 rounded-full object-cover mx-auto" />
+              v-show="isImageHovered"
+              class="bg-white w-36 h-36 transition-all opacity-70 rounded-full absolute left-1/2 -translate-x-1/2 flex items-center justify-center">
+              <label
+                for="user_image"
+                class="cursor-pointer text-black">
+                <IconPhotoUp size="36" />
+              </label>
+              <input
+                id="user_image"
+                ref="fileInput"
+                type="file"
+                accept="image/*"
+                class="hidden"
+                @change="uploadImage" />
             </div>
+            <img
+              v-if="result.data.img"
+              :src="result.data.img"
+              alt=""
+              class="w-36 h-36 rounded-full object-cover mx-auto" />
             <div
               v-if="!result.data.img"
               class="relative w-36 h-36 mx-auto bg-mainColor bg-opacity-20 rounded-lg min-w-20">

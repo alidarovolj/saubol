@@ -1,12 +1,12 @@
-import {defineStore} from "pinia";
-import {useAuthStore} from "~/store/auth.js";
+import { defineStore } from 'pinia';
+import { useAuthStore } from '~/store/auth.js';
 
 export const useUserStore = defineStore('user', () => {
     const runtimeConfig = useRuntimeConfig();
 
     const auth = useAuthStore()
     auth.initCookieToken()
-    const {token} = storeToRefs(auth)
+    const { token } = storeToRefs(auth)
 
     const result = ref(null);
     const resultLogout = ref(null);
@@ -23,10 +23,10 @@ export const useUserStore = defineStore('user', () => {
         resultImage,
         resultUpdate,
         async getProfile() {
-            const {data} = await useFetch(`/auth/me`, {
+            const { data } = await useFetch('/auth/me', {
                 method: 'GET',
                 headers: {
-                    accept: "application/json",
+                    accept: 'application/json',
                     authorization: `Bearer ${token.value}`,
                 },
                 baseURL: runtimeConfig.public.API_LINK,
@@ -40,10 +40,10 @@ export const useUserStore = defineStore('user', () => {
             }
         },
         async logoutProfile() {
-            const {data} = await useFetch(`/auth/logout`, {
+            const { data } = await useFetch('/auth/logout', {
                 method: 'POST',
                 headers: {
-                    accept: "application/json",
+                    accept: 'application/json',
                     authorization: `Bearer ${token.value}`,
                 },
                 baseURL: runtimeConfig.public.API_LINK,
@@ -58,28 +58,22 @@ export const useUserStore = defineStore('user', () => {
         async setImage(file) {
             const formData = new FormData();
             formData.append('img', file);
-
-            const {data} = await useFetch(`/users/set-img`, {
+            return useFetch('/users/set-img', {
                 method: 'POST',
                 headers: {
-                    accept: "application/json",
+                    accept: 'application/json',
                     authorization: `Bearer ${token.value}`,
                 },
                 body: formData,
                 baseURL: runtimeConfig.public.API_LINK,
                 lazy: true,
             })
-            if (data.value) {
-                resultImage.value = data.value
-            } else {
-                resultImage.value = false
-            }
         },
         async updateProfile(form) {
-            const {data} = await useFetch(`/users/profile`, {
+            const { data } = await useFetch('/users/profile', {
                 method: 'PUT',
                 headers: {
-                    accept: "application/json",
+                    accept: 'application/json',
                     authorization: `Bearer ${token.value}`,
                 },
                 body: JSON.stringify(form),

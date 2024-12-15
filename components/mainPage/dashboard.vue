@@ -1,27 +1,27 @@
 <script setup>
 import {
-  IconDisabled,
-  IconFileSearch,
-  IconMicroscope,
-  IconNurse,
-  IconStethoscope,
-  IconVaccine,
-} from "@tabler/icons-vue";
-import {useOrdersStore} from "~/store/orders.js";
+ IconDisabled,
+ IconFileSearch,
+ IconMicroscope,
+ IconNurse,
+ IconStethoscope,
+ IconVaccine,
+} from '@tabler/icons-vue';
+import { useOrdersStore } from '~/store/orders.js';
 
 const pending = ref(true);
 
 const orders = useOrdersStore();
 
 const columns = ref([
-  {name: "Услуга", fname: "name"},
-  {name: "Дата", fname: "date.day"},
+ { name: 'Услуга', fname: 'name' },
+ { name: 'Дата', fname: 'date.day' },
 ]);
 
 onMounted(async () => {
-  await nextTick();
-  await orders.listOrders();
-  pending.value = false;
+ await nextTick();
+ await orders.listOrders();
+ pending.value = false;
 });
 </script>
 
@@ -31,123 +31,124 @@ onMounted(async () => {
       <div class="block md:flex items-start gap-6">
         <div class="w-full md:w-3/4">
           <h2 class="text-xl font-semibold mb-4">Услуги</h2>
-          <div
-              class="flex flex-wrap justify-between md:flex-nowrap md:gap-4 mb-4"
-          >
+          <div class="flex flex-wrap justify-between md:flex-nowrap md:gap-4 mb-4">
             <NuxtLink
-                class="mb-1 md:mb-0 relative h-[228px] w-half md:w-full border rounded-lg p-5 flex flex-col justify-between"
-                to="/services/med-services"
-            >
+              class="mb-1 md:mb-0 relative h-[228px] w-half md:w-full border rounded-lg p-5 flex flex-col justify-between"
+              to="/services/med-services">
               <div class="w-max bg-[#0065FF] rounded-lg text-white">
-                <IconNurse class="m-3" size="20"/>
+                <IconNurse
+                  class="m-3"
+                  size="20" />
               </div>
               <p class="font-semibold">Мед услуги</p>
               <img
-                  alt=""
-                  class="absolute right-0 bottom-0"
-                  src="@/assets/img/servicesVectors/1.png"
-              />
+                alt=""
+                class="absolute right-0 bottom-0"
+                src="@/assets/img/servicesVectors/1.png" />
             </NuxtLink>
             <NuxtLink
-                class="mb-1 md:mb-0 relative h-[228px] w-half md:w-full border rounded-lg p-5 flex flex-col justify-between"
-                to="/services/doctors"
-            >
+              class="mb-1 md:mb-0 relative h-[228px] w-half md:w-full border rounded-lg p-5 flex flex-col justify-between"
+              to="/services/doctors">
               <div class="w-max bg-[#FEAA48] rounded-lg text-white">
-                <IconStethoscope class="m-3" size="20"/>
+                <IconStethoscope
+                  class="m-3"
+                  size="20" />
               </div>
               <p class="font-semibold">Запись к врачу</p>
               <img
-                  alt=""
-                  class="absolute right-0 bottom-0"
-                  src="@/assets/img/servicesVectors/2.png"
-              />
+                alt=""
+                class="absolute right-0 bottom-0"
+                src="@/assets/img/servicesVectors/2.png" />
             </NuxtLink>
             <NuxtLink
-                class="mb-1 md:mb-0 relative h-[228px] w-half md:w-full border rounded-lg p-5 flex flex-col justify-between"
-                to="/services/tests"
-            >
+              class="mb-1 md:mb-0 relative h-[228px] w-half md:w-full border rounded-lg p-5 flex flex-col justify-between"
+              to="/services/tests">
               <div class="w-max bg-[#FD586B] rounded-lg text-white">
-                <IconMicroscope class="m-3" size="20"/>
+                <IconMicroscope
+                  class="m-3"
+                  size="20" />
               </div>
               <p class="font-semibold">Анализы</p>
               <img
-                  alt=""
-                  class="absolute right-0 bottom-0"
-                  src="@/assets/img/servicesVectors/3.png"
-              />
+                alt=""
+                class="absolute right-0 bottom-0"
+                src="@/assets/img/servicesVectors/3.png" />
             </NuxtLink>
             <NuxtLink
-                class="mb-1 md:mb-0 relative h-[228px] w-half md:w-full border rounded-lg p-5 flex flex-col justify-between"
-                to="/services/inventory"
-            >
+              class="mb-1 md:mb-0 relative h-[228px] w-half md:w-full border rounded-lg p-5 flex flex-col justify-between"
+              to="/services/inventory">
               <div class="w-max bg-[#CF0CE0] rounded-lg text-white">
-                <IconDisabled class="m-3" size="20"/>
+                <IconDisabled
+                  class="m-3"
+                  size="20" />
               </div>
               <p class="font-semibold">Аренда инвентаря</p>
               <img
-                  alt=""
-                  class="absolute right-0 bottom-0"
-                  src="@/assets/img/servicesVectors/4.png"
-              />
+                alt=""
+                class="absolute right-0 bottom-0"
+                src="@/assets/img/servicesVectors/4.png" />
             </NuxtLink>
             <NuxtLink
-                class="mb-1 md:mb-0 relative h-[228px] w-half md:w-full border rounded-lg p-5 flex flex-col justify-between"
-                to="/services/detox"
-            >
+              class="mb-1 md:mb-0 relative h-[228px] w-half md:w-full border rounded-lg p-5 flex flex-col justify-between"
+              to="/services/detox">
               <div class="w-max bg-[#0CE07A] rounded-lg text-white">
-                <IconVaccine class="m-3" size="20"/>
+                <IconVaccine
+                  class="m-3"
+                  size="20" />
               </div>
               <p class="font-semibold">Детокс</p>
               <img
-                  alt=""
-                  class="absolute right-0 bottom-0"
-                  src="@/assets/img/servicesVectors/5.png"
-              />
+                alt=""
+                class="absolute right-0 bottom-0"
+                src="@/assets/img/servicesVectors/5.png" />
             </NuxtLink>
           </div>
-          <BannersCarousel/>
+          <BannersCarousel />
         </div>
         <div class="w-full md:w-1/4">
-          <div v-if="orders.result" class="p-5 border rounded-lg mb-6">
+          <div
+            v-if="orders.result"
+            class="p-5 border rounded-lg mb-6">
             <p class="text-2xl font-bold text-mainColor mb-5">
               Записи к услугам
             </p>
-            <div v-if="orders.result.length === 0" class="py-16">
-              <IconFileSearch class="text-[#DFDFDF] mx-auto" size="140"/>
+            <div
+              v-if="orders.result.length === 0"
+              class="py-16">
+              <IconFileSearch
+                class="text-[#DFDFDF] mx-auto"
+                size="140" />
               <p class="text-[#DFDFDF] text-center">У вас пока нет записей</p>
             </div>
             <div v-else>
-              <TableComponent
-                  :columns="columns"
-                  :numbered="true"
-                  :source="orders.result"
-                  @refreshTable="orders.listOrders()"
-              >
+              <AppTable
+                :columns="columns"
+                :data="orders?.result"
+                trClass="bg-[#fe2c3945]">
                 <template #default="{ row, column }">
                   <template v-if="column.name === 'Номер заявки'">
                     <div>
                       <NuxtLink
-                          :to="'/profile/orders/' + row.id"
-                          class="text-primary50 cursor-pointer"
-                      >
+                        :to="'/profile/orders/' + row.id"
+                        class="text-primary50 cursor-pointer">
                         {{ row.id }}
                       </NuxtLink>
                     </div>
                   </template>
                   <template v-if="column.fname === 'status'">
-                    <div
-                        class="flex items-center bg-yellow-200 w-max p-2 rounded-md"
-                    >
+                    <div class="flex items-center bg-yellow-200 w-max p-2 rounded-md">
                       <p class="flex gap-2 items-center text-sm w-max">
                         {{ row.status }}
                       </p>
                     </div>
                   </template>
                 </template>
-              </TableComponent>
+              </AppTable>
             </div>
           </div>
-          <div v-else class="p-5 border rounded-lg mb-6">
+          <div
+            v-else
+            class="p-5 border rounded-lg mb-6">
             <p class="text-2xl font-bold text-mainColor mb-5">
               Записи к услугам
             </p>
@@ -160,7 +161,9 @@ onMounted(async () => {
               Результаты анализов
             </p>
             <div class="py-16">
-              <IconMicroscope class="text-[#DFDFDF] mx-auto" size="140"/>
+              <IconMicroscope
+                class="text-[#DFDFDF] mx-auto"
+                size="140" />
               <p class="text-[#DFDFDF] text-center">
                 У вас пока нет результатов
               </p>

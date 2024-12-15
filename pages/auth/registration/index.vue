@@ -171,12 +171,12 @@ const sendForm = async () => {
                 v-if="passwordFieldType === 'password'"
                 class="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
                 @click="switchVisibility" />
-              <p
-                v-if="v$.password.$error"
-                class="text-red-500 text-xs">
-                Пожалуйста заполните данное поле
-              </p>
             </div>
+            <p
+              v-if="v$.password.$error"
+              class="text-red-500 text-xs">
+              Пожалуйста заполните данное поле
+            </p>
           </div>
           <ul class="list-disc pl-5 mb-5">
             <li :class="{ 'text-green-400': form.password.length >= 8 }">
@@ -209,12 +209,12 @@ const sendForm = async () => {
                 v-if="passwordFieldConfirmType === 'password'"
                 class="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
                 @click="switchVisibilityConfirm" />
-              <p
-                v-if="v$.password_confirmation.$error"
-                class="text-red-500 text-xs">
-                Пожалуйста заполните данное поле
-              </p>
             </div>
+            <p
+              v-if="v$.password_confirmation.$error"
+              class="text-red-500 text-xs">
+              Пожалуйста заполните данное поле
+            </p>
           </div>
           <button class="bg-mainColor py-3 text-white rounded-md w-full">
             Зарегистрироваться

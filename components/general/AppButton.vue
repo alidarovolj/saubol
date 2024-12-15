@@ -1,4 +1,7 @@
 <script setup>
+import { useAttrs } from 'vue';
+
+const attrs = useAttrs()
 
 const props = defineProps({
  variant: {
@@ -31,13 +34,16 @@ const props = defineProps({
 <template>
   <NuxtLink
     v-if="to"
-    :class="{
-      'button-primary': props.variant === 'primary',
-      'button-outlined': props.variant === 'outlined',
-      'button-secondary': props.variant === 'secondary',
-    }"
-    :to="to"
-    class="w-full button py-[14px] relative rounded-lg cursor-pointer flex justify-center">
+    v-bind="attrs"
+    :class="[
+      'w-full button py-2 lg:py-3 relative rounded-lg cursor-pointer flex justify-center items-center',
+      {
+        'button-primary': props.variant === 'primary',
+        'button-outlined': props.variant === 'outlined',
+        'button-secondary': props.variant === 'secondary'
+      },
+      attrs.class]"
+    :to="to">
     <span :class="{'invisible': props.loading}">
       <slot />
     </span>
@@ -47,13 +53,16 @@ const props = defineProps({
   </NuxtLink>
   <button
     v-else
+    v-bind="attrs"
     :type="props.type"
-    :class="{
-      'button-primary': props.variant === 'primary',
-      'button-outlined': props.variant === 'outlined',
-      'button-secondary': props.variant === 'secondary',
-    }"
-    class="w-full button py-[14px] relative rounded-lg cursor-pointer flex justify-center items-center">
+    :class="[
+      'w-full button py-2 lg:py-3 relative rounded-lg cursor-pointer flex justify-center items-center',
+      {
+        'button-primary': props.variant === 'primary',
+        'button-outlined': props.variant === 'outlined',
+        'button-secondary': props.variant === 'secondary'
+      },
+      attrs.class]">
     <span :class="{'invisible': props.loading}">
       <slot />
     </span>

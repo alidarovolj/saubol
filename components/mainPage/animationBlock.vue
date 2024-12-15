@@ -1,29 +1,34 @@
 <template>
   <client-only>
     <div>
-      <div id="bound-two" ref="boundRef" class="scroll-bound">
+      <div
+        id="bound-two"
+        ref="boundRef"
+        class="scroll-bound">
         <div class="content">
           <video
-              ref="videoRef1"
-              autoplay
-              class="block md:hidden"
-              muted
-              playsinline
-              preload
-              width="600"
-          >
-            <source src="@/assets/videos/mobVideo.mp4" type="video/mp4"/>
+            ref="videoRef1"
+            autoplay
+            class="block md:hidden"
+            muted
+            playsinline
+            preload
+            width="600">
+            <source
+              src="@/assets/videos/mobVideo.mp4"
+              type="video/mp4" />
             <p>Your user agent does not support the HTML5 Video element.</p>
           </video>
           <video
-              ref="videoRef2"
-              class="hidden md:block"
-              muted
-              playsinline
-              preload
-              width="600"
-          >
-            <source src="@/assets/videos/mainPage.mp4" type="video/mp4"/>
+            ref="videoRef2"
+            class="hidden md:block"
+            muted
+            playsinline
+            preload
+            width="600">
+            <source
+              src="@/assets/videos/mainPage.mp4"
+              type="video/mp4" />
             <p>Your user agent does not support the HTML5 Video element.</p>
           </video>
         </div>
@@ -33,98 +38,98 @@
 </template>
 
 <script>
-import {onMounted, onUnmounted, ref} from "vue";
+import { onMounted, onUnmounted, ref } from 'vue';
 
 export default {
-  setup() {
-    const boundRef = ref(null);
-    const videoRef1 = ref(null);
-    const videoRef2 = ref(null);
+ setup() {
+  const boundRef = ref(null);
+  const videoRef1 = ref(null);
+  const videoRef2 = ref(null);
 
-    let animationFrameId = null;
-    let isMobile = false;
+  let animationFrameId = null;
+  let isMobile = false;
 
-    const scrollVideo = () => {
-      if (animationFrameId !== null) {
-        cancelAnimationFrame(animationFrameId);
-      }
+  const scrollVideo = () => {
+   if (animationFrameId !== null) {
+    cancelAnimationFrame(animationFrameId);
+   }
 
-      animationFrameId = requestAnimationFrame(() => {
-        const videoRef = window.innerWidth >= 1024 ? videoRef2 : videoRef1; // Choose based on screen size
+   animationFrameId = requestAnimationFrame(() => {
+    const videoRef = window.innerWidth >= 1024 ? videoRef2 : videoRef1; // Choose based on screen size
 
-        if (videoRef.value && videoRef.value.duration) {
-          const boundRect = boundRef.value.getBoundingClientRect();
-          const scrollBoundTop = boundRect.top + window.pageYOffset;
-          const scrollBoundBottom = scrollBoundTop + boundRect.height;
+    if (videoRef.value && videoRef.value.duration) {
+     const boundRect = boundRef.value.getBoundingClientRect();
+     const scrollBoundTop = boundRect.top + window.pageYOffset;
+     const scrollBoundBottom = scrollBoundTop + boundRect.height;
 
-          if (
-              window.pageYOffset >= scrollBoundTop &&
-              window.pageYOffset < scrollBoundBottom
-          ) {
-            const rawPercentScrolled =
-                (window.pageYOffset - scrollBoundTop) /
-                (boundRect.height - window.innerHeight);
-            const percentScrolled = Math.min(
-                Math.max(rawPercentScrolled, 0),
-                1
-            );
-            videoRef.value.currentTime =
-                videoRef.value.duration * percentScrolled;
-          }
-        }
-      });
+     if (
+       window.pageYOffset >= scrollBoundTop &&
+       window.pageYOffset < scrollBoundBottom
+     ) {
+      const rawPercentScrolled =
+        (window.pageYOffset - scrollBoundTop) /
+        (boundRect.height - window.innerHeight);
+      const percentScrolled = Math.min(
+        Math.max(rawPercentScrolled, 0),
+        1
+      );
+      videoRef.value.currentTime =
+        videoRef.value.duration * percentScrolled;
+     }
+    }
+   });
+  };
+
+  onMounted(() => {
+   // Detect mobile device only after the component has mounted
+   isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+   // Mobile-specific interaction to ensure video control works
+   if (isMobile) {
+    const triggerInteraction = () => {
+     window.addEventListener('scroll', scrollVideo);
+     window.removeEventListener('touchstart', triggerInteraction);
+     window.removeEventListener('click', triggerInteraction);
     };
 
-    onMounted(() => {
-      // Detect mobile device only after the component has mounted
-      isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    window.addEventListener('touchstart', triggerInteraction);
+    window.addEventListener('click', triggerInteraction);
+   } else {
+    // For desktop, no need for interaction, just directly handle scroll
+    window.addEventListener('scroll', scrollVideo);
+   }
+  });
 
-      // Mobile-specific interaction to ensure video control works
-      if (isMobile) {
-        const triggerInteraction = () => {
-          window.addEventListener("scroll", scrollVideo);
-          window.removeEventListener("touchstart", triggerInteraction);
-          window.removeEventListener("click", triggerInteraction);
-        };
+  onUnmounted(() => {
+   window.removeEventListener('scroll', scrollVideo);
+  });
 
-        window.addEventListener("touchstart", triggerInteraction);
-        window.addEventListener("click", triggerInteraction);
-      } else {
-        // For desktop, no need for interaction, just directly handle scroll
-        window.addEventListener("scroll", scrollVideo);
-      }
-    });
-
-    onUnmounted(() => {
-      window.removeEventListener("scroll", scrollVideo);
-    });
-
-    return {
-      boundRef,
-      videoRef1,
-      videoRef2,
-    };
-  },
+  return {
+   boundRef,
+   videoRef1,
+   videoRef2,
+  };
+ },
 };
 </script>
 
 <style scoped>
 .scroll-bound {
-  height: 500vh;
+ height: 400vh;
 }
 
 .scroll-bound .content {
-  height: 100vh;
-  width: 100%;
-  position: sticky;
-  top: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+ height: 80vh;
+ width: 100%;
+ position: sticky;
+ top: 0;
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
 }
 
 .scroll-bound video {
-  width: 80%;
+ width: 80%;
 }
 </style>

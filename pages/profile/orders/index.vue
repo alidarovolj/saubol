@@ -81,11 +81,11 @@ useHead({
           У вас нет заказов
         </p>
         <div v-else>
-          <TableComponent
+          <AppTable
             :columns="columns"
-            :numbered="true"
-            :source="orders.result"
-            @refreshTable="orders.listOrders()">
+            :data="orders?.result"
+            :wrapped="true"
+            trClass="bg-[#fe2c3945]">
             <template #default="{ row, column }">
               <template v-if="column.name === 'Номер заявки'">
                 <div>
@@ -104,7 +104,7 @@ useHead({
                 </div>
               </template>
             </template>
-          </TableComponent>
+          </AppTable>
         </div>
       </div>
       <Spinner v-else />

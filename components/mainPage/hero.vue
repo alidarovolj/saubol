@@ -44,7 +44,7 @@ onUnmounted(() => {
           </p>
           <!--         bg-mainColor !text-white font-semibold py-3 px-20 w-full md:w-max block rounded-lg text-center-->
           <AppButton
-            class="px-20 w-max"
+            class="px-20 md:w-max"
             to="/">
             Заказать услугу
           </AppButton>

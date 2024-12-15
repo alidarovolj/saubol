@@ -128,12 +128,12 @@ const sendForm = async () => {
                 v-if="passwordFieldType === 'password'"
                 class="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
                 @click="switchVisibility" />
-              <p
-                v-if="v$.password.$error"
-                class="text-red-500 text-xs">
-                Пожалуйста заполните данное поле
-              </p>
             </div>
+            <p
+              v-if="v$.password.$error"
+              class="text-red-500 text-xs">
+              Пожалуйста заполните данное поле
+            </p>
           </div>
           <div class="flex justify-end mb-5">
             <NuxtLink

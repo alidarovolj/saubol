@@ -1,8 +1,8 @@
 <script setup>
-import {useAddressesStore} from "~/store/addresses.js";
-import {useVuelidate} from "@vuelidate/core";
-import {required} from "@vuelidate/validators";
-import {IconMinus, IconPlus} from "@tabler/icons-vue";
+import { useAddressesStore } from '~/store/addresses.js';
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import { IconMinus, IconPlus } from '@tabler/icons-vue';
 
 const addresses = useAddressesStore();
 
@@ -35,11 +35,11 @@ const form = ref({
 
 const v$ = useVuelidate(
     {
-      date: {required},
-      days_quantity: {required},
-      good_id: {required},
-      price: {required},
-      address_id: {required},
+      date: { required },
+      days_quantity: { required },
+      good_id: { required },
+      price: { required },
+      address_id: { required },
     },
     form
 );
@@ -55,17 +55,17 @@ const sendForm = async () => {
 
   if (v$.value.$error) {
     loading.value = false;
-    notify(false, "Заполните все поля");
+    notify(false, 'Заполните все поля');
     return;
   }
 
   await inventory.cartInventory(form.value);
   if (inventory.resultInventoryCart) {
     await cart.cartList();
-    notify(true, "Услуга успешно добавлена в корзину");
+    notify(true, 'Услуга успешно добавлена в корзину');
     loading.value = false;
   } else {
-    notify(false, "Ошибка при добавлении услуги в корзину");
+    notify(false, 'Ошибка при добавлении услуги в корзину');
     loading.value = false;
   }
 };
@@ -74,9 +74,8 @@ const sendForm = async () => {
 <template>
   <div>
     <div
-        class="w-full bg-white rounded-lg p-5"
-        style="box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.05)"
-    >
+      class="w-full bg-white rounded-lg p-5"
+      style="box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.05)">
       <div class="block mb-4">
         <p class="text-mainColor font-semibold text-base mb-2">
           {{ props.service.name }}
@@ -85,23 +84,19 @@ const sendForm = async () => {
           {{ props.service.category.name }}
         </p>
         <img
-            v-if="props.service.img"
-            :src="props.service.img"
-            alt=""
-            class="rounded-md h-full w-1/2 mx-auto mb-3"
-        />
+          v-if="props.service.img"
+          :src="props.service.img"
+          alt=""
+          class="rounded-md h-full w-1/2 mx-auto mb-3" />
         <img
-            v-else
-            alt=""
-            class="rounded-md h-full w-1/2 mx-auto mb-3"
-            src="@/assets/img/services/male_doctor.png"
-        />
+          v-else
+          alt=""
+          class="rounded-md h-full w-1/2 mx-auto mb-3"
+          src="@/assets/img/services/male_doctor.png" />
         <div class="block w-full">
           <div class="flex items-center justify-between mb-3">
             <p class="text-sm mb-2">Цена</p>
-            <p
-                class="px-7 py-3 bg-[#ffe7e7] rounded-md text-center w-max font-bold text-mainColor"
-            >
+            <p class="px-7 py-3 bg-[#ffe7e7] rounded-md text-center w-max font-bold text-mainColor">
               <span>
                 {{ form.price }}
               </span>
@@ -113,18 +108,16 @@ const sendForm = async () => {
           <p class="text-sm mb-2">Количество дней</p>
           <div class="flex gap-2">
             <div
-                v-if="form.days_quantity > 1"
-                class="bg-mainColor text-white p-1 rounded-md cursor-pointer"
-            >
-              <IconMinus @click="form.days_quantity = form.days_quantity - 1"/>
+              v-if="form.days_quantity > 1"
+              class="bg-mainColor text-white p-1 rounded-md cursor-pointer">
+              <IconMinus @click="form.days_quantity = form.days_quantity - 1" />
             </div>
             <input
-                v-model="form.days_quantity"
-                class="bg-[#ffe7e7] rounded-md w-14 text-center"
-                type="text"
-            />
+              v-model="form.days_quantity"
+              class="bg-[#ffe7e7] rounded-md w-14 text-center"
+              type="text" />
             <div class="bg-mainColor text-white p-1 rounded-md cursor-pointer">
-              <IconPlus @click="form.days_quantity = form.days_quantity + 1"/>
+              <IconPlus @click="form.days_quantity = form.days_quantity + 1" />
             </div>
           </div>
         </div>
@@ -132,66 +125,60 @@ const sendForm = async () => {
       <div class="block mb-4">
         <p class="mb-1 text-sm">Дата</p>
         <input
-            v-model="form.date"
-            :class="[{ '!border-red-500': v$.date.$error }]"
-            class="px-3 py-3 border rounded-lg w-full"
-            type="date"
-        />
+          v-model="form.date"
+          :class="[{ '!border-red-500': v$.date.$error }]"
+          class="px-3 py-3 border rounded-lg w-full"
+          type="date" />
       </div>
-      <div v-if="addresses.resultAddresses" class="mb-4">
+      <div
+        v-if="addresses.resultAddresses"
+        class="mb-4">
         <p class="text-sm mb-3">
           Адресная книга <span class="text-red-500">*</span>
         </p>
         <div class="block md:flex justify-between gap-5 text-sm">
           <div class="relative w-full md:w-3/5 mb-2 md:mb-0">
             <select
-                v-model="form.address_id"
-                :class="{ 'border-red-500': v$.address_id.$error }"
-                class="px-3 py-3 border rounded-lg w-full"
-            >
+              v-model="form.address_id"
+              :class="{ 'border-red-500': v$.address_id.$error }"
+              class="px-3 py-3 border rounded-lg w-full">
               <option :value="null">Выберите адрес</option>
               <option
-                  v-for="(it, ind) of addresses.resultAddresses.data"
-                  :key="ind"
-                  :value="it.address.id"
-              >
+                v-for="(it, ind) of addresses.resultAddresses.data"
+                :key="ind"
+                :value="it.address.id">
                 {{ it.address.title }}
               </option>
             </select>
           </div>
-          <button
-              class="border border-mainColor text-sm w-full md:w-2/5 block rounded-lg text-mainColor py-2 md:py-0"
-              @click="modals.showModal('createAddress')"
-          >
+          <AppButton
+            variant="outlined"
+            class="text-sm w-full md:w-2/5 py-2 md:py-0"
+            @click="modals.showModal('createAddress')">
             Добавить новый адрес
-          </button>
+          </AppButton>
         </div>
       </div>
       <div class="flex gap-3 border-t border-[#ffe7e7] pt-4 text-sm">
-        <NuxtLink
-            :to="'/services/inventory/' + props.service.id"
-            class="block w-full py-3 rounded-lg text-mainColor bg-[#ffe7e7] text-center"
-        >
+        <AppButton
+          variant="secondary"
+          :to="`/services/inventory/${props.service.id}`">
           Подробнее
-        </NuxtLink>
-        <p
-            v-if="user.result && !loading"
-            class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer"
-            @click="sendForm"
-        >
+        </AppButton>
+        <AppButton
+          v-if="user.result && !loading"
+          @click="sendForm">
           Заказать услугу
-        </p>
+        </AppButton>
         <p
-            v-else-if="user.result && loading"
-            class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer"
-        >
+          v-else-if="user.result && loading"
+          class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer">
           <span class="spinner"></span>
         </p>
         <button
-            v-else
-            class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer"
-            @click="modals.showModal('loginModal')"
-        >
+          v-else
+          class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer"
+          @click="modals.showModal('loginModal')">
           Заказать услугу
         </button>
       </div>

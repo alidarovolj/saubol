@@ -1,13 +1,13 @@
 <script setup>
-import {useAddressesStore} from "~/store/addresses.js";
-import {useVuelidate} from "@vuelidate/core";
-import {required} from "@vuelidate/validators";
-import {useNursesStore} from "~/store/nurses.js";
+import { useAddressesStore } from '~/store/addresses.js';
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import { useNursesStore } from '~/store/nurses.js';
 
 const addresses = useAddressesStore();
 
 const user = useUserStore();
-const {result} = storeToRefs(user);
+const { result } = storeToRefs(user);
 const modals = useModalsStore();
 const nurse = useNursesStore();
 const cart = useCartStore();
@@ -30,9 +30,9 @@ const type = ref(1);
 
 const form = ref({
   date: {
-    day: "",
-    start: "",
-    end: "",
+    day: '',
+    start: '',
+    end: '',
   },
   service_id: null,
   price: null,
@@ -42,13 +42,13 @@ const form = ref({
 const v$ = useVuelidate(
     {
       date: {
-        day: {required},
-        start: {required},
-        end: {required},
+        day: { required },
+        start: { required },
+        end: { required },
       },
-      service_id: {required},
-      price: {required},
-      address_id: {required},
+      service_id: { required },
+      price: { required },
+      address_id: { required },
     },
     form
 );
@@ -78,17 +78,17 @@ const sendForm = async () => {
 
   if (v$.value.$error) {
     loading.value = false;
-    notify(false, "Заполните все поля");
+    notify(false, 'Заполните все поля');
     return;
   }
 
   await nurse.cartNurses(form.value);
   if (nurse.resultNurseCart) {
     await cart.cartList();
-    notify(true, "Услуга успешно добавлена в корзину");
+    notify(true, 'Услуга успешно добавлена в корзину');
     loading.value = false;
   } else {
-    notify(false, "Ошибка при добавлении услуги в корзину");
+    notify(false, 'Ошибка при добавлении услуги в корзину');
     loading.value = false;
   }
 };
@@ -110,22 +110,19 @@ watch(form.value, (val) => {
 <template>
   <div>
     <div
-        class="w-full bg-white rounded-lg p-5"
-        style="box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.05)"
-    >
+      class="w-full bg-white rounded-lg p-5"
+      style="box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.05)">
       <div class="flex items-center mb-4 gap-5">
         <img
-            v-if="props.service.img"
-            :src="props.service.img"
-            alt=""
-            class="rounded-md h-full w-[130px]"
-        />
+          v-if="props.service.img"
+          :src="props.service.img"
+          alt=""
+          class="rounded-md h-full w-[130px]" />
         <img
-            v-else
-            alt=""
-            class="rounded-md h-full w-[130px]"
-            src="@/assets/img/services/male_doctor.png"
-        />
+          v-else
+          alt=""
+          class="rounded-md h-full w-[130px]"
+          src="@/assets/img/services/male_doctor.png" />
         <div class="block md:flex items-center justify-between w-full">
           <div>
             <p class="text-sm md:text-xl font-semibold mb-3">
@@ -139,25 +136,22 @@ watch(form.value, (val) => {
               <div class="flex flex-col gap-2">
                 <div class="flex items-center text-sm gap-3">
                   <input
-                      v-model="form.service_id"
-                      :value="props.service.id"
-                      name="service"
-                      type="radio"
-                  />
+                    v-model="form.service_id"
+                    :value="props.service.id"
+                    name="service"
+                    type="radio" />
                   <p :class="[{ 'text-red-500': v$.service_id.$error }]">
                     Стандарт
                   </p>
                 </div>
                 <div
-                    v-for="(it, ind) of props.service.premium_service"
-                    class="flex items-center text-sm gap-3"
-                >
+                  v-for="(it, ind) of props.service.premium_service"
+                  class="flex items-center text-sm gap-3">
                   <input
-                      v-model="form.service_id"
-                      :value="it.id"
-                      name="service"
-                      type="radio"
-                  />
+                    v-model="form.service_id"
+                    :value="it.id"
+                    name="service"
+                    type="radio" />
                   <p :class="[{ 'text-red-500': v$.service_id.$error }]">
                     {{ it.name }}
                   </p>
@@ -167,9 +161,7 @@ watch(form.value, (val) => {
           </div>
           <div>
             <p class="text-sm mb-2">Цена</p>
-            <p
-                class="px-7 py-3 bg-[#ffe7e7] rounded-md text-center w-max font-bold text-mainColor"
-            >
+            <p class="px-7 py-3 bg-[#ffe7e7] rounded-md text-center w-max font-bold text-mainColor">
               <span>
                 {{ form.price }}
               </span>
@@ -184,15 +176,14 @@ watch(form.value, (val) => {
           <div class="flex justify-between">
             <!--            :class="{ 'bg-gray-200 cursor-not-allowed' : props.doctor.free_time[0].length === 0 }"-->
             <div
-                v-for="(it, ind) of props.service.dates"
-                :key="ind"
-                :class="[
+              v-for="(it, ind) of props.service.dates"
+              :key="ind"
+              :class="[
                 { 'bg-mainColor text-white': pickedDay === ind },
                 { 'border-red-500': v$.date.day.$error },
               ]"
-                class="cursor-pointer transition-all py-1 px-3 border w-max rounded text-sm md:text-base text-center"
-                @click="setDay(ind)"
-            >
+              class="cursor-pointer transition-all py-1 px-3 border w-max rounded text-sm md:text-base text-center"
+              @click="setDay(ind)">
               <p class="text-xs">{{ it.day_number }}</p>
               <p>{{ it.day_of_week }}</p>
             </div>
@@ -201,77 +192,70 @@ watch(form.value, (val) => {
         <div class="w-full md:w-2/5">
           <p class="mb-1">Время</p>
           <select
-              id=""
-              :class="{ 'border-red-500': v$.date.start.$error }"
-              class="px-3 py-3 border rounded-lg w-full"
-              name=""
-              @change="setTime"
-          >
+            id=""
+            :class="{ 'border-red-500': v$.date.start.$error }"
+            class="px-3 py-3 border rounded-lg w-full"
+            name=""
+            @change="setTime">
             <option :value="null">Выберите время</option>
             <option
-                v-for="(it, ind) of props.service.times"
-                :key="ind"
-                :value="it"
-            >
+              v-for="(it, ind) of props.service.times"
+              :key="ind"
+              :value="it">
               {{ it }}
             </option>
           </select>
         </div>
       </div>
-      <div v-if="addresses.resultAddresses" class="mb-4">
+      <div
+        v-if="addresses.resultAddresses"
+        class="mb-4">
         <p class="text-sm mb-3">
           Адресная книга <span class="text-red-500">*</span>
         </p>
         <div class="block md:flex justify-between gap-5">
           <div class="relative w-full md:w-3/5 mb-2 md:mb-0">
             <select
-                v-model="form.address_id"
-                :class="{ 'border-red-500': v$.address_id.$error }"
-                class="px-3 py-3 border rounded-lg w-full"
-            >
+              v-model="form.address_id"
+              :class="{ 'border-red-500': v$.address_id.$error }"
+              class="px-3 py-3 border rounded-lg w-full">
               <option :value="null">Выберите адрес</option>
               <option
-                  v-for="(it, ind) of addresses.resultAddresses.data"
-                  :key="ind"
-                  :value="it.address.id"
-              >
+                v-for="(it, ind) of addresses.resultAddresses.data"
+                :key="ind"
+                :value="it.address.id">
                 {{ it.address.title }}
               </option>
             </select>
           </div>
-          <button
-              class="border border-mainColor text-sm w-full md:w-2/5 block rounded-lg text-mainColor py-2 md:py-0"
-              @click="modals.showModal('createAddress')"
-          >
+          <AppButton
+            variant="outlined"
+            class="text-sm w-full md:w-2/5 py-2 md:py-0"
+            @click="modals.showModal('createAddress')">
             Добавить новый адрес
-          </button>
+          </AppButton>
         </div>
       </div>
       <div class="flex gap-6 border-t border-[#ffe7e7] pt-4">
-        <NuxtLink
-            :to="'/services/med-services/' + props.service.id"
-            class="block w-full py-3 rounded-lg text-mainColor bg-[#ffe7e7] text-center"
-        >
+        <AppButton
+          variant="secondary"
+          :to="`/services/med-services/${props.service.id}`">
           Подробнее
-        </NuxtLink>
-        <p
-            v-if="user.result && !loading"
-            class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer"
-            @click="sendForm"
-        >
+        </AppButton>
+        <AppButton
+          v-if="user.result && !loading"
+          @click="sendForm">
           Заказать услугу
-        </p>
+        </AppButton>
         <p
-            v-else-if="user.result && loading"
-            class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer"
-        >
+          v-else-if="user.result && loading"
+          class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer">
           <span class="spinner"></span>
         </p>
         <button
-            v-else
-            class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer"
-            @click="modals.showModal('loginModal')"
-        >
+          v-else
+          class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer"
+          @click="modals.showModal('loginModal')">
           Заказать услугу
         </button>
       </div>

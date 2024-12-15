@@ -36,36 +36,12 @@ const links = ref([
 const category_id = ref()
 
 const categories = ref([
-  {
-    id: '',
-    title: 'Все услуги',
-    icon: IconHeartRateMonitor
-  },
-  {
-    id: 1,
-    title: 'Уколы',
-    icon: IconVaccine
-  },
-  {
-    id: 2,
-    title: 'Капельницы',
-    icon: IconVaccineBottle
-  },
-  {
-    id: 3,
-    title: 'Перевязка',
-    icon: IconBandage
-  },
-  {
-    id: 4,
-    title: 'Пакеты процедур',
-    icon: IconFirstAidKit
-  },
-  {
-    id: 5,
-    title: 'Дополнительные услуги',
-    icon: IconEmergencyBed
-  },
+  { id:'', title: 'Все услуги', icon: IconHeartRateMonitor },
+  { id: 1, title: 'Уколы', icon: IconVaccine },
+  { id: 2, title: 'Капельницы', icon: IconVaccineBottle },
+  { id: 3, title: 'Перевязка', icon: IconBandage },
+  { id: 4, title: 'Пакеты процедур', icon: IconFirstAidKit },
+  { id: 5, title: 'Дополнительные услуги', icon: IconEmergencyBed },
 ])
 
 watch(
@@ -133,8 +109,8 @@ useHead({
           <button
             v-for="category in categories"
             :key="category.id"
-            :class="{'bg-mainColor text-white ': category_id === category.id}"
-            class="w-full md:w-1/6 flex items-center cursor-pointer transition-all py-3 rounded-lg text-center justify-center"
+            :class="{'bg-mainColor text-white': category_id === category.id}"
+            class="w-full md:w-1/6 flex items-center cursor-pointer transition-all py-3 rounded-lg text-center justify-center hover:bg-mainColor hover:bg-opacity-70 hover:text-white"
             @click="() => { navigateTo({
               query:{
                 ...$route.query,

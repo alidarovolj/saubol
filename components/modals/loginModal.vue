@@ -1,16 +1,16 @@
 <script setup>
-import {useUserStore} from "~/store/user.js";
-import {useVuelidate} from "@vuelidate/core";
-import {required} from "@vuelidate/validators";
-import {useAuthStore} from "~/store/auth.js";
-import {vMaska} from "maska/vue";
+import { useUserStore } from '~/store/user.js';
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import { useAuthStore } from '~/store/auth.js';
+import { vMaska } from 'maska/vue';
 
-const passwordFieldType = ref("password");
+const passwordFieldType = ref('password');
 
 const runtimeConfig = useRuntimeConfig();
 const auth = useAuthStore();
 const user = useUserStore();
-const {result} = storeToRefs(user);
+const { result } = storeToRefs(user);
 const loading = ref(false);
 const addresses = useAddressesStore();
 const modals = useModalsStore();
@@ -19,21 +19,21 @@ const sentCode = ref(false);
 
 const switchVisibility = () => {
   passwordFieldType.value =
-      passwordFieldType.value === "password" ? "text" : "password";
+      passwordFieldType.value === 'password' ? 'text' : 'password';
 };
 
 const form = ref({
-  login: "",
+  login: '',
 });
 
 const formCode = ref({
-  phone_number: "",
-  code: "",
+  phone_number: '',
+  code: '',
 });
 
 const v$ = useVuelidate(
     {
-      login: {required},
+      login: { required },
     },
     form
 );
@@ -52,10 +52,10 @@ const sendForm = async () => {
     return;
   }
 
-  const {data, error} = await useFetch(
+  const { data, error } = await useFetch(
       `/auth/user/send-message?phone_number=${form.value.login}`,
       {
-        method: "GET",
+        method: 'GET',
         baseURL: runtimeConfig.public.API_LINK,
         lazy: true,
       }
@@ -64,9 +64,9 @@ const sendForm = async () => {
   if (data.value) {
     loading.value = false;
     sentCode.value = true;
-    notify(true, "Код на ваш номер успешно отправлен!");
+    notify(true, 'Код на ваш номер успешно отправлен!');
   } else {
-    notify(false, "An error has occurred");
+    notify(false, 'An error has occurred');
     loading.value = false;
   }
 };
@@ -75,8 +75,8 @@ const sendCode = async () => {
   loading.value = true;
   formCode.value.phone_number = form.value.login;
 
-  const {data, error} = await useFetch(`/auth/login`, {
-    method: "POST",
+  const { data, error } = await useFetch('/auth/login', {
+    method: 'POST',
     baseURL: runtimeConfig.public.API_LINK,
     body: JSON.stringify(formCode.value),
     lazy: true,
@@ -90,9 +90,9 @@ const sendCode = async () => {
     loading.value = false;
     sentCode.value = true;
     modals.modal.show = false;
-    notify(true, "Вы успешно авторизовались!");
+    notify(true, 'Вы успешно авторизовались!');
   } else {
-    notify(false, "An error has occurred");
+    notify(false, 'An error has occurred');
     loading.value = false;
   }
 };
@@ -101,79 +101,93 @@ const sendCode = async () => {
 <template>
   <div>
     <form
-        v-if="!sentCode"
-        class="w-full mx-auto px-0 relative z-20"
-        @submit.prevent="sendForm"
-    >
+      v-if="!sentCode"
+      class="w-full mx-auto px-0 relative z-20"
+      @submit.prevent="sendForm">
       <NuxtLink
-          class="w-max mx-auto flex justify-center items-center gap-2 mb-10"
-          to="/"
-      >
-        <img alt="" class="w-auto h-7 md:h-12" src="@/assets/img/logo.png"/>
+        class="w-max mx-auto flex justify-center items-center gap-2 mb-10"
+        to="/">
+        <img
+          alt=""
+          class="w-auto h-7 md:h-12"
+          src="@/assets/img/logo.png" />
         <p class="text-3xl font-bold text-black">Saubol</p>
       </NuxtLink>
       <div class="mb-5">
         <p class="text-sm mb-1">Телефон</p>
         <input
-            v-model="form.login"
-            v-maska
-            :class="{ 'border-red-500': v$.login.$error }"
-            class="w-full border border-[#E5E5E5] rounded-lg px-3 py-2"
-            data-maska="+7 (###) ###-##-##"
-            placeholder="Введите телефон"
-            type="text"
-        />
-        <p v-if="v$.login.$error" class="text-red-500 text-xs">
+          v-model="form.login"
+          v-maska
+          :class="{ 'border-red-500': v$.login.$error }"
+          class="w-full border border-[#E5E5E5] rounded-lg px-3 py-2"
+          data-maska="+7 (###) ###-##-##"
+          placeholder="Введите телефон"
+          type="text" />
+        <p
+          v-if="v$.login.$error"
+          class="text-red-500 text-xs">
           Пожалуйста заполните данное поле
         </p>
       </div>
       <div class="flex justify-between mb-5">
-        <NuxtLink class="text-mainColor text-sm" to="/auth/registration">
+        <NuxtLink
+          class="text-mainColor text-sm"
+          to="/auth/registration">
           Перейти к регистрации
         </NuxtLink>
-        <NuxtLink class="text-mainColor text-sm text-end" to="/auth/login">
+        <NuxtLink
+          class="text-mainColor text-sm text-end"
+          to="/auth/login">
           Забыли пароль?
         </NuxtLink>
       </div>
-      <button class="bg-mainColor py-3 text-white rounded-md w-full">
+      <AppButton
+        type="submit"
+        class="bg-mainColor py-3 text-white rounded-md w-full">
         Отправить код
-      </button>
+      </AppButton>
     </form>
     <form
-        v-else
-        class="w-full mx-auto px-0 relative z-20"
-        @submit.prevent="sendCode"
-    >
+      v-else
+      class="w-full mx-auto px-0 relative z-20"
+      @submit.prevent="sendCode">
       <NuxtLink
-          class="flex justify-center items-center gap-2 mr-5 md:mr-0 mb-10"
-          to="/"
-      >
-        <img alt="" class="w-auto h-7 md:h-12" src="@/assets/img/logo.png"/>
+        class="flex justify-center items-center gap-2 mr-5 md:mr-0 mb-10"
+        to="/">
+        <img
+          alt=""
+          class="w-auto h-7 md:h-12"
+          src="@/assets/img/logo.png" />
         <p class="text-3xl font-bold text-black">Saubol</p>
       </NuxtLink>
       <div class="mb-5">
         <p class="text-sm mb-1">Код</p>
         <input
-            v-model="formCode.code"
-            class="w-full border border-[#E5E5E5] rounded-lg px-3 py-2"
-            placeholder="Введите телефон"
-            type="text"
-        />
+          v-model="formCode.code"
+          class="w-full border border-[#E5E5E5] rounded-lg px-3 py-2"
+          placeholder="Введите телефон"
+          type="text" />
       </div>
       <div class="flex justify-between mb-5">
-        <NuxtLink class="text-mainColor text-sm" to="/auth/registration">
+        <NuxtLink
+          class="text-mainColor text-sm"
+          to="/auth/registration">
           Перейти к регистрации
         </NuxtLink>
-        <NuxtLink class="text-mainColor text-sm text-end" to="/auth/login">
+        <NuxtLink
+          class="text-mainColor text-sm text-end"
+          to="/auth/login">
           Забыли пароль?
         </NuxtLink>
       </div>
-      <button class="bg-mainColor py-3 text-white rounded-md w-full">
+      <AppButton type="submit">
         Авторизоваться
-      </button>
+      </AppButton>
     </form>
   </div>
-  <form class="modal-backdrop" method="dialog">
+  <form
+    class="modal-backdrop"
+    method="dialog">
     <button>close</button>
   </form>
 </template>

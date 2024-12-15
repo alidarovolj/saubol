@@ -57,21 +57,21 @@ onMounted(async () => {
 
 <template>
   <div class="py-4 absolute top-0 left-0 z-50 w-full bg-white">
-    <div class="container mx-auto px-4 md:px-0">
+    <div class="container mx-auto px-4 lg:px-0">
       <div class="flex justify-between items-center">
         <div class="flex items-center gap-12 text-xl font-semibold">
           <div class="flex items-center">
             <NuxtLink
-              class="flex items-center gap-2 mr-5 md:mr-0"
+              class="flex items-center gap-2 mr-5 lg:mr-0"
               to="/">
               <img
                 alt=""
-                class="w-auto h-7 md:h-12"
+                class="w-auto h-7 lg:h-12"
                 src="@/assets/img/logo.png" />
               <p class="text-3xl font-bold text-black">Saubol</p>
             </NuxtLink>
           </div>
-          <div class="hidden md:flex gap-10">
+          <div class="hidden lg:flex gap-10">
             <NuxtLink to="/news"> Новости</NuxtLink>
             <div
               v-if="token"
@@ -108,8 +108,8 @@ onMounted(async () => {
             <NuxtLink to="/about"> О нас</NuxtLink>
           </div>
         </div>
-        <div class="flex items-center gap-3 md:gap-5">
-          <div class="p-2 text-mainColor border border-mainColor rounded-lg whitespace-nowrap hidden md:block">
+        <div class="flex items-center gap-3 lg:gap-5">
+          <div class="p-2 text-mainColor border border-mainColor rounded-lg whitespace-nowrap hidden lg:block">
             <NuxtLink
               v-if="result === false"
               to="/auth/login">
@@ -137,12 +137,20 @@ onMounted(async () => {
               </div>
             </div>
           </div>
-          <button
+          <AppButton
             v-if="result === false"
-            class="text-sm md:text-base border-2 border-mainColor !text-mainColor py-1 md:py-2 px-6 md:px-16 rounded-xl"
+            :loading="result === null"
+            class="px-20"
+            variant="outlined"
             @click="modals.showModal('loginModal')">
             Войти
-          </button>
+          </AppButton>
+          <!--          <button-->
+          <!--            v-if="result === false"-->
+          <!--            class="hover:bg-mainColor transition-all hover:text-white border-mainColor text-mainColor font-semibold py-3 px-20 block border rounded-xl text-center"-->
+          <!--            @click="modals.showModal('loginModal')">-->
+          <!--            Войти-->
+          <!--          </button>-->
           <div v-else-if="result === null">
             <div class="spinner p-2"></div>
           </div>
@@ -153,7 +161,7 @@ onMounted(async () => {
                   class="flex items-center gap-3"
                   role="button"
                   tabindex="0">
-                  <p class="hidden md:flex text-sm text-mainColor">
+                  <p class="hidden lg:flex text-sm text-mainColor">
                     {{ result.data.name }}
                   </p>
                   <div
@@ -180,7 +188,7 @@ onMounted(async () => {
               </div>
             </div>
           </div>
-          <div class="block md:hidden">
+          <div class="block lg:hidden">
             <div class="drawer">
               <input
                 id="my-drawer"
@@ -203,11 +211,11 @@ onMounted(async () => {
                 <div class="menu p-4 w-80 min-h-full bg-base-200 text-base-content flex flex-col justify-between h-screen">
                   <div>
                     <NuxtLink
-                      class="flex items-center gap-2 mr-5 md:mr-0 mb-10"
+                      class="flex items-center gap-2 mr-5 lg:mr-0 mb-10"
                       to="/">
                       <img
                         alt=""
-                        class="w-auto h-7 md:h-12"
+                        class="w-auto h-7 lg:h-12"
                         src="@/assets/img/logo.png" />
                       <p class="text-3xl font-bold text-black">Saubol</p>
                     </NuxtLink>

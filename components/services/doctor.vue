@@ -1,9 +1,9 @@
 <script setup>
-import {useUserStore} from "~/store/user.js";
-import {useVuelidate} from "@vuelidate/core";
-import {required} from "@vuelidate/validators";
-import {useAddressesStore} from "~/store/addresses.js";
-import {useStaffStore} from "~/store/staff.js";
+import { useUserStore } from '~/store/user.js';
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import { useAddressesStore } from '~/store/addresses.js';
+import { useStaffStore } from '~/store/staff.js';
 
 const props = defineProps({
   doctor: Object,
@@ -11,7 +11,7 @@ const props = defineProps({
 });
 
 const user = useUserStore();
-const {result} = storeToRefs(user);
+const { result } = storeToRefs(user);
 const addresses = useAddressesStore();
 const cart = useCartStore();
 const modals = useModalsStore();
@@ -25,7 +25,7 @@ const notify = (type, text) => {
 
 const loading = ref(false);
 
-const pickedDay = ref("");
+const pickedDay = ref('');
 
 const pickedTime = ref([]);
 
@@ -40,12 +40,12 @@ const form = ref({
 
 const v$ = useVuelidate(
     {
-      user_id: {required},
-      time_id: {required},
-      staff_id: {required},
-      service_id: {required},
-      price: {required},
-      address_id: {required},
+      user_id: { required },
+      time_id: { required },
+      staff_id: { required },
+      service_id: { required },
+      price: { required },
+      address_id: { required },
     },
     form
 );
@@ -68,17 +68,17 @@ const sendForm = async () => {
 
   if (v$.value.$error) {
     loading.value = false;
-    notify(false, "Заполните все поля");
+    notify(false, 'Заполните все поля');
     return;
   }
 
   await staff.setOrderDoctor(form.value);
   if (staff.resultOrderDoc) {
     await cart.cartList();
-    notify(true, "Услуга успешно добавлена в корзину");
+    notify(true, 'Услуга успешно добавлена в корзину');
     loading.value = false;
   } else {
-    notify(false, "Ошибка при добавлении услуги в корзину");
+    notify(false, 'Ошибка при добавлении услуги в корзину');
     loading.value = false;
   }
 };
@@ -105,30 +105,26 @@ watch(
 <template>
   <div>
     <div
-        class="w-full bg-white rounded-lg p-5"
-        style="box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.05)"
-    >
+      class="w-full bg-white rounded-lg p-5"
+      style="box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.05)">
       <div class="block md:flex justify-between items-center mb-4">
         <div class="flex items-center gap-5">
           <img
-              v-if="props.doctor.user.img"
-              :src="props.doctor.user.img"
-              alt=""
-              class="rounded-md h-full w-[130px]"
-          />
+            v-if="props.doctor.user.img"
+            :src="props.doctor.user.img"
+            alt=""
+            class="rounded-md h-full w-[130px]" />
           <div v-else>
             <img
-                v-if="props.doctor.is_female"
-                alt=""
-                class="rounded-md h-full w-[130px]"
-                src="@/assets/img/services/female_doctor.png"
-            />
+              v-if="props.doctor.is_female"
+              alt=""
+              class="rounded-md h-full w-[130px]"
+              src="@/assets/img/services/female_doctor.png" />
             <img
-                v-else
-                alt=""
-                class="rounded-md h-full w-[130px]"
-                src="@/assets/img/services/male_doctor.png"
-            />
+              v-else
+              alt=""
+              class="rounded-md h-full w-[130px]"
+              src="@/assets/img/services/male_doctor.png" />
           </div>
           <div>
             <p class="text-sm md:text-xl font-semibold mb-3">
@@ -137,9 +133,7 @@ watch(
             <p class="text-mainColor font-semibold mb-2">
               {{ props.doctor.specialization.name }}
             </p>
-            <p
-                class="w-max py-1 md:py-2 px-5 bg-mainColor rounded text-white mb-2"
-            >
+            <p class="w-max py-1 md:py-2 px-5 bg-mainColor rounded text-white mb-2">
               Стаж {{ props.doctor.experience }} лет
             </p>
             <div></div>
@@ -147,9 +141,7 @@ watch(
         </div>
         <div>
           <p class="text-xs md:text-sm mb-1">Цена</p>
-          <p
-              class="px-7 py-3 bg-[#ffe7e7] rounded-md text-center w-max font-bold text-mainColor"
-          >
+          <p class="px-7 py-3 bg-[#ffe7e7] rounded-md text-center w-max font-bold text-mainColor">
             {{ form.price }} тг
           </p>
         </div>
@@ -159,12 +151,11 @@ watch(
           <p class="text-sm md:text-base mb-1">Дни приема:</p>
           <div class="flex gap-2">
             <div
-                v-for="(it, ind) of props.doctor.schedule"
-                :key="ind"
-                :class="[{ 'bg-mainColor text-white': pickedDay.id === it.id }]"
-                class="cursor-pointer py-1 px-3 border w-max rounded text-sm md:text-base text-center leading-none"
-                @click="setPickDay(it)"
-            >
+              v-for="(it, ind) of props.doctor.schedule"
+              :key="ind"
+              :class="[{ 'bg-mainColor text-white': pickedDay.id === it.id }]"
+              class="cursor-pointer py-1 px-3 border w-max rounded text-sm md:text-base text-center leading-none"
+              @click="setPickDay(it)">
               <p class="text-xs">
                 {{ it.weekday }}
               </p>
@@ -182,19 +173,17 @@ watch(
         <div class="w-full md:w-2/5">
           <p class="mb-1">Время</p>
           <select
-              v-model="form.time_id"
-              :class="{
+            v-model="form.time_id"
+            :class="{
               'border-red-500': v$.time_id.$error || v$.time_id.$error,
             }"
-              :disabled="!pickedDay"
-              class="px-3 py-3 border rounded-lg w-full"
-          >
+            :disabled="!pickedDay"
+            class="px-3 py-3 border rounded-lg w-full">
             <option :value="null">Выберите время</option>
             <option
-                v-for="(it, ind) of pickedDay.times"
-                :key="ind"
-                :value="it.id"
-            >
+              v-for="(it, ind) of pickedDay.times"
+              :key="ind"
+              :value="it.id">
               {{ it.start }} - {{ it.end }}
             </option>
           </select>
@@ -204,80 +193,75 @@ watch(
         <p class="text-sm mb-3">Вид услуги</p>
         <div class="flex gap-5">
           <label
-              v-for="(it, ind) of props.doctor.services"
-              :key="ind"
-              :class="{ 'border-red-500': v$.service_id.$error }"
-              class="text-sm md:text-base w-max flex items-center gap-2 cursor-pointer"
-              for=""
-              @click="changeService(it)"
-          >
+            v-for="(it, ind) of props.doctor.services"
+            :key="ind"
+            :class="{ 'border-red-500': v$.service_id.$error }"
+            class="text-sm md:text-base w-max flex items-center gap-2 cursor-pointer"
+            for=""
+            @click="changeService(it)">
             <input
-                v-model="form.service_id"
-                :value="it.service_id"
-                class="w-5 h-5"
-                name="service"
-                type="radio"
-            />
+              v-model="form.service_id"
+              :value="it.service_id"
+              class="w-5 h-5"
+              name="service"
+              type="radio" />
             <p class="w-max">
               {{ it.name }}
             </p>
           </label>
         </div>
       </div>
-      <div v-if="addresses.resultAddresses" class="mb-4">
+      <div
+        v-if="addresses.resultAddresses"
+        class="mb-4">
         <p class="text-sm mb-3">
           Адресная книга <span class="text-red-500">*</span>
         </p>
         <div class="block md:flex justify-between gap-5">
           <div class="relative w-full md:w-3/5 mb-2 md:mb-0">
             <select
-                v-model="form.address_id"
-                :class="{ 'border-red-500': v$.address_id.$error }"
-                class="px-3 py-3 border rounded-lg w-full"
-            >
+              v-model="form.address_id"
+              :class="{ 'border-red-500': v$.address_id.$error }"
+              class="px-3 py-3 border rounded-lg w-full">
               <option :value="null">Выберите адрес</option>
               <option
-                  v-for="(it, ind) of addresses.resultAddresses.data"
-                  :key="ind"
-                  :value="it.address.id"
-              >
+                v-for="(it, ind) of addresses.resultAddresses.data"
+                :key="ind"
+                :value="it.address.id">
                 {{ it.address.title }}
               </option>
             </select>
           </div>
-          <button
-              class="border border-mainColor text-sm w-full md:w-2/5 block rounded-lg text-mainColor py-2 md:py-0"
-              @click="modals.showModal('createAddress')"
-          >
+          <AppButton
+            variant="outlined"
+            class="w-full md:w-2/5 text-sm text-nowrap"
+            @click="modals.showModal('createAddress')">
             Добавить новый адрес
-          </button>
+          </AppButton>
         </div>
       </div>
       <div class="flex gap-6 border-t border-[#ffe7e7] pt-4">
-        <NuxtLink
-            :to="'/services/doctors/' + props.doctor.id"
-            class="block w-full py-3 rounded-lg text-mainColor bg-[#ffe7e7] text-center"
-        >
+        <AppButton
+          variant="secondary"
+          class="w-half"
+          :to="`/services/doctors/${props.doctor.id}`">
           Подробнее
-        </NuxtLink>
-        <p
-            v-if="user.result && !loading"
-            class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer"
-            @click="sendForm"
-        >
+        </AppButton>
+        <AppButton
+          v-if="user.result && !loading"
+          class="w-half"
+          @click="sendForm">
           Заказать услугу
-        </p>
+        </AppButton>
         <p
-            v-else-if="user.result && loading"
-            class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer"
-        >
+          v-else-if="user.result && loading"
+          class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer">
           <span class="spinner"></span>
         </p>
         <button
-            v-else
-            class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer"
-            @click="modals.showModal('loginModal')"
-        >
+          v-else
+          class="w-full py-3 rounded-lg text-white bg-mainColor text-center cursor-pointer"
+          @click="modals.showModal('loginModal')">
           Заказать услугу
         </button>
       </div>

@@ -1,6 +1,6 @@
 <script setup>
 
-import { IconEdit, IconMan, IconMathXDivideY, IconRuler3, IconScaleOutline, IconArrowLeft, IconPhotoUp } from '@tabler/icons-vue';
+import { IconEdit, IconMan, IconMathXDivideY, IconRuler3, IconScaleOutline, IconArrowLeft, IconPhotoUp, IconCheck, IconX } from '@tabler/icons-vue';
 import Spinner from '~/components/general/spinner.vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
@@ -29,7 +29,6 @@ const fileInput = ref(null);
 
 const form = ref({
  name: '',
- iin: '',
  height: '',
  weight: '',
 });
@@ -37,7 +36,6 @@ const form = ref({
 const v$ = useVuelidate(
   {
    name: { required },
-   iin: { required },
    height: { required },
    weight: { required },
   },
@@ -118,10 +116,10 @@ onMounted(async () => {
   <div>
     <div v-if="!pending">
       <form
-        class="block lg:flex justify-between w-full gap-5 mb-6"
+        class="flex xl:flex-row flex-col justify-between w-full gap-5"
         @submit.prevent="updateProfileLocal">
         <div
-          class="bg-white w-full lg:w-1/3 h-full p-5 rounded-lg"
+          class="bg-white w-full xl:w-1/3 h-full p-5 rounded-lg"
           style="box-shadow: 0px 4px 20px 0px #0000001a">
           <div class="flex justify-between">
             <button
@@ -131,6 +129,7 @@ onMounted(async () => {
               <IconArrowLeft :size="24" />
             </button>
           </div>
+
           <div
             class="mb-3 bg-red-50 w-max mx-auto rounded-full relative"
             @mouseover="isImageHovered = true"
@@ -166,29 +165,34 @@ onMounted(async () => {
               </p>
             </div>
           </div>
-          <h1
+
+          <p
             v-if="!editMode"
-            class="text-xl font-bold text-center my-3">
+            style="margin: 20px 0"
+            class="text-xl font-bold text-center">
             {{ result.data.name }}
-          </h1>
+          </p>
+          <div
+            v-if="editMode"
+            class="my-3">
+            <input
+              v-model.trim="form.name"
+              :class="{'border-red-500': v$.name.$error }"
+              class="text-xl font-bold text-center w-full border py-2"
+              placeholder="Введите имя"
+              type="text" />
+            <p
+              v-if="v$.name.$error && editMode"
+              class="text-red-500 text-xs">
+              Пожалуйста заполните данное поле
+            </p>
+          </div>
+
+
           <div class="block">
             <div class="flex items-center justify-between mb-3 md:mb-5">
               <p class="text-[#9A9BA4] mb-1">ИИН</p>
-              <div class="w-full md:w-1/2">
-                <input
-                  v-if="editMode"
-                  v-model="form.iin"
-                  :class="{ 'border-red-500': v$.iin.$error }"
-                  class="px-2 py-2 border rounded-lg w-full"
-                  placeholder="Введите ИИН"
-                  type="text" />
-                <p
-                  v-if="v$.iin.$error && editMode"
-                  class="text-red-500 text-xs">
-                  Пожалуйста заполните данное поле
-                </p>
-              </div>
-              <div v-if="!editMode">
+              <div>
                 <p v-if="result.data.iin">
                   {{ result.data.iin }}
                 </p>
@@ -197,6 +201,7 @@ onMounted(async () => {
                   class="text-red-500">Необходимо заполнить</p>
               </div>
             </div>
+
             <div class="flex items-center justify-between mb-3 md:mb-5">
               <p class="text-[#9A9BA4] mb-1">Email</p>
               <p v-if="result.data.email">
@@ -206,6 +211,7 @@ onMounted(async () => {
                 v-else
                 class="text-red-500">Необходимо заполнить</p>
             </div>
+
             <div class="flex items-center justify-between mb-3 md:mb-0">
               <p class="text-[#9A9BA4] mb-1">Телефон</p>
               <div>
@@ -217,58 +223,40 @@ onMounted(async () => {
                   class="text-red-500">Необходимо заполнить</p>
               </div>
             </div>
-            <!--                    <div class="flex flex-col">-->
-            <!--                      <p class="text-[#9A9BA4] mb-1">-->
-            <!--                        Адрес-->
-            <!--                      </p>-->
-            <!--                      <p v-if="result.data.address">-->
-            <!--                        {{ result.data.address }}-->
-            <!--                      </p>-->
-            <!--                      <p-->
-            <!--                          v-else-->
-            <!--                          class="text-red-500">-->
-            <!--                        Необходимо заполнить-->
-            <!--                      </p>-->
-            <!--                    </div>-->
-          </div>
-          <div
-            v-if="editMode"
-            class="w-1/2 mx-auto mt-3">
-            <input
-              v-model="form.name"
-              :class="{ 'border-red-500': v$.name.$error }"
-              class="px-2 py-2 border rounded-lg w-full text-center"
-              placeholder="Введите имя"
-              type="text" />
-            <p
-              v-if="v$.name.$error && editMode"
-              class="text-red-500 text-xs">
-              Пожалуйста заполните данное поле
-            </p>
           </div>
         </div>
+
         <div
-          class="mt-5 rounded-lg lg:mt-0 w-full lg:w-2/3 flex flex-col justify-between gap-5 bg-white p-5"
+          class="mt-5 rounded-lg lg:mt-0 w-full xl:w-2/3 flex flex-col justify-between gap-5 bg-white p-5"
           style="box-shadow: 0px 4px 20px 0px #0000001a">
           <div class="flex items-center justify-between text-mainColor w-full">
             <h1 class="text-black text-xl font-bold">Мои данные</h1>
             <div class="flex items-center gap-5">
-              <div
+              <!--                <button-->
+              <!--                  v-if="!loading"-->
+              <!--                  class="bg-mainColor text-center text-white px-5 py-2 rounded-lg"-->
+              <!--                  type="submit">-->
+              <!--                  Обновить-->
+              <!--                </button>-->
+              <!--               <p-->
+              <!--                 v-else-->
+              <!--                 class="w-6 h-6 bg-mainColor text-center text-white rounded-lg">-->
+              <!--                <span class="spinner" />-->
+              <!--               </p>-->
+              <button
                 v-if="editMode"
-                class="w-max">
-                <button
-                  v-if="!loading"
-                  class="bg-mainColor text-center text-white px-5 py-2 rounded-lg"
-                  type="submit">
-                  Обновить
-                </button>
-                <p
-                  v-else
-                  class="w-max bg-mainColor text-center text-white px-5 py-2 rounded-lg">
-                  <span class="spinner"></span>
-                </p>
-              </div>
+                type="submit">
+                <IconCheck
+                  class="cursor-pointer"
+                  size="24" />
+              </button>
               <IconEdit
+                v-if="!editMode"
+                class="cursor-pointer"
+                size="24"
+                @click="editMode = !editMode" />
+              <IconX
+                v-else
                 class="cursor-pointer"
                 size="24"
                 @click="editMode = !editMode" />
@@ -356,6 +344,7 @@ onMounted(async () => {
                     class="text-red-500">Заполните вес и рост</p>
                 </div>
               </div>
+
               <div class="block md:flex justify-between gap-5">
                 <div class="mb-3 md:mb-0 w-full bg-[#fe2c3945] p-3 rounded-lg flex items-center gap-3">
                   <IconRuler3
@@ -365,10 +354,10 @@ onMounted(async () => {
                     <p class="text-[#9A9BA4] text-sm">Рост</p>
                     <input
                       v-if="editMode"
-                      v-model="form.height"
+                      v-model.number="form.height"
                       :class="{ 'border-red-500': v$.height.$error }"
-                      class="px-2 py-2 border rounded-lg w-full"
-                      placeholder="Введите телефон"
+                      class="border w-full"
+                      placeholder="Введите свой рост"
                       type="text" />
                     <p
                       v-if="v$.height.$error && editMode"
@@ -398,10 +387,10 @@ onMounted(async () => {
                   <p class="text-[#9A9BA4] text-sm">Вес</p>
                   <input
                     v-if="editMode"
-                    v-model="form.weight"
+                    v-model.number="form.weight"
                     :class="{ 'border-red-500': v$.weight.$error }"
-                    class="px-2 py-2 border rounded-lg w-full"
-                    placeholder="Введите телефон"
+                    class="w-full"
+                    placeholder="Введите свой вес"
                     type="text" />
                   <p
                     v-if="v$.weight.$error && editMode"

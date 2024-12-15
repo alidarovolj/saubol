@@ -1,6 +1,6 @@
 <script setup>
 
-import { IconAddressBook, IconUserCircle, IconLogout } from '@tabler/icons-vue';
+import { IconAddressBook, IconUserCircle, IconLogout, IconClipboardHeart } from '@tabler/icons-vue';
 import { useRoute } from 'vue-router';
 import { computed } from 'vue';
 
@@ -18,7 +18,7 @@ const links = computed(() => [
  },
  {
   id:2,
-  icon:IconUserCircle,
+  icon:IconClipboardHeart,
   to:'/profile/orders',
   title: 'Мои заказы'
  },

@@ -51,11 +51,11 @@ useHead({
             </button>
             <p class="text-2xl font-bold">Адресная книга</p>
           </div>
-          <button
-            class="bg-mainColor text-center text-white py-3 px-16 rounded-md w-full md:w-auto"
+          <AppButton
+            class="py-3 px-16 w-full md:w-auto"
             @click="modals.showModal('createAddress')">
             + Добавить адрес
-          </button>
+          </AppButton>
         </div>
         <p
           v-if="resultAddresses.data.length === 0"

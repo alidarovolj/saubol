@@ -1,8 +1,8 @@
 <script setup>
-import {IconCalendarCheck, IconClipboardPlus, IconCopy, IconPlus,} from "@tabler/icons-vue";
-import {useVuelidate} from "@vuelidate/core";
-import {required} from "@vuelidate/validators";
-import {useDomoLabStore} from "~/store/domoLab.js";
+import { IconCalendarCheck, IconClipboardPlus, IconCopy, IconPlus, } from '@tabler/icons-vue';
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import { useDomoLabStore } from '~/store/domoLab.js';
 
 const user = useUserStore();
 const cart = useCartStore();
@@ -36,10 +36,10 @@ const form = ref({
 
 const v$ = useVuelidate(
     {
-      date: {required},
-      start_time: {required},
-      end_time: {required},
-      address_id: {required},
+      date: { required },
+      start_time: { required },
+      end_time: { required },
+      address_id: { required },
     },
     form.value
 );
@@ -61,10 +61,10 @@ const sendForm = async () => {
   await test.cartTest(form.value);
   if (test.resultTestCart) {
     await cart.cartList();
-    notify(true, "Услуга успешно добавлена в корзину");
+    notify(true, 'Услуга успешно добавлена в корзину');
     loading.value = false;
   } else {
-    notify(false, "Ошибка при добавлении услуги в корзину");
+    notify(false, 'Ошибка при добавлении услуги в корзину');
     loading.value = false;
   }
 };
@@ -75,9 +75,8 @@ const loading = ref(false);
 <template>
   <div>
     <div
-        class="w-full bg-white rounded-lg p-5"
-        style="box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.05)"
-    >
+      class="w-full bg-white rounded-lg p-5"
+      style="box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.05)">
       <div class="flex items-center gap-5">
         <div class="block w-full">
           <div class="flex items-center justify-between mb-3">
@@ -92,40 +91,35 @@ const loading = ref(false);
                 {{ props.service.category.name }}
               </p>
               <div class="mb-3 text-mainColor flex items-center gap-2">
-                <IconCalendarCheck size="20"/>
+                <IconCalendarCheck size="20" />
                 <p class="text-sm">
                   до {{ props.service.execution_period }} рабочих дней
                 </p>
               </div>
               <div class="flex gap-3">
                 <div
-                    v-if="props.service.quantity"
-                    class="flex items-center bg-[#EFD7B2] text-xs gap-1 p-1 rounded"
-                >
-                  <IconCopy size="14"/>
+                  v-if="props.service.quantity"
+                  class="flex items-center bg-[#EFD7B2] text-xs gap-1 p-1 rounded">
+                  <IconCopy size="14" />
                   <p>{{ props.service.quantity }} анализов</p>
                 </div>
                 <div
-                    v-if="props.service.has_transcript"
-                    class="flex items-center bg-[#CAEFB2] text-xs gap-1 p-1 rounded"
-                >
-                  <IconClipboardPlus size="14"/>
+                  v-if="props.service.has_transcript"
+                  class="flex items-center bg-[#CAEFB2] text-xs gap-1 p-1 rounded">
+                  <IconClipboardPlus size="14" />
                   <p>Расшифровка</p>
                 </div>
                 <div
-                    v-if="props.service.palling"
-                    class="flex items-center bg-[#ff9393] text-xs gap-1 p-1 rounded"
-                >
-                  <IconPlus size="14"/>
+                  v-if="props.service.palling"
+                  class="flex items-center bg-[#ff9393] text-xs gap-1 p-1 rounded">
+                  <IconPlus size="14" />
                   <p>
                     {{ props.service.palling }}
                   </p>
                 </div>
               </div>
             </div>
-            <p
-                class="px-7 py-2 bg-[#ffe7e7] rounded-md text-center w-max font-bold text-mainColor mb-2"
-            >
+            <p class="px-7 py-2 bg-[#ffe7e7] rounded-md text-center w-max font-bold text-mainColor mb-2">
               <span>
                 {{ props.service.price }}
               </span>
@@ -139,15 +133,14 @@ const loading = ref(false);
                 <div class="flex gap-2 w-full md:w-1/2">
                   <!--            :class="{ 'bg-gray-200 cursor-not-allowed' : props.doctor.free_time[0].length === 0 }"-->
                   <div
-                      v-for="(it, ind) of props.service.dates"
-                      :key="ind"
-                      :class="[
+                    v-for="(it, ind) of props.service.dates"
+                    :key="ind"
+                    :class="[
                       { 'bg-mainColor text-white': pickedDay === ind },
                       { 'border-red-500': v$.date.$error },
                     ]"
-                      class="cursor-pointer transition-all py-1 px-3 border w-max rounded text-sm text-center"
-                      @click="setDay(ind)"
-                  >
+                    class="cursor-pointer transition-all py-1 px-3 border w-max rounded text-sm text-center"
+                    @click="setDay(ind)">
                     <p class="text-xs">{{ it.day_number }}</p>
                     <p>{{ it.day_of_week }}</p>
                   </div>
@@ -156,82 +149,75 @@ const loading = ref(false);
               <div class="w-full md:w-2/5">
                 <p class="mb-1">Время</p>
                 <select
-                    id=""
-                    :class="{ 'border-red-500': v$.start_time.$error }"
-                    class="px-3 py-3 border rounded-lg w-full"
-                    name=""
-                >
+                  id=""
+                  :class="{ 'border-red-500': v$.start_time.$error }"
+                  class="px-3 py-3 border rounded-lg w-full"
+                  name="">
                   <option :value="null">Выберите время</option>
                   <option
-                      v-for="(it, ind) of props.service.times"
-                      :key="ind"
-                      value=""
-                      @click="setTime(ind)"
-                  >
+                    v-for="(it, ind) of props.service.times"
+                    :key="ind"
+                    value=""
+                    @click="setTime(ind)">
                     {{ it }}
                   </option>
                 </select>
               </div>
             </div>
-            <div v-if="addresses.resultAddresses" class="mb-4">
+            <div
+              v-if="addresses.resultAddresses"
+              class="mb-4">
               <p class="text-sm mb-3">
                 Адресная книга <span class="text-red-500">*</span>
               </p>
               <div class="block md:flex justify-between gap-5">
                 <div class="relative w-full md:w-3/5 mb-2 md:mb-0">
                   <select
-                      v-model="form.address_id"
-                      :class="{ 'border-red-500': v$.address_id.$error }"
-                      class="px-3 py-3 border rounded-lg w-full"
-                  >
+                    v-model="form.address_id"
+                    :class="{ 'border-red-500': v$.address_id.$error }"
+                    class="px-3 py-3 border rounded-lg w-full">
                     <option :value="null">Выберите адрес</option>
                     <option
-                        v-for="(it, ind) of addresses.resultAddresses.data"
-                        :key="ind"
-                        :value="it.address.id"
-                    >
+                      v-for="(it, ind) of addresses.resultAddresses.data"
+                      :key="ind"
+                      :value="it.address.id">
                       {{ it.address.title }}
                     </option>
                   </select>
                 </div>
-                <button
-                    class="border border-mainColor text-sm w-full md:w-2/5 block rounded-lg text-mainColor py-2 md:py-0"
-                    @click="modals.showModal('createAddress')"
-                >
+                <AppButton
+                  variant="outlined"
+                  class="text-sm w-full md:w-2/5 py-2 md:py-0"
+                  @click="modals.showModal('createAddress')">
                   Добавить новый адрес
-                </button>
+                </AppButton>
               </div>
             </div>
           </div>
           <div class="flex flex-col md:flex-row justify-between text-sm gap-2">
+            <AppButton
+              variant="secondary"
+              :to="`/services/tests/${props.service.id}`"
+              class="w-full md:w-1/2">
+              Подробнее
+            </AppButton>
             <div class="w-full md:w-1/2">
-              <p
-                  v-if="user.result && !loading"
-                  class="w-full py-2 rounded-lg text-white bg-mainColor text-center cursor-pointer"
-                  @click="sendForm"
-              >
+              <AppButton
+                v-if="user.result && !loading"
+                @click="sendForm">
                 В корзину
-              </p>
+              </AppButton>
               <p
-                  v-else-if="user.result && loading"
-                  class="w-full py-2 rounded-lg text-white bg-mainColor text-center cursor-pointer"
-              >
+                v-else-if="user.result && loading"
+                class="w-full py-2 rounded-lg text-white bg-mainColor text-center cursor-pointer">
                 <span class="spinner"></span>
               </p>
-              <button
-                  v-else
-                  class="w-full py-2 rounded-lg text-white bg-mainColor text-center cursor-pointer"
-                  @click="modals.showModal('loginModal')"
-              >
+              <AppButton
+                v-else
+                @click="modals.showModal('loginModal')">
                 В корзину
-              </button>
+              </AppButton>
             </div>
-            <NuxtLink
-                :to="`/services/tests/${props.service.id}`"
-                class="w-full md:w-1/2 py-2 rounded-lg text-mainColor bg-[#ffe7e7] text-center cursor-pointer"
-            >
-              Подробнее
-            </NuxtLink>
           </div>
         </div>
       </div>

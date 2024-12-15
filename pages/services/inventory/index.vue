@@ -4,7 +4,6 @@ import { useAddressesStore } from '~/store/addresses.js';
 import { useInventoryStore } from '~/store/inventory.js';
 
 const route = useRoute();
-const router = useRouter();
 const inventory = useInventoryStore();
 const { result, resultCategories } = storeToRefs(inventory);
 const addresses = useAddressesStore();
@@ -40,6 +39,7 @@ onMounted(async () => {
   category_name.value = route.query['fields[category.name]'] || ''
   searchKeyword.value = route.query['fields[name]'] || ''
 
+  await addresses.listAddresses();
   await inventory.listInventoryCategories();
   await inventory.listInventory();
 
@@ -111,11 +111,11 @@ useHead({
                 type="text" />
             </div>
           </div>
-          <button
+          <AppButton
             type="submit"
-            class="w-full md:w-max rounded text-white bg-mainColor py-3 px-20">
+            class="w-full md:w-max py-3 px-20">
             Найти
-          </button>
+          </AppButton>
         </form>
       </div>
       <div
@@ -126,8 +126,8 @@ useHead({
           style="box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 10px 0px">
           <h2 class="text-lg md:text-3xl mb-5 text-mainColor">Категории</h2>
           <button
-            :class="{'bg-[#fe2c3945]': !category_name }"
-            class="block w-full py-2 px-3 text-sm md:text-base rounded-lg cursor-pointer text-start"
+            :class="{'bg-mainColor text-white': !category_name }"
+            class="block w-full py-2 px-3 text-sm md:text-base rounded-lg cursor-pointer text-start transition-all hover:bg-mainColor hover:bg-opacity-70 hover:text-white"
             @click="() => {navigateTo({
               query: {
                 ...$route.query,
@@ -140,8 +140,8 @@ useHead({
           <button
             v-for="(category, index) in resultCategories"
             :key="index"
-            :class="{ 'bg-[#fe2c3945]': category.name === category_name }"
-            class="block w-full py-2 px-3 text-sm md:text-base rounded-lg cursor-pointer text-start"
+            :class="{ 'bg-mainColor text-white': category.name === category_name }"
+            class="block w-full py-2 px-3 text-sm md:text-base rounded-lg cursor-pointer text-start transition-all hover:bg-mainColor hover:bg-opacity-70 hover:text-white"
             @click="() => { navigateTo({
               query:{
                 ...$route.query,

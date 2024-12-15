@@ -1,9 +1,9 @@
 <script setup>
-import {useAddressesStore} from "~/store/addresses.js";
-import {useModalsStore} from "~/store/modals.js";
+import { useAddressesStore } from '~/store/addresses.js';
+import { useModalsStore } from '~/store/modals.js';
 
 const addresses = useAddressesStore();
-const {resultCreate} = storeToRefs(addresses);
+const { resultCreate } = storeToRefs(addresses);
 const modals = useModalsStore()
 
 const form = ref({
@@ -25,9 +25,9 @@ const sendForm = async () => {
   await addresses.createAddress(form.value);
   if (resultCreate !== false) {
     modals.modal.show = false
-    notify(true, "Адрес успешно добавлен");
+    notify(true, 'Адрес успешно добавлен');
   } else {
-    notify(false, "Произошла ошибка");
+    notify(false, 'Произошла ошибка');
   }
   await addresses.listAddresses();
 };
@@ -37,33 +37,33 @@ const sendForm = async () => {
   <form @submit.prevent="sendForm">
     <h3 class="font-bold text-xl mb-5">Добавление адреса</h3>
     <div class="mb-3">
-      <label for="title" class="block text-sm font-medium text-gray-700">
+      <label
+        for="title"
+        class="block text-sm font-medium text-gray-700">
         Название
       </label>
       <input
-          v-model="form.title"
-          type="text"
-          name="title"
-          id="title"
-          placeholder="Название адреса"
-          class="w-full border border-[#E5E5E5] rounded-lg px-3 py-2"
-      />
+        id="title"
+        v-model="form.title"
+        type="text"
+        name="title"
+        placeholder="Название адреса"
+        class="w-full border border-[#E5E5E5] rounded-lg px-3 py-2" />
     </div>
     <client-only>
       <YandexMap @send_data="onEmit" />
     </client-only>
     <div class="flex justify-end mt-5">
-      <button
-          :class="{
-            'bg-gray-300 cursor-not-allowed':
-              form.location === null || form.title === null,
-          }"
-          :disabled="form.location === null || form.title === null"
-          class="bg-mainColor text-center text-white py-3 px-16 rounded-md"
-          type="submit"
-      >
+      <AppButton
+        :class="{
+          'bg-gray-500 cursor-not-allowed':
+            form.location === null || form.title === null,
+        }"
+        :disabled="form.location === null || form.title === null"
+        class="py-3 px-16"
+        type="submit">
         Добавить
-      </button>
+      </AppButton>
     </div>
   </form>
 </template>

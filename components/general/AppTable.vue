@@ -1,7 +1,5 @@
 <script setup>
 
-import PaginationComponent from '~/components/General/Pagination.vue';
-
 const props = defineProps({
  data: { required: true },
  columns: { required: true },
@@ -206,7 +204,7 @@ const onClick = (row) => {
         <div
           v-if="props.pagination"
           class="mt-4">
-          <PaginationComponent
+          <Pagination
             v-if="props.pagination"
             :pagesData="props.pagination"
             :updateQuery="props.updateQuery"

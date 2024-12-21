@@ -1,107 +1,108 @@
 <script setup>
-import {useAddressesStore} from "~/store/addresses.js";
-import {useDetoxStore} from "~/store/detox.js";
-import DetoxCard from "~/components/services/detoxCard.vue";
+import { useAddressesStore } from '~/store/addresses.js';
+import { useDetoxStore } from '~/store/detox.js';
+import DetoxCard from '~/components/services/detoxCard.vue';
 
 const route = useRoute();
 const router = useRouter();
 const detox = useDetoxStore();
-const {result} = storeToRefs(detox);
+const { result } = storeToRefs(detox);
 const addresses = useAddressesStore();
 
 const pending = ref(true);
 
 const links = ref([
-  {
-    title: "Главная",
-    link: "/",
-  },
-  {
-    title: "Услуги",
-    link: "/services",
-  },
-  {
-    title: "Процедуры детокс",
-    link: "/services/detox",
-  },
+ {
+  title: 'Главная',
+  link: '/',
+ },
+ {
+  title: 'Услуги',
+  link: '/services',
+ },
+ {
+  title: 'Процедуры детокс',
+  link: '/services/detox',
+ },
 ]);
 
 const filters = ref({
-  "filters[category.id]": null,
+ 'filters[category.id]': null,
 });
 
 const searchDetox = async (val) => {
-  if (val) {
-    filters.value["filters[category.id]"] = val;
-  } else {
-    filters.value["filters[category.id]"] = null;
-  }
-  const nonNullFilters = Object.entries(filters.value).reduce(
-      (acc, [key, value]) => {
-        if (value !== null) {
-          acc[key] = value;
-        }
-        return acc;
-      },
-      {}
-  );
+ if (val) {
+  filters.value['filters[category.id]'] = val;
+ } else {
+  filters.value['filters[category.id]'] = null;
+ }
+ const nonNullFilters = Object.entries(filters.value).reduce(
+   (acc, [key, value]) => {
+    if (value !== null) {
+     acc[key] = value;
+    }
+    return acc;
+   },
+   {}
+ );
 
-  const queryParams = {
-    ...nonNullFilters,
-    perPage: route.query.perPage || 10,
-    page: route.query.page || 1,
-  };
+ const queryParams = {
+  ...nonNullFilters,
+  perPage: route.query.perPage || 10,
+  page: route.query.page || 1,
+ };
 
-  await router.push({query: {...route.query, ...queryParams}});
-  await detox.getDetoxList(queryParams);
+ await router.push({ query: { ...route.query, ...queryParams } });
+ await detox.getDetoxList(queryParams);
 };
 
 onMounted(async () => {
-  await nextTick();
+ await nextTick();
 
-  const nonNullQueries = Object.entries(route.query).reduce(
-      (acc, [key, value]) => {
-        if (value !== null) {
-          acc[key] = value;
-        }
-        return acc;
-      },
-      {}
-  );
+ const nonNullQueries = Object.entries(route.query).reduce(
+   (acc, [key, value]) => {
+    if (value !== null) {
+     acc[key] = value;
+    }
+    return acc;
+   },
+   {}
+ );
 
-  filters.value = {
-    ...filters.value,
-    ...nonNullQueries,
-  };
-  await addresses.listAddresses();
-  await searchDetox();
-  pending.value = false;
+ filters.value = {
+  ...filters.value,
+  ...nonNullQueries,
+ };
+ await addresses.listAddresses();
+ await searchDetox();
+ pending.value = false;
 });
 
 useHead({
-  title: "Процедуры детокс | Услуги | SaubolMed",
-  meta: [
-    {
-      property: "og:title",
-      content: "Процедуры детокс | Услуги | SaubolMed",
-    },
-    {
-      property: "og:url",
-      content: route.fullPath,
-    },
-  ],
-  link: [{rel: "canonical", href: "https://saubolmed.kz/"}],
+ title: 'Процедуры детокс | Услуги | SaubolMed',
+ meta: [
+  {
+   property: 'og:title',
+   content: 'Процедуры детокс | Услуги | SaubolMed',
+  },
+  {
+   property: 'og:url',
+   content: route.fullPath,
+  },
+ ],
+ link: [{ rel: 'canonical', href: 'https://saubolmed.kz/' }],
 });
 </script>
 
 <template>
   <div class="pt-4 md:pt-8">
     <div class="container mx-auto px-4 md:px-0">
-      <Breadcrumbs :links="links" class="mb-5"/>
+      <Breadcrumbs
+        :links="links"
+        class="mb-5" />
       <div
-          class="bg-white p-5 rounded-lg mb-8"
-          style="box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 10px 0px"
-      >
+        class="bg-white p-5 rounded-lg mb-8"
+        style="box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 10px 0px">
         <h1 class="mb-2 text-mainColor text-2xl md:text-4xl font-semibold">
           Процедуры детокс
         </h1>
@@ -154,22 +155,29 @@ useHead({
         <!--        </div>-->
       </div>
       <div v-if="!pending">
-        <div class="flex justify-between flex-wrap">
+        <div
+          v-if="result.data.length"
+          class="flex justify-between flex-wrap">
           <div
-              v-for="(service, index) in result.data"
-              :key="index"
-              class="w-full md:w-half mb-5"
-          >
-            <DetoxCard :service="service"/>
+            v-for="(service, index) in result.data"
+            :key="index"
+            class="w-full md:w-half mb-5">
+            <DetoxCard :service="service" />
           </div>
         </div>
-      </div>
-      <div v-else class="flex justify-between flex-wrap">
         <div
-            v-for="(doctor, index) in 6"
-            :key="index"
-            class="skeleton w-full md:w-half h-[400px] mb-5"
-        ></div>
+          v-else
+          class="text-mainColor text-xl text-center">
+          Нет данных
+        </div>
+      </div>
+      <div
+        v-else
+        class="flex justify-between flex-wrap">
+        <div
+          v-for="(doctor, index) in 6"
+          :key="index"
+          class="skeleton w-full md:w-half h-[400px] mb-5"></div>
       </div>
     </div>
   </div>

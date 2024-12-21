@@ -1,52 +1,58 @@
 <script setup>
-import {IconArrowRight} from "@tabler/icons-vue";
-import {useNewsStore} from "~/store/news.js";
+import { IconArrowRight } from '@tabler/icons-vue';
+import { useNewsStore } from '~/store/news.js';
 
 const news = useNewsStore();
-const {result} = storeToRefs(news);
+const { result } = storeToRefs(news);
 
 const links = ref([
-  {
-    link: "/",
-    title: "Главная",
-  },
-  {
-    link: "/news",
-    title: "Новости",
-  },
+ {
+  link: '/',
+  title: 'Главная',
+ },
+ {
+  link: '/news',
+  title: 'Новости',
+ },
 ]);
 
 onMounted(async () => {
-  await nextTick();
-  await news.newsList();
+ await nextTick();
+ await news.newsList();
 });
 </script>
 
 <template>
   <section class="mb-28 relative z-20 pt-4 md:pt-8">
     <div class="container mx-auto px-4 md:px-0">
-      <Breadcrumbs :links="links" class="mb-6"/>
+      <Breadcrumbs
+        :links="links"
+        class="mb-6" />
       <div class="flex items-center justify-between text-mainColor">
         <h1 class="text-3xl font-bold mb-7">Новости</h1>
       </div>
-      <div v-if="result" class="w-full">
-        <div class="flex gap-5 flex-wrap">
-          <nuxt-link
-              v-for="(item, index) in result.data"
-              :key="index"
-              :to="'/news/' + item.slug"
-              class="block text-base w-full md:w-third hover:shadow-custom transition-all rounded-lg p-4 !text-black shrink-0 bg-white shadow-lg border-negative-300 snap-center"
-          >
+      <div
+        v-if="result"
+        class="w-full">
+        <div
+          v-if="result.data.length"
+          class="flex gap-5 flex-wrap">
+          <NuxtLink
+            v-for="(item, index) in result.data"
+            :key="index"
+            :to="'/news/' + item.slug"
+            class="block text-base w-full md:w-third hover:shadow-custom transition-all rounded-lg p-4 !text-black shrink-0 bg-white shadow-lg border-negative-300 snap-center">
             <img
-                :src="item.img"
-                alt=""
-                class="w-full h-36 object-cover rounded-lg"
-            />
+              :src="item.img"
+              alt=""
+              class="w-full h-36 object-cover rounded-lg" />
             <div class="flex items-center justify-between font-semibold my-2">
               <p>
                 {{ item.name }}
               </p>
-              <IconArrowRight class="w-max mr-0" size="20"/>
+              <IconArrowRight
+                class="w-max mr-0"
+                size="20" />
             </div>
             <p class="text-sm text-start line-clamp-4 mb-2">
               {{ item.content }}
@@ -54,11 +60,16 @@ onMounted(async () => {
             <p class="text-sm text-start !text-[#9A9BA4]">
               {{ item.created_at }}
             </p>
-          </nuxt-link>
+          </NuxtLink>
+        </div>
+        <div
+          v-else
+          class="text-mainColor text-xl text-center">
+          Нет новостей
         </div>
       </div>
       <div v-else>
-        <Spinner/>
+        <Spinner />
       </div>
     </div>
   </section>

@@ -1,19 +1,5 @@
 <script setup>
 import { IconArrowRight, IconMicroscope, IconNurse, IconStethoscope, IconVaccine, } from '@tabler/icons-vue';
-
-let intervalId;
-
-const imgClass = ref('w-10 h-10');
-
-onMounted(() => {
-  intervalId = setInterval(() => {
-    imgClass.value = imgClass.value === 'w-10 h-10' ? 'w-14 h-14' : 'w-14 h-10';
-  }, 1000);
-});
-
-onUnmounted(() => {
-  clearInterval(intervalId);
-});
 </script>
 
 <template>
@@ -26,9 +12,7 @@ onUnmounted(() => {
               <p>Забота</p>
               <div class="flex items-center justify-center w-9 md:w-14 h-9 md:h-14">
                 <img
-                  :class="imgClass"
-                  alt=""
-                  class="transition-all"
+                  class="heart-animation w-10 h-10"
                   src="@/assets/img/logo.png" />
               </div>
               <p>о</p>
@@ -120,7 +104,7 @@ onUnmounted(() => {
                 <img
                   alt=""
                   class="w-full rounded-lg h-full object-cover"
-                  src="@/assets/img/mainPage/services/1.png" />
+                  src="@/assets/img/mainPage/services/6.png" />
                 <div class="cardBlock bg-[#0CE07A] p-2 md:p-4 rounded-lg text-white absolute">
                   <IconVaccine class="w-5 md:w-8 h-5 md:h-8" />
                   <div class="showOnHover w-full">
@@ -141,6 +125,21 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+
+@keyframes pulse {
+ 0%, 100% {
+  transform: scale(1)
+ }
+ 50% {
+  transform: scale(1.5)
+ }
+}
+
+.heart-animation {
+ animation: pulse 2s infinite;
+ transition: transform 0.3s;
+}
+
 .cardHover {
   transition: all 0.3s;
   cursor: pointer;

@@ -140,7 +140,7 @@ onMounted(async () => {
           <AppButton
             v-if="result === false"
             :loading="result === null"
-            class="px-6 lg:px-20 py-1 lg:py-2"
+            class="px-6 lg:px-20 !py-1 lg:!py-2"
             variant="outlined"
             @click="modals.showModal('loginModal')">
             Войти

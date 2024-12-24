@@ -212,12 +212,4 @@ onMounted(() => {
  transform: scale(1.05);
  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
 }
-
-.feature-card img {
- transition: transform 0.3s ease;
-}
-
-.feature-card:hover img {
- transform: scale(1.1);
-}
 </style>
